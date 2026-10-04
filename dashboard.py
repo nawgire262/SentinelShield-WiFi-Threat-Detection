@@ -558,7 +558,7 @@ def page_live_scan() -> None:
                     f"Temporal variance: {row.get('Signal_Variance', 'n/a')} | "
                     f"RSSI delta: {row.get('Signal_Delta', 'n/a')} dB | "
                     f"Evidence: {row.get('Evidence_JSON', '{}')}"
-                )} dB² · RSSI delta: {row.get('Signal_Delta', 'n/a')} dB · Evidence: {row.get('Evidence_JSON', '{}')}")
+                )
 
 
 def page_threat_analysis(df: pd.DataFrame) -> None:
