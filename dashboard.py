@@ -13,7 +13,7 @@ import altair as alt
 import pandas as pd
 import streamlit as st
 
-from adaptive_thresholds import AdaptiveThresholdEngine
+from adaptive_thresholds import AdaptiveThresholdEngine, scan_crowding
 from scan_controller import ScanController
 from runtime_config import CONFIG_PATH, load_runtime_config, save_runtime_config
 from wifi_fingerprint import WiFiFingerprintStore
@@ -242,6 +242,8 @@ def scan_to_frame(findings: list[dict[str, Any]]) -> pd.DataFrame:
             "Evidence_JSON": json.dumps(scores, ensure_ascii=False),
             "Context_JSON": json.dumps(item.get("context") or {}, ensure_ascii=False),
             "Reasons": "; ".join(map(str, reasons)) or item.get("detection_reason", "No major anomaly"),
+            "Model_Explanation": (ml.get("explanation") or {}).get("summary") if ml else None,
+            "Model_Effects_JSON": json.dumps((ml.get("explanation") or {}).get("effects", []), ensure_ascii=False) if ml and ml.get("explanation") else "",
             "Scan_Time": item.get("timestamp", now),
         })
     return pd.DataFrame(rows)
@@ -301,10 +303,12 @@ def process_alerts(df: pd.DataFrame) -> None:
 
 def adaptive_scan_update(df: pd.DataFrame) -> pd.DataFrame:
     learner = engine()
-    cuts, mode = learner.get_thresholds()
+    rssi = pd.to_numeric(df["RSSI"], errors="coerce").tolist() if "RSSI" in df.columns else []
+    crowd = scan_crowding(len(df), rssi)
+    cuts, mode = learner.get_thresholds(ap_count=crowd["ap_count"], interference=crowd["interference"])
     result = classify(df, cuts)
-    learner.update(risk_series(result).tolist())
-    st.session_state["last_scan_thresholds"] = {"thresholds": cuts, "mode": mode}
+    learner.update(risk_series(result).tolist(), ap_count=crowd["ap_count"], interference=crowd["interference"])
+    st.session_state["last_scan_thresholds"] = {"thresholds": cuts, "mode": mode, "crowding": crowd}
     return result
 
 
@@ -331,6 +335,32 @@ def render_table(df: pd.DataFrame, columns: list[str] | None = None, height: int
 
                 display[column] = display[column].map(display_value)
         st.dataframe(display, width="stretch", hide_index=True, height=height)
+
+
+def render_model_explanation(row: pd.Series) -> None:
+    """Per-AP occlusion from the saved ensemble, separate from rule Reasons."""
+    summary = row.get("Model_Explanation") if hasattr(row, "get") else None
+    raw_effects = row.get("Model_Effects_JSON") if hasattr(row, "get") else None
+    try:
+        missing = summary is None or bool(pd.isna(summary))
+    except (TypeError, ValueError):
+        missing = summary is None
+    if missing or not str(summary).strip():
+        st.caption("Model explanation unavailable for this network.")
+        return
+    st.write("**Model explanation:**", summary)
+    st.caption("Occlusion against the legitimate-training baseline. A positive bar means that live value raises P(Fake). Separate from the rule-based Reasons line, and not a detection rate.")
+    effects = []
+    if isinstance(raw_effects, str) and raw_effects.strip():
+        try:
+            effects = json.loads(raw_effects)
+        except json.JSONDecodeError:
+            effects = []
+    elif isinstance(raw_effects, list):
+        effects = raw_effects
+    if effects:
+        series = pd.Series({str(item.get("label", item.get("feature"))): float(item.get("delta_points", 0.0)) for item in effects})
+        render_bar_chart(series, color="#0f766e")
 
 
 def page_home(df: pd.DataFrame) -> None:
@@ -488,6 +518,7 @@ def page_live_scan() -> None:
             with st.expander(f"{row.get('SSID', 'Unknown')} · {row.get('Threat_Level', 'LOW')} · {number(row.get('Combined_Risk')):.0f}%"):
                 st.write(f"BSSID: {row.get('BSSID', 'N/A')} · Vendor: {row.get('Vendor', 'unknown')} · RSSI: {row.get('RSSI', 'N/A')} dBm · Channel: {row.get('Channel', 'N/A')} · Security: {row.get('Security', 'unknown')}")
                 st.write("**Reasons:**", row.get("Reasons", "No high-risk evidence"))
+                render_model_explanation(row)
                 st.caption(f"Temporal variance: {row.get('Signal_Variance', 'n/a')} dB² · RSSI delta: {row.get('Signal_Delta', 'n/a')} dB · Evidence: {row.get('Evidence_JSON', '{}')}")
 
 
@@ -530,12 +561,42 @@ def page_threat_analysis(df: pd.DataFrame) -> None:
 
 def page_ai(df: pd.DataFrame) -> None:
     st.header("ML Detection")
-    st.caption("Model availability and recorded outputs from the current scan. The dashboard does not invoke, retrain, or alter models.")
+    st.caption("Recorded model outputs and a model-level explanation for the current scan. The dashboard does not retrain models and does not report a detection rate.")
     model_files = {"Random Forest": ["rf_model.pkl", "model.pkl"], "KNN": ["knn_model.pkl"], "Isolation Forest": ["iso_model.pkl", "isolation_forest.pkl"], "Meta Model": ["meta_model.pkl"]}
     availability = st.columns(4)
     for column, (name, paths) in zip(availability, model_files.items()):
         present = next((model_name for model_name in paths if (ROOT / model_name).exists()), None)
         column.metric(name, "Available" if present else "Unavailable", present or "model file not found")
+    card_path = ROOT / "model_card.json"
+    if card_path.is_file():
+        try:
+            card = json.loads(card_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            card = {}
+        if card.get("metrics_withheld"):
+            st.warning(card.get("reason") or "Detection metrics are withheld for this labeled file.")
+            st.info(card.get("real_scans_required") or "")
+    importance_path = ROOT / "permutation_importance.json"
+    if importance_path.is_file():
+        try:
+            importance = json.loads(importance_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            importance = {}
+        features = importance.get("features") or []
+        if features:
+            st.subheader("What the saved model uses")
+            st.caption(importance.get("note") or "Permutation importance is a training-row diagnostic, not a detection rate.")
+            render_bar_chart(pd.Series({item["label"]: item["importance"] for item in features}), color="#0f766e")
+    if not df.empty and "Model_Explanation" in df.columns and df["Model_Explanation"].notna().any():
+        st.subheader("Per-AP model explanation")
+        st.caption("Pick a network to see which model inputs move P(Fake) relative to the legitimate baseline.")
+        choice = st.selectbox(
+            "Network",
+            list(df.index),
+            format_func=lambda i: f"{df.loc[i].get('SSID', 'Unknown')} ({df.loc[i].get('BSSID', 'N/A')})",
+            key="ml_explanation_index",
+        )
+        render_model_explanation(df.loc[choice])
     cols = [col for col in ("SSID", "BSSID", "Random_Forest", "RF_Prediction", "KNN", "KNN_Prediction", "Isolation_Forest", "Meta_Model", "Meta_Confidence", "ML_Risk") if col in df.columns]
     if cols:
         st.subheader("Recorded model outputs")
@@ -797,6 +858,16 @@ def page_adaptive() -> None:
     a, b = st.columns(2)
     a.metric("Baseline mean", f"{summary['baseline_mean']:.2f}%")
     b.metric("Baseline variation", f"{summary['baseline_std']:.2f}")
+    if summary.get("density_samples"):
+        density_text = f"learned typical density {summary['density_mean']:.1f} APs"
+        noise_text = f"learned RSSI spread {summary['noise_mean']:.1f} dB"
+    else:
+        density_text = f"default density reference {summary.get('density_reference', 8):.0f} APs"
+        noise_text = f"default RSSI-spread reference {summary.get('noise_reference', 12):.0f} dB"
+    st.caption(
+        "Cutoffs still start from the risk-score baseline. A scan that is denser or noisier than this deployment's "
+        f"{density_text} and {noise_text} moves those cutoffs up, so the same risk score alerts less often in a crowded spectrum."
+    )
     st.caption("Successful manual live scans are classified using the previous baseline, then update it for the next scan. Loading saved data does not train the baseline.")
     previous = st.session_state.get("last_scan_thresholds")
     if previous:

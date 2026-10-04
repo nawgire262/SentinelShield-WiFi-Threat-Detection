@@ -1,399 +1,323 @@
 """
 ml_ensemble.py
 ======================
-Hybrid stacked ensemble for advanced WiFi threat detection.
+Hybrid stacked ensemble for Wi-Fi threat detection.
 
-Detection Stack:
-  - Random Forest (non-linear feature interactions)
-  - KNN Classifier (local similarity matching)
-  - Isolation Forest (unsupervised anomaly detection)
-  - Logistic Regression Meta-Classifier (stacked ensemble voting)
+Detection stack:
+  - Random Forest
+  - KNN
+  - Isolation Forest, fit only on rows labeled Legit
+  - Logistic Regression meta-classifier on out-of-fold base scores
 
-This uses out-of-fold (OOF) predictions to avoid data leakage.
+Meta features are scaled with a StandardScaler that is saved and applied
+again at prediction time. This module does not print a detection score.
+Use evaluation.py for held-out precision, recall, F1, and false-positive rate.
 """
 
-import os
+import json
 import pickle
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import IsolationForest, RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, classification_report, roc_auc_score
 from sklearn.model_selection import StratifiedKFold, cross_val_predict
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 
+from ensemble_contract import FEATURES, probability_column, score_features
+from xai_explain import BASE_FEATURES, explanation_payload, local_occlusion, permutation_importance
+
+
 class HybridEnsembleDetector:
-    """Advanced ML ensemble for WiFi threat detection"""
-    
-    def __init__(self):
+    """Stacked RF / KNN / Isolation Forest detector."""
+
+    def __init__(self, n_estimators: int = 200, n_neighbors: int = 5, random_state: int = 42):
+        self.n_estimators = n_estimators
+        self.n_neighbors = n_neighbors
+        self.random_state = random_state
         self.rf_model = None
         self.knn_model = None
         self.iso_model = None
         self.meta_model = None
         self.le_security = None
         self.le_label = None
-        self.scaler = StandardScaler()
+        self.scaler = None
+        self.meta_scaler = None
+        self.explanation_baseline_ = None
+        self.permutation_importance_ = None
         self.is_trained = False
-        
-    def train(self, dataset_file="wifi_dataset.csv"):
-        """Train the hybrid ensemble on labeled WiFi data"""
-        
-        if not os.path.exists(dataset_file):
-            print(f"❌ Dataset file not found: {dataset_file}")
-            return False
-        
-        # Load dataset
-        data = pd.read_csv(dataset_file, on_bad_lines="skip")
-        
-        if data.empty:
-            print("❌ Dataset is empty")
-            return False
-        
-        print(f"📊 Training on {len(data)} samples...")
-        
-        # ============ FEATURE ENGINEERING ============
-        # Encode categorical variables
-        self.le_security = LabelEncoder()
-        self.le_label = LabelEncoder()
-        
-        if "Security" in data.columns:
-            data["Security_enc"] = self.le_security.fit_transform(
-                data["Security"].fillna("Open")
-            )
-        else:
-            data["Security_enc"] = 0
-        
-        if "Label" not in data.columns:
-            print("❌ 'Label' column required (Fake/Legit)")
-            return False
-        
-        data["Label_enc"] = self.le_label.fit_transform(data["Label"])
-        
-        # Select features
-        feature_cols = ["RSSI", "Channel", "Security_enc", "AP_Count", "Signal_Var"]
-        missing_cols = [col for col in feature_cols if col not in data.columns]
-        
-        if missing_cols:
-            print(f"⚠️  Missing columns: {missing_cols}")
-            feature_cols = [col for col in feature_cols if col in data.columns]
-        
-        X = data[feature_cols].fillna(0)
-        y = data["Label_enc"]
-        
-        # Normalize features
-        X_scaled = self.scaler.fit_transform(X)
-        X_scaled_df = pd.DataFrame(X_scaled, columns=feature_cols)
-        
-        # ============ BASE LAYER MODELS ============
-        print("\n🔧 Training base models...")
-        
-        # 1. Random Forest
-        self.rf_model = RandomForestClassifier(
-            n_estimators=100,
-            max_depth=10,
-            min_samples_split=5,
-            random_state=42,
-            n_jobs=-1
-        )
-        self.rf_model.fit(X_scaled_df, y)
-        print("✅ Random Forest trained")
-        
-        # 2. KNN Classifier
-        self.knn_model = KNeighborsClassifier(n_neighbors=5)
-        self.knn_model.fit(X_scaled_df, y)
-        print("✅ KNN Classifier trained")
-        
-        # 3. Isolation Forest (anomaly detection on "Legit" only)
-        legit_data = X_scaled_df[y == self.le_label.transform(["Legit"])[0]]
-        self.iso_model = IsolationForest(
-            contamination=0.1,
-            random_state=42,
-            n_jobs=-1
-        )
-        self.iso_model.fit(legit_data)
-        print("✅ Isolation Forest trained")
-        
-        # ============ META LAYER - Out-of-Fold (OOF) ============
-        print("\n🎯 Generating OOF predictions for meta-model...")
-        
-        skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
-        
-        # Get OOF predictions from base models
-        rf_oof = cross_val_predict(
-            RandomForestClassifier(n_estimators=100, max_depth=10, random_state=42, n_jobs=-1),
-            X_scaled_df, y, cv=skf, method="predict_proba"
-        )
-        
-        knn_oof = cross_val_predict(
-            KNeighborsClassifier(n_neighbors=5),
-            X_scaled_df, y, cv=skf, method="predict_proba"
-        )
-        
-        iso_oof = np.zeros((len(X_scaled_df), 2))
-        for idx, (train_idx, val_idx) in enumerate(skf.split(X_scaled_df, y)):
-            iso_train = self.iso_model.fit(X_scaled_df.iloc[train_idx])
-            iso_scores = iso_train.decision_function(X_scaled_df.iloc[val_idx])
-            iso_oof[val_idx, 0] = np.maximum(0, -iso_scores)  # Anomaly score
-            iso_oof[val_idx, 1] = np.maximum(0, iso_scores)   # Normal score
-        
-        iso_oof = iso_oof / (iso_oof.sum(axis=1, keepdims=True) + 1e-6)
-        
-        # Meta-features: take probabilities of "Fake" class (typically index 1)
-        meta_features = np.hstack([
-            rf_oof[:, 1].reshape(-1, 1),   # RF fake probability
-            knn_oof[:, 1].reshape(-1, 1),  # KNN fake probability
-            iso_oof[:, 0].reshape(-1, 1)   # Isolation anomaly score
-        ])
-        
-        # 4. Logistic Regression Meta-Classifier
-        self.meta_model = LogisticRegression(random_state=42, max_iter=1000)
-        self.meta_model.fit(meta_features, y)
-        print("✅ Logistic Regression meta-classifier trained")
-        
-        # ============ EVALUATION ============
-        print("\n📊 Model Evaluation:")
-        
-        # Base model accuracies
-        rf_acc = self.rf_model.score(X_scaled_df, y)
-        knn_acc = self.knn_model.score(X_scaled_df, y)
-        meta_acc = self.meta_model.score(meta_features, y)
-        
-        print(f"  Random Forest Accuracy: {rf_acc:.3f}")
-        print(f"  KNN Accuracy: {knn_acc:.3f}")
-        print(f"  Meta-Model Accuracy: {meta_acc:.3f}")
-        
-        # ROC-AUC
-        try:
-            meta_roc = roc_auc_score(y, self.meta_model.predict_proba(meta_features)[:, 1])
-            print(f"  Meta-Model ROC-AUC: {meta_roc:.3f}")
-        except:
-            pass
-        
-        self.is_trained = True
-        return True
-    
-    def predict(self, features_dict):
-        """
-        Predict threat level for a WiFi network
-        
-        Args:
-            features_dict: {
-                'RSSI': int,
-                'Channel': int,
-                'Security': str,
-                'AP_Count': int,
-                'Signal_Var': float
-            }
-        
-        Returns:
-            {
-                'rf_prediction': str,
-                'knn_prediction': str,
-                'iso_score': float,
-                'meta_prediction': str,
-                'meta_confidence': float,
-                'ensemble_risk': int (0-100)
-            }
-        """
-        
-        if not self.is_trained or not self.rf_model or not self.knn_model:
-            return None
-        
-        try:
-            # Prepare features
-            security = features_dict.get('Security', 'Open')
-            if security not in self.le_security.classes_:
-                security = 'Open'
-            
-            sec_encoded = self.le_security.transform([security])[0]
-            
-            X = np.array([[
-                features_dict.get('RSSI', -50),
-                features_dict.get('Channel', 1),
-                sec_encoded,
-                features_dict.get('AP_Count', 1),
-                features_dict.get('Signal_Var', 0)
-            ]])
-            
-            # Only transform with a fitted scaler.  A fresh StandardScaler has
-            # no learned statistics and previously caused every prediction/XAI
-            # explanation to fail silently.
-            if self.scaler is not None and hasattr(self.scaler, "mean_"):
-                X_scaled = self.scaler.transform(X)
-            else:
-                X_scaled = X
-            
-            # Base model predictions
-            rf_proba = self.rf_model.predict_proba(X_scaled)[0]
-            knn_proba = self.knn_model.predict_proba(X_scaled)[0]
-            rf_pred = self.le_label.inverse_transform([self.rf_model.predict(X_scaled)[0]])[0]
-            knn_pred = self.le_label.inverse_transform([self.knn_model.predict(X_scaled)[0]])[0]
-            
-            iso_result = "N/A"
-            iso_score = 0.5
-            
-            # Isolation Forest (if available)
-            if self.iso_model:
-                try:
-                    iso_score = -self.iso_model.decision_function(X_scaled)[0]
-                    iso_pred = self.iso_model.predict(X_scaled)[0]
-                    iso_result = "Anomaly" if iso_pred == -1 else "Normal"
-                except:
-                    iso_score = 0.5
-                    iso_result = "N/A"
-            
-            meta_result = "N/A"
-            meta_conf = 0
-            ml_risk_addition = 0
-            
-            # Meta-model (if available)
-            if self.meta_model:
-                try:
-                    meta_features = np.array([[
-                        rf_proba[1] if len(rf_proba) > 1 else 0.5,
-                        knn_proba[1] if len(knn_proba) > 1 else 0.5,
-                        iso_score
-                    ]])
-                    
-                    meta_pred_proba = self.meta_model.predict_proba(meta_features)[0]
-                    meta_pred = self.le_label.inverse_transform([self.meta_model.predict(meta_features)[0]])[0]
-                    meta_conf = max(meta_pred_proba) * 100
-                    
-                    # Calculate ML risk from meta confidence
-                    if meta_pred == "Fake":
-                        ml_risk_addition = int(20 + (meta_conf / 100) * 10)  # 20-30 pts
-                    else:
-                        ml_risk_addition = int((1 - meta_conf / 100) * 10)  # 0-10 pts
-                
-                except Exception as e:
-                    print(f"Meta-model error: {e}")
-                    meta_result = "Error"
-                    meta_conf = 0
-            else:
-                # No meta-model, use simple voting
-                fake_votes = sum([1 for p in [rf_pred, knn_pred] if p == "Fake"])
-                if fake_votes >= 2:
-                    meta_result = "Fake"
-                    meta_conf = 100
-                    ml_risk_addition = 25
-                else:
-                    meta_result = "Legit"
-                    meta_conf = 50
-                    ml_risk_addition = 0
-            
-            # Prediction-specific feature contribution.  We combine the RF's
-            # learned feature importance with this network's normalized model
-            # input; raw channel frequency is never plotted directly.
-            feature_names = ["RSSI", "Channel", "Security_enc", "AP_Count", "Signal_Var"]
-            learned = np.asarray(getattr(self.rf_model, "feature_importances_", np.ones(len(feature_names))), dtype=float)
-            # Use unitless feature magnitudes for explanation display.  Wi-Fi
-            # frequencies are measured in Hz while RSSI is in dBm; multiplying
-            # raw values made Channel appear in the millions and invalidated
-            # the chart.  The prediction itself still receives its trained
-            # input vector above.
-            display_scales = np.array([100.0, 6_000_000.0, max(1, len(self.le_security.classes_) - 1), 20.0, 100.0])
-            magnitude = np.clip(np.abs(np.asarray(X, dtype=float).reshape(-1)) / display_scales, 0.0, 1.0)
-            raw_contributions = np.nan_to_num(learned * magnitude, nan=0.0, posinf=0.0, neginf=0.0)
-            if raw_contributions.sum() <= 0:
-                raw_contributions = np.nan_to_num(learned, nan=0.0, posinf=0.0, neginf=0.0)
-            total = raw_contributions.sum()
-            contributions = {
-                name: round(float(value / total * 100), 2)
-                for name, value in zip(feature_names, raw_contributions)
-            } if total > 0 else {}
+        self.fake_label_ = None
+        self.training_matrix_ = None
+        self.training_labels_ = None
 
-            return {
-                'rf_prediction': rf_pred,
-                'knn_prediction': knn_pred,
-                'iso_score': round(iso_score, 3),
-                'iso_prediction': iso_result,
-                'meta_prediction': meta_result,
-                'meta_confidence': round(meta_conf, 1),
-                'ensemble_risk': min(100, ml_risk_addition),
-                'feature_contributions': contributions,
-            }
-        
-        except Exception as e:
-            print(f"❌ Prediction error: {e}")
-            return None
-    
-    def save_models(self):
-        """Save all models to pickle files"""
-        
-        models = {
-            'rf_model': self.rf_model,
-            'knn_model': self.knn_model,
-            'iso_model': self.iso_model,
-            'meta_model': self.meta_model,
-            'le_security': self.le_security,
-            'le_label': self.le_label,
-            'scaler': self.scaler
-        }
-        
-        for name, model in models.items():
-            if model:
-                with open(f"{name}.pkl", "wb") as f:
-                    pickle.dump(model, f)
-                print(f"✅ Saved {name}.pkl")
-    
-    def load_models(self):
-        """Load all models from pickle files (graceful fallback)"""
-        
-        # Core models (required)
-        core_models = ['rf_model', 'knn_model', 'le_security', 'le_label']
-        # Optional advanced models
-        advanced_models = ['iso_model', 'meta_model', 'scaler']
-        
-        # Load core models
-        for name in core_models:
-            try:
-                with open(f"{name}.pkl", "rb") as f:
-                    setattr(self, name, pickle.load(f))
-                print(f"✅ Loaded {name}.pkl")
-            except FileNotFoundError:
-                print(f"❌ Missing {name}.pkl (required)")
-                return False
-        
-        # Load optional advanced models
-        advanced_available = True
-        for name in advanced_models:
-            try:
-                with open(f"{name}.pkl", "rb") as f:
-                    setattr(self, name, pickle.load(f))
-                print(f"✅ Loaded {name}.pkl")
-            except FileNotFoundError:
-                print(f"⚠️  {name}.pkl not found (optional)")
-                advanced_available = False
-        
-        # If scaler not loaded, create a new one
-        if not self.scaler:
-            self.scaler = StandardScaler()
-            print("⚠️  Created new scaler")
-        
+    def _new_isolation(self) -> IsolationForest:
+        return IsolationForest(
+            n_estimators=self.n_estimators,
+            contamination="auto",
+            random_state=self.random_state,
+            n_jobs=1,
+        )
+
+    def _encode_frame(self, frame: pd.DataFrame) -> tuple[np.ndarray, np.ndarray]:
+        data = frame.copy()
+        if "Security_enc" not in data.columns:
+            if self.le_security is None:
+                self.le_security = LabelEncoder()
+                data["Security_enc"] = self.le_security.fit_transform(data["Security"].fillna("OPEN").astype(str))
+            else:
+                data["Security_enc"] = data["Security"].map(self._security_code)
+        if "Label_enc" not in data.columns:
+            if self.le_label is None:
+                self.le_label = LabelEncoder()
+                data["Label_enc"] = self.le_label.fit_transform(data["Label"].astype(str))
+            else:
+                data["Label_enc"] = self.le_label.transform(data["Label"].astype(str))
+        self.fake_label_ = int(self.le_label.transform(["Fake"])[0])
+        features = data[FEATURES].apply(pd.to_numeric, errors="coerce").fillna(0.0)
+        return features.to_numpy(dtype=float), data["Label_enc"].to_numpy(dtype=int)
+
+    def _security_code(self, value: object) -> int:
+        text = str(value or "OPEN")
+        classes = list(self.le_security.classes_)
+        if text not in classes:
+            text = "WPA2" if "WPA2" in classes else classes[0]
+        return int(self.le_security.transform([text])[0])
+
+    def train_frame(self, frame: pd.DataFrame, compute_importance: bool = True) -> bool:
+        """Fit the stack on an already cleaned frame. Does not score that frame."""
+        if frame is None or frame.empty or "Label" not in frame.columns:
+            print("Dataset is empty")
+            return False
+        labels = frame["Label"].astype(str)
+        if labels.nunique() < 2 or len(frame) < 20:
+            print(f"Need at least 20 rows and both labels to fit the stack (got {len(frame)}).")
+            return False
+        raw, y = self._encode_frame(frame)
+        self.scaler = StandardScaler()
+        scaled = self.scaler.fit_transform(raw)
+        fake = self.fake_label_
+        smallest = int(np.bincount(y).min()) if len(y) else 0
+        n_splits = max(2, min(5, smallest))
+        cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=self.random_state)
+
+        rf_oof = cross_val_predict(
+            RandomForestClassifier(n_estimators=self.n_estimators, max_depth=10, random_state=self.random_state, n_jobs=1),
+            scaled, y, cv=cv, method="predict_proba",
+        )
+        fold_train = len(scaled) - max(1, len(scaled) // n_splits)
+        knn_neighbors = max(1, min(self.n_neighbors, fold_train))
+        knn_oof_model = KNeighborsClassifier(n_neighbors=knn_neighbors)
+        knn_oof = cross_val_predict(knn_oof_model, scaled, y, cv=cv, method="predict_proba")
+        rf_fake = probability_column(self._prototype_classes(y), rf_oof, fake)
+        knn_fake = probability_column(self._prototype_classes(y), knn_oof, fake)
+
+        iso_oof = np.zeros(len(scaled), dtype=float)
+        for train_idx, test_idx in cv.split(scaled, y):
+            legit_idx = train_idx[y[train_idx] != fake]
+            if len(legit_idx) < 2:
+                continue
+            fold_iso = self._new_isolation()
+            fold_iso.fit(scaled[legit_idx])
+            iso_oof[test_idx] = -fold_iso.decision_function(scaled[test_idx])
+
+        from ensemble_contract import meta_feature_matrix
+
+        meta_raw = meta_feature_matrix(rf_fake, knn_fake, iso_oof)
+        self.meta_scaler = StandardScaler()
+        meta_scaled = self.meta_scaler.fit_transform(meta_raw)
+        self.meta_model = LogisticRegression(random_state=self.random_state, max_iter=1000)
+        self.meta_model.fit(meta_scaled, y)
+
+        self.rf_model = RandomForestClassifier(
+            n_estimators=self.n_estimators, max_depth=10, random_state=self.random_state, n_jobs=1
+        )
+        self.rf_model.fit(scaled, y)
+        self.knn_model = KNeighborsClassifier(n_neighbors=max(1, min(self.n_neighbors, len(scaled) - 1)))
+        self.knn_model.fit(scaled, y)
+        legit = y != fake
+        self.iso_model = self._new_isolation()
+        self.iso_model.fit(scaled[legit])
+
+        self.training_matrix_ = scaled
+        self.training_labels_ = y
+        legit_raw = raw[legit]
+        self.explanation_baseline_ = np.median(legit_raw, axis=0) if len(legit_raw) else np.median(raw, axis=0)
+        self.permutation_importance_ = None
+        if compute_importance:
+            def _score(matrix):
+                return score_features(
+                    self.rf_model, self.knn_model, self.iso_model, self.meta_model,
+                    self.scaler, self.meta_scaler, fake, matrix,
+                )["meta_fake"]
+
+            self.permutation_importance_ = permutation_importance(
+                _score, raw, (y == fake).astype(int), BASE_FEATURES, n_repeats=5, seed=self.random_state
+            )
         self.is_trained = True
+        print(f"Ensemble fit on {len(raw)} rows ({int(legit.sum())} legit used for Isolation Forest). No detection score was computed.")
         return True
+
+    @staticmethod
+    def _prototype_classes(y: np.ndarray):
+        """Stand-in so OOF probability columns follow sorted class labels."""
+        class _Classes:
+            classes_ = np.array(sorted(np.unique(y)))
+        return _Classes()
+
+    def train(self, dataset_file: str = "training_dataset.csv") -> bool:
+        from dataset_prep import load_clean_dataset, quality_gate, training_rows
+
+        frame, self.data_audit_ = load_clean_dataset(dataset_file)
+        allowed, self.metrics_reason_ = quality_gate(frame)
+        self.metrics_withheld_ = not allowed
+        usable = training_rows(frame) if "synthetic_placeholder" in frame.columns else frame
+        return self.train_frame(usable)
+
+    def _positive_label(self) -> int:
+        if self.fake_label_ is not None:
+            return int(self.fake_label_)
+        return int(self.le_label.transform(["Fake"])[0])
+
+    def predict_frame(self, frame: pd.DataFrame) -> np.ndarray:
+        raw, _ = self._encode_frame(frame.assign(Label=frame["Label"] if "Label" in frame.columns else "Legit"))
+        # _encode_frame transforms labels when le_label is already fit. A frame
+        # without Label is given a dummy that must already be a known class.
+        scored = score_features(
+            self.rf_model, self.knn_model, self.iso_model, self.meta_model,
+            self.scaler, self.meta_scaler, self._positive_label(), raw,
+        )
+        return scored["meta_fake"]
+
+    def predict(self, features_dict):
+        if not self.is_trained or self.rf_model is None or self.knn_model is None or self.meta_scaler is None:
+            return None
+        try:
+            security = features_dict.get("Security", "OPEN")
+            raw = np.array([[
+                float(features_dict.get("RSSI", -50)),
+                float(features_dict.get("Channel", 2412)),
+                float(self._security_code(security)),
+                float(features_dict.get("AP_Count", 1)),
+                float(features_dict.get("Signal_Var", 0)),
+            ]], dtype=float)
+            scored = score_features(
+                self.rf_model, self.knn_model, self.iso_model, self.meta_model,
+                self.scaler, self.meta_scaler, self._positive_label(), raw,
+            )
+            meta_fake = float(scored["meta_fake"][0])
+            rf_fake = float(scored["rf_fake"][0])
+            knn_fake = float(scored["knn_fake"][0])
+            iso_score = float(scored["isolation_anomaly"][0])
+            meta_pred = "Fake" if meta_fake >= 0.5 else "Legit"
+            meta_conf = max(meta_fake, 1.0 - meta_fake) * 100.0
+            if meta_pred == "Fake":
+                risk = int(20 + meta_fake * 10)
+            else:
+                risk = int((1.0 - meta_conf / 100.0) * 10)
+            iso_pred = self.iso_model.predict(self.scaler.transform(raw))[0] if self.iso_model is not None else 1
+            explanation = None
+            contributions = {}
+            if self.explanation_baseline_ is not None:
+                def _score(matrix):
+                    return score_features(
+                        self.rf_model, self.knn_model, self.iso_model, self.meta_model,
+                        self.scaler, self.meta_scaler, self._positive_label(), matrix,
+                    )["meta_fake"]
+
+                effects = local_occlusion(_score, raw.reshape(-1), self.explanation_baseline_, BASE_FEATURES)
+                explanation = explanation_payload(effects)
+                total = sum(abs(item["delta"]) for item in effects)
+                if total > 0:
+                    contributions = {item["feature"]: round(abs(item["delta"]) / total * 100.0, 2) for item in effects}
+            return {
+                "rf_prediction": "Fake" if rf_fake >= 0.5 else "Legit",
+                "knn_prediction": "Fake" if knn_fake >= 0.5 else "Legit",
+                "iso_score": round(iso_score, 3),
+                "iso_prediction": "Anomaly" if iso_pred == -1 else "Normal",
+                "meta_prediction": meta_pred,
+                "meta_confidence": round(meta_conf, 1),
+                "ensemble_risk": min(100, risk),
+                "feature_contributions": contributions,
+                "explanation": explanation,
+            }
+        except Exception as exc:
+            print(f"Prediction error: {exc}")
+            return None
+
+    def save_models(self, directory: str = ".") -> None:
+        root = Path(directory)
+        root.mkdir(parents=True, exist_ok=True)
+        artifacts = {
+            "rf_model.pkl": self.rf_model,
+            "knn_model.pkl": self.knn_model,
+            "iso_model.pkl": self.iso_model,
+            "meta_model.pkl": self.meta_model,
+            "le_security.pkl": self.le_security,
+            "le_label.pkl": self.le_label,
+            "scaler.pkl": self.scaler,
+            "meta_scaler.pkl": self.meta_scaler,
+            "explanation_baseline.pkl": self.explanation_baseline_,
+        }
+        for name, model in artifacts.items():
+            if model is None:
+                continue
+            with (root / name).open("wb") as handle:
+                pickle.dump(model, handle)
+            print(f"Saved {name}")
+        if self.permutation_importance_:
+            payload = {
+                "method": "permutation_importance",
+                "score": "roc_auc_decrease",
+                "rows": "cleaned_training_rows",
+                "is_detection_accuracy": False,
+                "note": "Permutation importance on the cleaned training rows shows which inputs the saved model uses. It is not a detection rate.",
+                "features": self.permutation_importance_,
+            }
+            (root / "permutation_importance.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
+            print("Saved permutation_importance.json")
+
+    def load_models(self, directory: str = ".") -> bool:
+        root = Path(directory)
+        required = ["rf_model.pkl", "knn_model.pkl", "le_security.pkl", "le_label.pkl", "scaler.pkl", "meta_scaler.pkl"]
+        optional = ["iso_model.pkl", "meta_model.pkl", "explanation_baseline.pkl"]
+        loaded = {}
+        for name in required + optional:
+            path = root / name
+            if not path.is_file():
+                if name in required:
+                    print(f"Missing {name}")
+                    return False
+                continue
+            with path.open("rb") as handle:
+                loaded[name] = pickle.load(handle)
+        self.rf_model = loaded["rf_model.pkl"]
+        self.knn_model = loaded["knn_model.pkl"]
+        self.le_security = loaded["le_security.pkl"]
+        self.le_label = loaded["le_label.pkl"]
+        self.scaler = loaded["scaler.pkl"]
+        self.meta_scaler = loaded["meta_scaler.pkl"]
+        self.iso_model = loaded.get("iso_model.pkl")
+        self.meta_model = loaded.get("meta_model.pkl")
+        self.explanation_baseline_ = loaded.get("explanation_baseline.pkl")
+        self.fake_label_ = int(self.le_label.transform(["Fake"])[0]) if "Fake" in list(self.le_label.classes_) else None
+        self.is_trained = self.meta_model is not None and self.iso_model is not None
+        return self.is_trained
 
 
 if __name__ == "__main__":
-    # Example usage
     ensemble = HybridEnsembleDetector()
-    
-    print("🚀 Training Hybrid Ensemble...")
-    if ensemble.train("wifi_dataset.csv"):
+    if ensemble.train("training_dataset.csv"):
         ensemble.save_models()
-        
-        # Test prediction
-        test_network = {
-            'RSSI': -35,
-            'Channel': 6,
-            'Security': 'WPA2',
-            'AP_Count': 3,
-            'Signal_Var': 8
-        }
-        
-        result = ensemble.predict(test_network)
-        if result:
-            print(f"\n🎯 Test Prediction:\n{result}")
+        sample = ensemble.predict({
+            "RSSI": -35,
+            "Channel": 2412,
+            "Security": "OPEN",
+            "AP_Count": 2,
+            "Signal_Var": 8,
+        })
+        print(sample)
+        print("Sample output is one prediction, not a detection score.")
     else:
-        print("❌ Training failed")
+        raise SystemExit(1)

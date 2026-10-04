@@ -1,0 +1,36 @@
+{
+  "artifacts": [
+    "rf_model.pkl",
+    "knn_model.pkl",
+    "iso_model.pkl",
+    "meta_model.pkl",
+    "le_security.pkl",
+    "le_label.pkl",
+    "scaler.pkl",
+    "meta_scaler.pkl",
+    "explanation_baseline.pkl"
+  ],
+  "sklearn_version": "1.9.1",
+  "channel_unit": "MHz",
+  "isolation_forest": "fit on Legit rows only, including every out-of-fold split",
+  "meta_features": [
+    "rf_fake_probability",
+    "knn_fake_probability",
+    "isolation_anomaly"
+  ],
+  "meta_scaler": "StandardScaler saved as meta_scaler.pkl and applied at prediction",
+  "feature_scaler": "StandardScaler saved as scaler.pkl and applied at prediction",
+  "label_audit": {
+    "rows_in": 151,
+    "channel_khz_converted": 130,
+    "campus_rows_relabeled_legit": 43,
+    "pillai_rows_relabeled_legit": 18,
+    "open_placeholder_relabeled_fake": 1,
+    "real_legit_rows": 140,
+    "real_fake_rows": 0
+  },
+  "metrics_withheld": true,
+  "reason": "field-captured class counts are Legit=140 and Fake=0; at least 15 non-placeholder rows are required in each class. 9 of 9 Fake rows are hand-typed placeholder MACs, not captured evil twins.",
+  "real_scans_required": "Real scans are still required before any detection score is meaningful: capture your own hotspot cloned as an evil twin and label those BSSIDs Fake, and capture ordinary campus or office scans, including dense multi-AP SSIDs, and label those Legit. Append the rows to training_dataset.csv and run evaluation.py again.",
+  "supervised_labels": "Remaining Fake rows are hand-typed placeholder MACs. The supervised models can learn that synthetic pattern. They have not been shown a captured evil twin that clones a real AP."
+}

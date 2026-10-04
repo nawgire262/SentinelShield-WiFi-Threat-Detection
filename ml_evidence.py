@@ -1,7 +1,9 @@
 """Fail-safe inference adapter for the repository's existing RF/KNN/IF stack.
 
-No training occurs here. Existing feature contract is RSSI, frequency-MHz Channel,
-Security_enc, AP_Count and Signal_Var as emitted by train_model.py.
+No training occurs here. Features are RSSI, frequency in MHz, Security_enc,
+AP_Count and Signal_Var. Base features and meta features are transformed with
+the scalers saved by train_model.py. Per-AP occlusion uses the legitimate
+training median when that baseline was saved.
 """
 from __future__ import annotations
 
@@ -10,7 +12,10 @@ import pickle
 from pathlib import Path
 from typing import Any
 
-import pandas as pd
+import numpy as np
+
+from ensemble_contract import FEATURES, score_features
+from xai_explain import explanation_payload, local_occlusion
 
 LOGGER = logging.getLogger(__name__)
 ROOT = Path(__file__).resolve().parent
@@ -21,6 +26,8 @@ class ExistingModelEvidence:
         self.model_dir = Path(model_dir)
         self.rf = self.knn = self.isolation = self.meta = None
         self.security_encoder = self.label_encoder = None
+        self.feature_scaler = self.meta_scaler = None
+        self.baseline = None
         self.load_error: str | None = None
         try:
             self.rf = self._load("rf_model.pkl")
@@ -29,12 +36,16 @@ class ExistingModelEvidence:
             self.meta = self._load("meta_model.pkl")
             self.security_encoder = self._load("le_security.pkl")
             self.label_encoder = self._load("le_label.pkl")
-            if not all((self.rf, self.knn, self.isolation, self.meta, self.security_encoder, self.label_encoder)):
+            self.feature_scaler = self._load("scaler.pkl")
+            self.meta_scaler = self._load("meta_scaler.pkl")
+            self.baseline = self._load("explanation_baseline.pkl")
+            if not all((self.rf, self.knn, self.isolation, self.meta, self.security_encoder, self.label_encoder, self.feature_scaler, self.meta_scaler)):
                 raise ValueError("one or more expected model artifacts are empty")
         except Exception as exc:
             self.load_error = f"Existing ensemble unavailable: {type(exc).__name__}: {exc}"
             LOGGER.warning(self.load_error)
             self.rf = self.knn = self.isolation = self.meta = None
+            self.feature_scaler = self.meta_scaler = None
 
     def _load(self, filename: str) -> Any:
         path = self.model_dir / filename
@@ -45,7 +56,20 @@ class ExistingModelEvidence:
 
     @property
     def available(self) -> bool:
-        return self.rf is not None and self.knn is not None and self.isolation is not None and self.meta is not None
+        return self.rf is not None and self.knn is not None and self.isolation is not None and self.meta is not None and self.feature_scaler is not None and self.meta_scaler is not None
+
+    def _explain(self, raw_row: np.ndarray, fake_class: int) -> dict[str, Any] | None:
+        if self.baseline is None:
+            return None
+        baseline = np.asarray(self.baseline, dtype=float).reshape(-1)
+
+        def score_fn(matrix: np.ndarray) -> np.ndarray:
+            return score_features(
+                self.rf, self.knn, self.isolation, self.meta,
+                self.feature_scaler, self.meta_scaler, fake_class, matrix,
+            )["meta_fake"]
+
+        return explanation_payload(local_occlusion(score_fn, raw_row, baseline, FEATURES))
 
     def predict(self, observation: dict[str, Any], ap_count: int, signal_variance: float) -> dict[str, Any] | None:
         return self.predict_many([observation], [ap_count], [signal_variance])[0]
@@ -73,28 +97,21 @@ class ExistingModelEvidence:
                     "AP_Count": int(ap_count),
                     "Signal_Var": float(signal_variance),
                 })
-            features = pd.DataFrame(rows, columns=["RSSI", "Channel", "Security_enc", "AP_Count", "Signal_Var"])
-            rf_matrix = self.rf.predict_proba(features)
-            knn_matrix = self.knn.predict_proba(features)
-            rf_classes = list(self.rf.classes_)
-            knn_classes = list(self.knn.classes_)
-            rf_index = rf_classes.index(fake_class) if fake_class in rf_classes else 0
-            knn_index = knn_classes.index(fake_class) if fake_class in knn_classes else 0
-            rf_fake = rf_matrix[:, rf_index]
-            knn_fake = knn_matrix[:, knn_index]
-            anomaly = [max(0.0, float(-value)) for value in self.isolation.decision_function(features)]
-            meta_input = [[float(rf_fake[i]), float(knn_fake[i]), anomaly[i]] for i in range(len(rows))]
-            meta_matrix = self.meta.predict_proba(meta_input)
-            meta_classes = list(self.meta.classes_)
-            meta_index = meta_classes.index(fake_class) if fake_class in meta_classes else 0
+            raw = np.array([[row[name] for name in FEATURES] for row in rows], dtype=float)
+            scored = score_features(
+                self.rf, self.knn, self.isolation, self.meta,
+                self.feature_scaler, self.meta_scaler, fake_class, raw,
+            )
+            explanations = [self._explain(raw[i], fake_class) for i in range(len(rows))]
             return [{
                 "available": True,
-                "rf_fake_probability": round(float(rf_fake[i]), 4),
-                "knn_fake_probability": round(float(knn_fake[i]), 4),
-                "isolation_anomaly_score": round(anomaly[i], 4),
-                "fake_probability": round(float(meta_matrix[i, meta_index]), 4),
-                "risk_score": round(float(meta_matrix[i, meta_index]) * 100, 2),
-                "model_files": ["rf_model.pkl", "knn_model.pkl", "iso_model.pkl", "meta_model.pkl"],
+                "rf_fake_probability": round(float(scored["rf_fake"][i]), 4),
+                "knn_fake_probability": round(float(scored["knn_fake"][i]), 4),
+                "isolation_anomaly_score": round(float(scored["isolation_anomaly"][i]), 4),
+                "fake_probability": round(float(scored["meta_fake"][i]), 4),
+                "risk_score": round(float(scored["meta_fake"][i]) * 100, 2),
+                "explanation": explanations[i],
+                "model_files": ["rf_model.pkl", "knn_model.pkl", "iso_model.pkl", "meta_model.pkl", "scaler.pkl", "meta_scaler.pkl"],
             } for i in range(len(rows))]
         except Exception as exc:
             LOGGER.warning("Existing ML inference skipped: %s", exc)
