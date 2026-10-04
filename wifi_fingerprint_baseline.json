@@ -1,0 +1,438 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-10-04T08:45:04.101+00:00",
+  "aps": {
+    "98:03:8E:EB:5E:98": {
+      "ssid": "DPUP",
+      "bssid": "98:03:8E:EB:5E:98",
+      "vendor": null,
+      "first_seen": "2026-10-04T08:44:48.229+00:00",
+      "last_seen": "2026-10-04T08:44:48.229+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        10
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-04T08:44:48.229+00:00",
+          "channel": 10
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-04T08:44:48.229+00:00",
+          "rssi_dbm": -62.0
+        }
+      ],
+      "rssi_mean": -62.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -62.0,
+      "rssi_max": -62.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "0d63f44a136a5c4d4e89299cfb08f7fae232169a9110acf39cfcf0383665f890",
+      "updated_at": "2026-10-04T08:44:51.790+00:00"
+    },
+    "6C:0B:5E:09:B6:42": {
+      "ssid": "DIRECT-41-HP DeskJet 4900 series",
+      "bssid": "6C:0B:5E:09:B6:42",
+      "vendor": null,
+      "first_seen": "2026-10-04T08:44:48.229+00:00",
+      "last_seen": "2026-10-04T08:44:48.229+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        6
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-04T08:44:48.229+00:00",
+          "channel": 6
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-04T08:44:48.229+00:00",
+          "rssi_dbm": -77.0
+        }
+      ],
+      "rssi_mean": -77.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -77.0,
+      "rssi_max": -77.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "08021406bc9b2946f104d0d01e998f4b53fa32c999a16b17eb57ee0af5db28f3",
+      "updated_at": "2026-10-04T08:44:52.058+00:00"
+    },
+    "98:9D:B2:4B:5A:69": {
+      "ssid": "Tejal Pawar",
+      "bssid": "98:9D:B2:4B:5A:69",
+      "vendor": null,
+      "first_seen": "2026-10-04T08:44:48.229+00:00",
+      "last_seen": "2026-10-04T08:44:48.229+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        11
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-04T08:44:48.229+00:00",
+          "channel": 11
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-04T08:44:48.229+00:00",
+          "rssi_dbm": -80.0
+        }
+      ],
+      "rssi_mean": -80.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -80.0,
+      "rssi_max": -80.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "8e2386d3463e1dba9bcc591ac4e5ddf29283ba87b56d576f2bf8e2c174c8fbaa",
+      "updated_at": "2026-10-04T08:44:52.283+00:00"
+    },
+    "58:D5:6E:D7:1D:5C": {
+      "ssid": "D-Link_DIR-615",
+      "bssid": "58:D5:6E:D7:1D:5C",
+      "vendor": null,
+      "first_seen": "2026-10-04T08:44:48.229+00:00",
+      "last_seen": "2026-10-04T08:44:48.229+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        11
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-04T08:44:48.229+00:00",
+          "channel": 11
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-04T08:44:48.229+00:00",
+          "rssi_dbm": -78.0
+        }
+      ],
+      "rssi_mean": -78.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -78.0,
+      "rssi_max": -78.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "b4c33be34d437fec3e623dd234f7f39274284f59411d80316b6f8cb1d888dc38",
+      "updated_at": "2026-10-04T08:44:52.548+00:00"
+    },
+    "60:A4:B7:D2:29:9E": {
+      "ssid": "Sharyumore",
+      "bssid": "60:A4:B7:D2:29:9E",
+      "vendor": null,
+      "first_seen": "2026-10-04T08:44:48.229+00:00",
+      "last_seen": "2026-10-04T08:44:48.229+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        10
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-04T08:44:48.229+00:00",
+          "channel": 10
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-04T08:44:48.229+00:00",
+          "rssi_dbm": -86.0
+        }
+      ],
+      "rssi_mean": -86.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -86.0,
+      "rssi_max": -86.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "c1a622da13a041323d798d1260474a410e63614f3fb7eac463f859c4ccec1243",
+      "updated_at": "2026-10-04T08:44:52.786+00:00"
+    },
+    "10:27:F5:0E:5A:9A": {
+      "ssid": "TP-Link_5A9A",
+      "bssid": "10:27:F5:0E:5A:9A",
+      "vendor": null,
+      "first_seen": "2026-10-04T08:44:48.229+00:00",
+      "last_seen": "2026-10-04T08:44:48.229+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        10
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-04T08:44:48.229+00:00",
+          "channel": 10
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-04T08:44:48.229+00:00",
+          "rssi_dbm": -85.0
+        }
+      ],
+      "rssi_mean": -85.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -85.0,
+      "rssi_max": -85.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "01c99249e22f9e620ea152114338f4420aecb11427bd9e8ba30cfdb8ac50bb66",
+      "updated_at": "2026-10-04T08:44:53.053+00:00"
+    },
+    "78:8C:B5:79:C8:C2": {
+      "ssid": "Preeti",
+      "bssid": "78:8C:B5:79:C8:C2",
+      "vendor": null,
+      "first_seen": "2026-10-04T08:44:48.229+00:00",
+      "last_seen": "2026-10-04T08:44:48.229+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        10
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-04T08:44:48.229+00:00",
+          "channel": 10
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-04T08:44:48.229+00:00",
+          "rssi_dbm": -94.0
+        }
+      ],
+      "rssi_mean": -94.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -94.0,
+      "rssi_max": -94.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "75484fd3eac015768aab00cf357e93cb4149be0f15cd09a008ffc46d794476a6",
+      "updated_at": "2026-10-04T08:44:53.379+00:00"
+    },
+    "B4:F9:49:D2:43:65": {
+      "ssid": "PRAMILA_4G",
+      "bssid": "B4:F9:49:D2:43:65",
+      "vendor": null,
+      "first_seen": "2026-10-04T08:44:48.229+00:00",
+      "last_seen": "2026-10-04T08:44:48.229+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        10
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-04T08:44:48.229+00:00",
+          "channel": 10
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-04T08:44:48.229+00:00",
+          "rssi_dbm": -74.0
+        }
+      ],
+      "rssi_mean": -74.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -74.0,
+      "rssi_max": -74.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "64ee0ae56b0483ff174677b482c0a5ca4beac2499e3082c1d9d351bc99a0bced",
+      "updated_at": "2026-10-04T08:44:56.644+00:00"
+    },
+    "AC:A7:F1:97:8B:50": {
+      "ssid": "Sarthak",
+      "bssid": "AC:A7:F1:97:8B:50",
+      "vendor": null,
+      "first_seen": "2026-10-04T08:44:51.696+00:00",
+      "last_seen": "2026-10-04T08:44:51.696+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        7
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-04T08:44:51.696+00:00",
+          "channel": 7
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-04T08:44:51.696+00:00",
+          "rssi_dbm": -86.0
+        }
+      ],
+      "rssi_mean": -86.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -86.0,
+      "rssi_max": -86.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "d074481d3fedc9c36d8ec72126b4b88519f1abb13438d2c2e019246b79839376",
+      "updated_at": "2026-10-04T08:45:00.029+00:00"
+    },
+    "54:A2:45:63:D0:80": {
+      "ssid": "Thoke",
+      "bssid": "54:A2:45:63:D0:80",
+      "vendor": null,
+      "first_seen": "2026-10-04T08:44:51.696+00:00",
+      "last_seen": "2026-10-04T08:44:51.696+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        10
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-04T08:44:51.696+00:00",
+          "channel": 10
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-04T08:44:51.696+00:00",
+          "rssi_dbm": -88.0
+        }
+      ],
+      "rssi_mean": -88.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -88.0,
+      "rssi_max": -88.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "2879bcd692634519f8699a8da16f2e747b72fc8909646ece1da345bdf728de0b",
+      "updated_at": "2026-10-04T08:45:00.726+00:00"
+    },
+    "F0:09:0D:D7:30:CA": {
+      "ssid": "COPS",
+      "bssid": "F0:09:0D:D7:30:CA",
+      "vendor": null,
+      "first_seen": "2026-10-04T08:44:51.696+00:00",
+      "last_seen": "2026-10-04T08:44:51.696+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        4
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-04T08:44:51.696+00:00",
+          "channel": 4
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-04T08:44:51.696+00:00",
+          "rssi_dbm": -78.0
+        }
+      ],
+      "rssi_mean": -78.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -78.0,
+      "rssi_max": -78.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "a0bf11dbe8a1a11abea1fcae726bbae73edf0ec206ff7bda9e415285ea87aac4",
+      "updated_at": "2026-10-04T08:45:00.983+00:00"
+    },
+    "B8:B7:DB:22:02:36": {
+      "ssid": "ARUN 2G",
+      "bssid": "B8:B7:DB:22:02:36",
+      "vendor": null,
+      "first_seen": "2026-10-04T08:44:51.696+00:00",
+      "last_seen": "2026-10-04T08:44:51.696+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        6
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-04T08:44:51.696+00:00",
+          "channel": 6
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-04T08:44:51.696+00:00",
+          "rssi_dbm": -86.0
+        }
+      ],
+      "rssi_mean": -86.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -86.0,
+      "rssi_max": -86.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "874715c78d62ca24c347d25c43cf8040cf8dff51f0c0cf1d3d536a1af0fcec68",
+      "updated_at": "2026-10-04T08:45:04.096+00:00"
+    }
+  }
+}

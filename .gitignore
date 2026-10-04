@@ -1,0 +1,47 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.pyd
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Runtime databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Runtime scan output
+current_scan.csv
+
+# Generated reports
+Threat_Report_*.pdf
+Threat_Report_*.xlsx
+
+# Temporary/generated files
+*.tmp
+*.temp
+
+# Runtime state / generated data
+adaptive_threshold_state.json
+alert_history.csv
+dashboard_settings.json
+scan_history.csv
+performance_benchmark.json
+performance_benchmark_latest.json

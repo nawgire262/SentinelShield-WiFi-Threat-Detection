@@ -1,0 +1,37 @@
+---
+- name: "Active IPS Isolation Module - Operator OM007"
+  hosts: localhost
+  gather_facts: no
+  vars:
+    ovs_bridge: "virbr0"
+    target_mac: "{{ target_hardware_address | default('00:00:00:00:00:00') }}"
+    sdn_controller_url: "http://127.0.0.1:8080/stats/flowentry/add"
+
+  tasks:
+    - name: "Log Active Attack Remediation Signature"
+      debug:
+        msg: "ALERT: Threat Engine triggered quarantine for target hardware mapping: {{ target_mac }}"
+
+    # Strategy A: Direct Open vSwitch Port Suppression via CLI commands
+    - name: "Inject OpenFlow Drop Rule into Local Open vSwitch Bridge"
+      become: yes
+      ansible.builtin.command: >
+        ovs-ofctl add-flow {{ ovs_bridge }} "priority=40000,dl_src={{ target_mac }},actions=drop"
+      ignore_errors: yes
+      register: ovs_local_result
+
+    # Strategy B: SDN Controller REST API Failover API Hook (Ryu/ONOS)
+    - name: "SDN REST Layer Propagation - Inject Flow Mod via JSON Payload"
+      ansible.builtin.uri:
+        url: "{{ sdn_controller_url }}"
+        method: POST
+        body_format: json
+        body:
+          dpid: 1
+          table_id: 0
+          priority: 40000
+          match:
+            dl_src: "{{ target_mac }}"
+          actions: []
+        status_code: [200, 201, 404, 405]
+      when: ovs_local_result is failed or not ovs_local_result.stdout

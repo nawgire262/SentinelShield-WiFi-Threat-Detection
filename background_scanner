@@ -1,0 +1,141 @@
+import threading
+import time
+import pandas as pd
+import numpy as np
+from pathlib import Path
+
+class ScanStatus:
+    IDLE = "idle"
+    SCANNING = "scanning"
+    ANALYZING = "analyzing"
+    COMPLETE = "complete"
+    ERROR = "error"
+
+class BackgroundScanner:
+    def __init__(self):
+        self._lock = threading.Lock()
+        self.status = ScanStatus.IDLE
+        self.progress = 0
+        self.networks_found = 0
+        self.start_time = None
+        self.end_time = None
+        self.elapsed_time = 0.0
+        self.error_msg = ""
+        self.results = {"networks": []}
+
+    def get_status(self):
+        with self._lock:
+            if self.status in [ScanStatus.SCANNING, ScanStatus.ANALYZING] and self.start_time:
+                self.elapsed_time = time.time() - self.start_time
+            return {
+                "status": self.status,
+                "progress": self.progress,
+                "networks_found": self.networks_found,
+                "elapsed_time": self.elapsed_time,
+                "error": self.error_msg
+            }
+
+    def get_results(self):
+        with self._lock:
+            return self.results
+
+    def start_scan_async(self):
+        with self._lock:
+            if self.status in [ScanStatus.SCANNING, ScanStatus.ANALYZING]:
+                return False  # Scan already in progress
+            
+            self.status = ScanStatus.SCANNING
+            self.progress = 0
+            self.networks_found = 0
+            self.start_time = time.time()
+            self.end_time = None
+            self.error_msg = ""
+            
+        # Spawn execution worker loop in background thread
+        thread = threading.Thread(target=self._run_scan_worker, daemon=True)
+        thread.start()
+        return True
+
+    def _run_scan_worker(self):
+        try:
+            # 1. Simulate Passive Network Packet/Beacon Frame Capture Stage
+            for i in range(1, 61):
+                time.sleep(0.05)  # Quick incremental emulation loop
+                with self._lock:
+                    self.progress = int((i / 100) * 100)
+                    if i % 12 == 0:
+                        self.networks_found += 1
+            
+            # 2. Transition State to ML Analytics Processing Engine Pipeline
+            with self._lock:
+                self.status = ScanStatus.ANALYZING
+
+            mock_ssids = ["Free_Public_Wifi", "Corporate_Secure", "Home_Network_5G", "Attacker_AP_Drop", "Unknown_Net_Hidden"]
+            mock_bssids = ["00:11:22:33:44:55", "AA:BB:CC:DD:EE:FF", "11:22:33:44:55:66", "99:88:77:66:55:44", "55:66:77:88:99:AA"]
+            mock_rssi = [-88, -42, -58, -92, -74]
+            mock_channels = [1, 6, 11, 6, 36]
+            mock_securities = ["OPEN", "WPA3-Enterprise", "WPA2-PSK", "OPEN", "WPA2-PSK"]
+            mock_threat_levels = ["HIGH", "SAFE", "SAFE", "CRITICAL", "MEDIUM"]
+            mock_threat_scores = [78.5, 5.0, 12.0, 96.4, 45.0]
+            mock_ml_risks = [82.0, 2.1, 8.5, 98.2, 52.1]
+            
+            networks_list = []
+            
+            # 3. Formulate Mock Vector Space Matrices
+            for idx in range(len(mock_ssids)):
+                combined = (mock_threat_scores[idx] * 0.4) + (mock_ml_risks[idx] * 0.6)
+                vectors = {
+                    "Signal Anomaly": mock_threat_scores[idx] * 0.8,
+                    "BSSID Spoofing": 90.0 if "Attacker" in mock_ssids[idx] else 10.0,
+                    "Honeypot Signature": 95.0 if mock_securities[idx] == "OPEN" and "Public" in mock_ssids[idx] else 5.0
+                }
+                
+                net_obj = {
+                    "SSID": mock_ssids[idx],
+                    "BSSID": mock_bssids[idx],
+                    "RSSI": mock_rssi[idx],
+                    "Channel": mock_channels[idx],
+                    "Security": mock_securities[idx],
+                    "Threat_Level": mock_threat_levels[idx],
+                    "Threat_Score": mock_threat_scores[idx],
+                    "ML_Risk": mock_ml_risks[idx],
+                    "Combined_Risk": combined,
+                    "RF_Prediction": "Malicious" if combined > 50 else "Normal",
+                    "KNN_Prediction": "Malicious" if combined > 40 else "Normal",
+                    "Threat_Vectors": pd.json.dumps(vectors)
+                }
+                networks_list.append(net_obj)
+                
+                # Advance Analysis Status metrics sequentially
+                with self._lock:
+                    self.progress = 60 + int(((idx + 1) / len(mock_ssids)) * 40)
+                    self.networks_found = len(networks_list)
+                time.sleep(0.2)
+
+            # Save dataset matrix real-time down to localized static storage csv
+            df = pd.DataFrame(networks_list)
+            df.to_csv("current_scan.csv", index=False)
+            
+            # Populate historical database structure automatically if it exists
+            hist_path = Path("wifi_dataset.csv")
+            if not hist_path.exists():
+                hist_df = df.copy()
+                if "Threat_Level" in hist_df.columns:
+                    hist_df = hist_df.rename(columns={"Threat_Level": "Label"})
+                hist_df.to_csv("wifi_dataset.csv", index=False)
+
+            with self._lock:
+                self.results = {"networks": networks_list}
+                self.status = ScanStatus.COMPLETE
+                self.end_time = time.time()
+                
+        except Exception as e:
+            with self._lock:
+                self.status = ScanStatus.ERROR
+                self.error_msg = str(e)
+
+# Global Instance Fetcher Singleton Pattern to bypass Streamlit Refresh re-initialization
+_scanner_singleton = BackgroundScanner()
+
+def get_scanner():
+    return _scanner_singleton

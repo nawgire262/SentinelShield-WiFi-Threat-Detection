@@ -1,0 +1,151 @@
+[
+  {
+    "SSID": "OfficeWiFi",
+    "BSSID": "00:11:22:33:44:55",
+    "Channel": 2412,
+    "Signal": 0,
+    "Security": "WPA2"
+  },
+  {
+    "SSID": "OfficeWiFi",
+    "BSSID": "AA:BB:CC:11:22:33",
+    "Channel": 2412,
+    "Signal": 0,
+    "Security": "OPEN"
+  },
+  {
+    "SSID": "GuestWiFi",
+    "BSSID": "66:77:88:99:AA:BB",
+    "Channel": 5180,
+    "Signal": 0,
+    "Security": "WPA2"
+  },
+  {
+    "SSID": "ro3",
+    "BSSID": "76:F0:FA:35:04:4A:",
+    "Channel": 5180000,
+    "Signal": 0,
+    "Security": "WPA2"
+  },
+  {
+    "SSID": "DPUP",
+    "BSSID": "98:03:8e:eb:5e:98:",
+    "Channel": "2457000",
+    "Signal": -66.0,
+    "Security": "WPA/WPA2",
+    "Updated_At": "2026-10-04T13:31:37",
+    "First_Seen": "2026-10-04T13:31:34"
+  },
+  {
+    "SSID": "PRAMILA_5G",
+    "BSSID": "B4:F9:49:D2:43:61:",
+    "Channel": 5220000,
+    "Signal": 0,
+    "Security": "WPA2"
+  },
+  {
+    "SSID": "D-Link_DIR-615",
+    "BSSID": "58:D5:6E:D7:1D:5C:",
+    "Channel": 2437000,
+    "Signal": 0,
+    "Security": "WPA2"
+  },
+  {
+    "SSID": "TP-Link_F58C",
+    "BSSID": "50:91:E3:2D:F5:8C:",
+    "Channel": 2422000,
+    "Signal": 0,
+    "Security": "WPA2"
+  },
+  {
+    "SSID": "Sarthak",
+    "BSSID": "AC:A7:F1:97:8B:50:",
+    "Channel": 2412000,
+    "Signal": 0,
+    "Security": "WPA2"
+  },
+  {
+    "SSID": "ARUN 2G",
+    "BSSID": "B8:B7:DB:22:02:36:",
+    "Channel": 2422000,
+    "Signal": 0,
+    "Security": "WPA2"
+  },
+  {
+    "SSID": "TP-Link_9386",
+    "BSSID": "B4:B0:24:4D:93:86:",
+    "Channel": 2427000,
+    "Signal": 0,
+    "Security": "WPA2"
+  },
+  {
+    "SSID": "Tejal Pawar",
+    "BSSID": "98:9D:B2:4B:5A:69:",
+    "Channel": 2462000,
+    "Signal": 0,
+    "Security": "WPA2"
+  },
+  {
+    "SSID": "iBall-Baton",
+    "BSSID": "A0:47:D7:19:B3:20:",
+    "Channel": 2437000,
+    "Signal": 0,
+    "Security": "WPA2"
+  },
+  {
+    "SSID": "Vandan 4G",
+    "BSSID": "B8:B7:DB:04:5B:F6:",
+    "Channel": 2427000,
+    "Signal": 0,
+    "Security": "WPA2"
+  },
+  {
+    "SSID": "COPS",
+    "BSSID": "F0:09:0D:D7:30:CA:",
+    "Channel": 2457000,
+    "Signal": 0,
+    "Security": "WPA2"
+  },
+  {
+    "SSID": "Shreyas",
+    "BSSID": "98:25:4A:B3:EA:E4:",
+    "Channel": 2457000,
+    "Signal": 0,
+    "Security": "WPA2"
+  },
+  {
+    "SSID": "S K ENTERPRISES 2G",
+    "BSSID": "B8:B7:DB:28:84:BD:",
+    "Channel": 2452000,
+    "Signal": 0,
+    "Security": "WPA2"
+  },
+  {
+    "SSID": "PRAMILA_4G",
+    "BSSID": "B4:F9:49:D2:43:65:",
+    "Channel": 2452000,
+    "Signal": 0,
+    "Security": "WPA2"
+  },
+  {
+    "SSID": "Aachal",
+    "BSSID": "BC:07:1D:D1:AF:78:",
+    "Channel": 2452000,
+    "Signal": 0,
+    "Security": "WPA2"
+  },
+  {
+    "SSID": "Airtel_ragh_3995",
+    "BSSID": "C4:9A:31:88:F6:66:",
+    "Channel": 2442000,
+    "Signal": 0,
+    "Security": "WPA2"
+  },
+  {
+    "SSID": "Nilesh",
+    "BSSID": "74:61:D1:00:6F:36:",
+    "Channel": 2437000,
+    "Signal": 0,
+    "Security": "WPA2"
+  }
+]

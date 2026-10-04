@@ -1,0 +1,152 @@
+SSID,BSSID,RSSI,Channel,Security,AP_Count,Signal_Var,Label
+Raj,4C:AE:1C:4B:7A:7F,-72.0,2412,WPA2,1,3.0,Legit
+Raj,4C:AE:1C:4B:7A:80,-68.0,5180,WPA2,2,5.0,Legit
+FTTH,4C:AE:1C:4B:7A:83,-52.0,2412,WPA2,1,2.0,Legit
+FTTH,4C:AE:1C:4B:7A:84,-49.0,5180,WPA2,2,4.0,Legit
+Airtel_bhav_6403,2C:C1:F4:BC:70:AA,-78.0,2412,WPA2,2,6.0,Legit
+Airtel_bhav_6403,2C:C1:F4:BC:70:A9,-74.0,5180,WPA2,2,5.0,Legit
+HomeNet,3A:BC:22:11:09:EF,-65.0,2437,WPA2,1,4.0,Legit
+OfficeWiFi,9D:AB:77:32:11:AA,-60.0,2462,WPA2,1,5.0,Legit
+CafeWiFi,8F:22:19:AA:BC:DD,-58.0,2412,WPA2,1,6.0,Legit
+LibraryNet,7E:12:98:BC:FA:11,-70.0,2437,WPA2,1,4.0,Legit
+Raj,AA:BB:CC:11:22:34,-32.0,2412,OPEN,2,28.0,Fake
+FTTH,DD:EE:FF:22:33:44,-30.0,2437,OPEN,2,27.0,Fake
+FTTH,DD:EE:FF:22:33:45,-28.0,2437,OPEN,2,29.0,Fake
+Airtel_bhav_6403,11:22:33:44:55:66,-25.0,2412,OPEN,3,35.0,Fake
+Airtel_bhav_6403,11:22:33:44:55:67,-22.0,2412,OPEN,3,33.0,Fake
+HomeNet,22:33:44:55:66:77,-40.0,2462,OPEN,2,26.0,Fake
+OfficeWiFi,33:44:55:66:77:88,-38.0,2462,OPEN,2,24.0,Fake
+CafeWiFi,44:55:66:77:88:99,-20.0,2412,OPEN,3,36.0,Fake
+Raj,4c:ae:1c:4b:7a:7f:,-75.0,5745000,WPA2,1,3.0,Legit
+FTTH,4c:ae:1c:4b:7a:83:,-51.0,2412000,WPA2,1,2.0,Legit
+Airtel_bhav_6403,2c:c1:f4:bc:70:a9:,-73.0,2462000,WPA2,1,4.0,Legit
+Airtel_bhav_6403,2c:c1:f4:bc:70:aa:,-78.0,5240000,WPA2,2,11.0,Legit
+Raj ,aa:7f:82:51:3c:4e:,-42.0,5745000,WPA2,1,10.0,Legit
+Pillai,70:a7:41:82:d3:9e:,-82.0,5765000,WPA2,8,19.0,Fake
+Pillai,72:a2:f4:3f:ac:80:,-82.0,5765000,WPA2,8,19.0,Fake
+Pillai,28:70:4e:4c:56:b3:,-82.0,5765000,WPA2,8,19.0,Fake
+Pillai,28:70:4e:4b:f3:bb:,-82.0,5765000,WPA2,8,19.0,Fake
+Pillai,28:70:4e:4c:56:b2:,-82.0,5765000,WPA2,8,19.0,Fake
+Pillai,28:70:4e:4b:f3:ba:,-82.0,5765000,WPA2,8,19.0,Fake
+Pillai,0c:ea:14:13:23:a3:,-82.0,5765000,WPA2,8,19.0,Fake
+Pillai,70:a7:41:81:d3:9e:,-82.0,5765000,WPA2,8,19.0,Fake
+Guest,2a:70:4e:3c:56:b3:,-81.0,5765000,WPA2,9,18.0,Fake
+Guest,76:a7:41:82:d3:9e:,-81.0,5765000,WPA2,9,18.0,Fake
+Guest,2a:70:4e:3b:f3:bb:,-81.0,5765000,WPA2,9,18.0,Fake
+Guest,2a:70:4e:2c:56:b2:,-81.0,5765000,WPA2,9,18.0,Fake
+Guest,76:a7:41:81:d3:9e:,-81.0,5765000,WPA2,9,18.0,Fake
+Guest,2a:70:4e:2b:f3:ba:,-81.0,5765000,WPA2,9,18.0,Fake
+Guest,0e:ea:14:33:23:a3:,-81.0,5765000,WPA2,9,18.0,Fake
+Guest,0e:ea:14:23:23:a2:,-81.0,5765000,WPA2,9,18.0,Fake
+Guest,7a:45:58:9f:3e:8a:,-81.0,5765000,WPA2,9,18.0,Fake
+iQOO Z10x 5G,e6:e8:db:4c:0d:f6:,-86.0,2472000,WPA2,1,0.0,Legit
+Ak Print,6e:af:fd:bf:f3:c8:,-87.0,2462000,WPA2,1,0.0,Legit
+Bhavesh,42:7d:56:74:e6:28:,-44.0,2437000,WPA2,1,9.0,Legit
+Nothing Phone (2a)_1997,46:79:73:1d:da:75:,-87.0,2437000,WPA2,1,7.0,Legit
+Shubhamð,36:66:91:a7:ac:5c:,-53.0,2437000,WPA2,1,12.0,Legit
+PHCOA,0e:ea:14:13:23:a3:,-87.0,5745000,WPA2,2,4.0,Legit
+PHCOA,0e:ea:14:13:23:a2:,-87.0,5745000,WPA2,2,4.0,Legit
+Ambika Xerox,48:22:54:66:b5:f4:,-82.0,2422000,WPA2,1,1.0,Legit
+realme 11 Pro+ 5G,82:25:ea:52:db:c7:,-91.0,2452000,WPA2,1,2.0,Legit
+OnePlus Nord CE 3 Lite 5G,ae:70:54:2c:95:87:,-91.0,2462000,WPA2,1,0.0,Legit
+PHCET,7a:45:58:bf:3e:8a:,-87.0,2437000,WPA2,1,2.0,Legit
+Narzo,f6:af:9a:19:17:b2:,-88.0,2412000,WPA2,1,0.0,Legit
+Pillai,78:45:58:ef:3e:8a:,-84.0,2437000,WPA2,6,17.0,Fake
+Pillai,78:45:58:e3:20:ba:,-84.0,2437000,WPA2,6,17.0,Fake
+Pillai 4,60:83:e7:dc:75:5b:,-73.0,2442000,WPA2,1,0.0,Legit
+PHCET,2a:70:4e:3b:f3:c6:,-82.0,2462000,WPA2,2,4.0,Legit
+PHCET,2a:70:4e:4b:f3:c7:,-82.0,2462000,WPA2,2,4.0,Legit
+Guest,2a:70:4e:21:c5:8d:,-82.0,2437000,WPA2,11,22.0,Fake
+Guest,2a:70:4e:3b:f3:c7:,-82.0,2437000,WPA2,11,22.0,Fake
+Guest,2a:70:4e:2b:f3:c6:,-82.0,2437000,WPA2,11,22.0,Fake
+Guest,2a:70:4e:31:c5:8e:,-82.0,2437000,WPA2,11,22.0,Fake
+Pillai,28:70:4e:4b:f3:c6:,-82.0,2437000,WPA2,10,23.0,Fake
+Pillai,0c:ea:14:13:23:a2:,-82.0,2437000,WPA2,10,23.0,Fake
+Pillai,28:70:4e:51:c5:8e:,-82.0,2437000,WPA2,10,23.0,Fake
+Pillai,28:70:4e:4b:f3:c7:,-82.0,2437000,WPA2,10,23.0,Fake
+realme P4 Pro 5G A578,52:ca:1e:80:ec:c3:,-93.0,2462000,WPA2,1,2.0,Legit
+Pillai 1,72:5a:b0:2c:f3:34:,-86.0,2427000,WPA2,1,0.0,Legit
+POLY PRINCE,78:8c:b5:50:5f:5f:,-92.0,2417000,WPA2,1,3.0,Legit
+Moto G,16:08:e6:8c:91:95:,-88.0,2412000,WPA2,1,2.0,Legit
+Jiteshxp,56:4b:2d:27:27:cb:,-71.0,2462000,WPA2,1,0.0,Legit
+motoedge60fusion_4408,a6:cc:e9:af:c8:5d:,-80.0,2462000,WPA2,1,4.0,Legit
+Amogh's A56,8a:bd:9c:49:49:df:,-89.0,2417000,WPA2,1,4.0,Legit
+Shubham,1a:18:17:64:32:e4:,-43.0,5180000,WPA2,1,8.0,Legit
+Infinix HOT 40i,ba:24:fc:86:ae:64:,-76.0,2472000,WPA2,1,0.0,Legit
+CMF by Nothing Phone 2 Pro_2406,ee:d9:c3:9c:8f:e1:,-69.0,2462000,WPA2,1,5.0,Legit
+Pillai 2,62:7f:f0:08:e8:87:,-61.0,2417000,WPA2,2,4.0,Legit
+Pillai 2,66:7f:f0:08:e8:80:,-61.0,2417000,WPA2,2,4.0,Legit
+DESKTOP-AULMLK5 8677,f6:4e:e3:91:5a:9b:,-80.0,5240000,WPA2,1,0.0,Legit
+motoedge60fusion_4408,d2:b6:47:03:20:79:,-85.0,2467000,WPA2,1,0.0,Legit
+oplus_co_aplvpz,ee:28:90:35:9b:bb:,-78.0,2462000,WPA2,1,0.0,Legit
+Guest,0e:ea:14:33:4d:3b:,-61.0,5765000,WPA2,5,42.0,Fake
+Guest,2a:70:4e:2c:6a:e2:,-61.0,5765000,WPA2,5,42.0,Fake
+Guest,0e:ea:14:22:fc:ba:,-61.0,5765000,WPA2,5,42.0,Fake
+Pillai,28:70:4e:51:c5:8d:,-68.0,5765000,WPA2,5,11.0,Legit
+Pillai,0c:ea:14:13:4d:3b:,-68.0,5765000,WPA2,5,11.0,Legit
+Pillai,0c:ea:14:12:fc:ba:,-68.0,5765000,WPA2,5,11.0,Legit
+Pillai,0c:ea:14:13:4d:3a:,-68.0,5765000,WPA2,5,11.0,Legit
+iQOO Neo7 Pro,4e:2e:24:a8:81:33:,-73.0,2437000,WPA2,1,0.0,Legit
+PHEC,46:d9:e7:21:f3:f6:,-83.0,2462000,WPA2,1,0.0,Legit
+1234,6e:b9:2c:09:73:30:,-70.0,2462000,WPA2,1,0.0,Legit
+Namrata,52:dc:4f:c6:60:87:,-68.0,2437000,WPA2,1,0.0,Legit
+tc_test,72:7e:f2:94:69:91:,-67.0,2412000,WPA2,1,0.0,Legit
+OPPO A59 5G,8a:95:aa:2c:92:f5:,-71.0,2462000,WPA2,1,0.0,Legit
+Guest,2a:70:4e:3c:6a:e3:,-76.0,5765000,WPA2,4,22.0,Fake
+SAHIL 9372,ae:e2:91:cb:da:62:,-86.0,5745000,WPA2,1,1.0,Legit
+Galaxy M30s7D3C,c6:0f:ed:00:0f:02:,-87.0,2462000,WPA2,1,7.0,Legit
+Aayush's Oppo,7a:a2:90:d9:21:d0:,-91.0,2462000,WPA2,1,0.0,Legit
+Jadhav,a6:60:7d:d3:0d:82:,-74.0,2437000,WPA2,1,0.0,Legit
+Muffu's OnePlus,42:29:af:90:18:9e:,-37.0,2412000,WPA2,1,8.0,Legit
+Pillai,28:70:4e:4c:6a:e3:,-79.0,2462000,WPA2,5,31.0,Fake
+Pillai,28:70:4e:4c:6a:e2:,-79.0,2462000,WPA2,5,31.0,Fake
+DIRECT-IEAVDHUTSHIGWANmsUC,12:68:38:9f:a1:39:,-83.0,5785000,WPA2,1,3.0,Legit
+Shubham :),ba:d5:7a:02:cb:95:,-84.0,5745000,WPA2,1,0.0,Legit
+Redmi Note 14 Pro 5G,d2:dc:15:63:bd:86:,-87.0,2467000,WPA2,1,0.0,Legit
+narzo 50i,9e:d5:91:72:07:91:,-92.0,2447000,WPA2,1,7.0,Legit
+ro,ba:fe:8a:fb:72:40:,-42.0,2412000,WPA2,1,4.0,Legit
+Raj ,46:cd:7a:0b:8a:98:,-43.0,5745000,WPA2,1,0.0,Legit
+U-RFR5ACE-A91af,5c:24:1f:f8:5a:ce:,-48.0,2437000,WPA2,1,57.0,Legit
+Raj ,92:e5:50:0b:53:b3:,-44.0,5745000,WPA2,1,0.0,Legit
+Home,54:af:97:db:f7:14:,-92.0,2417000,WPA2,1,0.0,Legit
+DESKTOP-89L1S36 3966,e6:02:9b:30:fb:97:,-50.0,2462000,WPA2,1,6.0,Legit
+PHCET,0e:ea:14:32:fc:ba:,-72.0,2412000,WPA2,5,38.0,Fake
+PHCET,2a:70:4e:4c:6a:e3:,-72.0,2412000,WPA2,5,38.0,Fake
+PHCET,2a:70:4e:3c:6a:e2:,-72.0,2412000,WPA2,5,38.0,Fake
+PHCET,7a:a7:41:81:d3:9e:,-72.0,2412000,WPA2,5,38.0,Fake
+PHCET,7a:a7:41:82:d3:9e:,-72.0,2412000,WPA2,5,38.0,Fake
+Guest,0e:ea:14:23:24:e2:,-73.0,2412000,WPA2,7,37.0,Fake
+OPPO F23 5G,7e:4f:5e:e5:be:01:,-88.0,2432000,WPA2,1,0.0,Legit
+Dev,ae:f7:33:9d:23:1c:,-67.0,5805000,WPA2,1,1.0,Legit
+AMOGHSHIVAM,6e:f6:da:49:11:d7:,-52.0,5220000,WPA2,1,7.0,Legit
+Mihir,d2:c2:e8:43:3e:53:,-47.0,5220000,WPA2,1,2.0,Legit
+PHCET,0e:ea:14:13:24:e2:,-74.0,2412000,WPA2,6,33.0,Fake
+Pillai,78:45:58:ef:47:4a:,-69.0,2412000,WPA2,4,37.0,Fake
+Pillai,0c:ea:14:13:24:e2:,-69.0,2412000,WPA2,4,37.0,Fake
+Guest,7a:45:58:9f:47:4a:,-73.0,2412000,WPA2,5,33.0,Fake
+vivo 2015,d6:83:94:b6:57:29:,-84.0,2462000,WPA2,1,0.0,Legit
+moto edge 60 pro_5688,d2:db:00:c0:7b:3b:,-82.0,2462000,WPA2,1,0.0,Legit
+OPPO F21 Pro 5G,02:e4:00:5e:14:96:,-93.0,2462000,WPA2,1,0.0,Legit
+motoedge60fusion,fa:fb:3c:84:58:83:,-88.0,2437000,WPA2,1,0.0,Legit
+OnePlus Nord CE5 4FAE,52:86:88:fc:a5:3b:,-36.0,5745000,WPA2,1,0.0,Legit
+OfficeWiFi,00:11:22:33:44:55,-64.0,2412,WPA2,2,2.0,Legit
+OfficeWiFi,AA:BB:CC:11:22:33,-41.8,2412,OPEN,2,27.0,Legit
+GuestWiFi,66:77:88:99:AA:BB,-78.0,5180,WPA2,1,2.0,Legit
+ro3,76:f0:fa:35:04:4a:,-35.2,5180000,WPA2,1,1.0,Legit
+DPUP,98:03:8e:eb:5e:98:,-65.0,2427000,WPA2,1,3.0,Legit
+PRAMILA_5G,b4:f9:49:d2:43:61:,-91.0,5220000,WPA2,1,0.0,Legit
+D-Link_DIR-615,58:d5:6e:d7:1d:5c:,-85.0,2437000,WPA2,1,2.0,Legit
+TP-Link_F58C,50:91:e3:2d:f5:8c:,-86.7,2422000,WPA2,1,2.0,Legit
+Sarthak,ac:a7:f1:97:8b:50:,-83.5,2412000,WPA2,1,3.0,Legit
+ARUN 2G,b8:b7:db:22:02:36:,-82.0,2422000,WPA2,1,0.0,Legit
+TP-Link_9386,b4:b0:24:4d:93:86:,-87.0,2427000,WPA2,1,2.0,Legit
+Tejal Pawar,98:9d:b2:4b:5a:69:,-79.3,2462000,WPA2,1,4.0,Legit
+iBall-Baton,a0:47:d7:19:b3:20:,-86.5,2437000,WPA2,1,1.0,Legit
+Vandan 4G,b8:b7:db:04:5b:f6:,-90.0,2427000,WPA2,1,0.0,Legit
+COPS,f0:09:0d:d7:30:ca:,-78.0,2457000,WPA2,1,0.0,Legit
+Shreyas,98:25:4a:b3:ea:e4:,-84.0,2457000,WPA2,1,0.0,Legit
+S K ENTERPRISES 2G,b8:b7:db:28:84:bd:,-86.0,2452000,WPA2,1,0.0,Legit
+PRAMILA_4G,b4:f9:49:d2:43:65:,-78.0,2452000,WPA2,1,0.0,Legit
+Aachal,bc:07:1d:d1:af:78:,-84.0,2452000,WPA2,1,0.0,Legit
+Airtel_ragh_3995,c4:9a:31:88:f6:66:,-90.0,2442000,WPA2,1,0.0,Legit
+Nilesh,74:61:d1:00:6f:36:,-86.0,2437000,WPA2,1,0.0,Legit

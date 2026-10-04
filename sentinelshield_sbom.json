@@ -1,0 +1,599 @@
+{
+  "format": "SentinelShield software inventory v1",
+  "components": [
+    [
+      "CacheControl",
+      "0.14.4"
+    ],
+    [
+      "Jinja2",
+      "3.1.6"
+    ],
+    [
+      "MarkupSafe",
+      "3.0.4"
+    ],
+    [
+      "PyJWT",
+      "2.15.1"
+    ],
+    [
+      "altair",
+      "6.3.0"
+    ],
+    [
+      "anyio",
+      "4.15.1"
+    ],
+    [
+      "attrs",
+      "26.1.0"
+    ],
+    [
+      "certifi",
+      "2026.7.22"
+    ],
+    [
+      "cffi",
+      "2.1.1"
+    ],
+    [
+      "charset-normalizer",
+      "3.5.2"
+    ],
+    [
+      "click",
+      "8.5.0"
+    ],
+    [
+      "cloudpickle",
+      "3.1.2"
+    ],
+    [
+      "comtypes",
+      "1.4.17"
+    ],
+    [
+      "cryptography",
+      "50.0.2"
+    ],
+    [
+      "et_xmlfile",
+      "2.0.0"
+    ],
+    [
+      "firebase_admin",
+      "7.7.0"
+    ],
+    [
+      "google-api-core",
+      "2.40.0"
+    ],
+    [
+      "google-auth",
+      "2.59.1"
+    ],
+    [
+      "google-cloud-core",
+      "2.8.0"
+    ],
+    [
+      "google-cloud-firestore",
+      "2.34.0"
+    ],
+    [
+      "google-cloud-storage",
+      "3.16.0"
+    ],
+    [
+      "google-crc32c",
+      "1.9.0"
+    ],
+    [
+      "google-resumable-media",
+      "2.11.0"
+    ],
+    [
+      "googleapis-common-protos",
+      "1.75.5"
+    ],
+    [
+      "grpcio",
+      "1.84.0"
+    ],
+    [
+      "grpcio-status",
+      "1.84.0"
+    ],
+    [
+      "h11",
+      "0.16.0"
+    ],
+    [
+      "h2",
+      "4.4.1"
+    ],
+    [
+      "hpack",
+      "4.2.0"
+    ],
+    [
+      "httpcore",
+      "1.0.9"
+    ],
+    [
+      "httptools",
+      "0.8.0"
+    ],
+    [
+      "httpx",
+      "0.28.1"
+    ],
+    [
+      "hyperframe",
+      "6.1.0"
+    ],
+    [
+      "idna",
+      "3.20"
+    ],
+    [
+      "itsdangerous",
+      "2.2.0"
+    ],
+    [
+      "joblib",
+      "1.6.0"
+    ],
+    [
+      "jsonschema",
+      "4.26.0"
+    ],
+    [
+      "jsonschema-specifications",
+      "2025.9.1"
+    ],
+    [
+      "msgpack",
+      "1.2.3"
+    ],
+    [
+      "narwhals",
+      "2.26.0"
+    ],
+    [
+      "numpy",
+      "2.5.3"
+    ],
+    [
+      "openpyxl",
+      "3.1.5"
+    ],
+    [
+      "opentelemetry-api",
+      "1.45.0"
+    ],
+    [
+      "packaging",
+      "26.3"
+    ],
+    [
+      "pandas",
+      "3.0.6"
+    ],
+    [
+      "pillow",
+      "12.3.0"
+    ],
+    [
+      "pip",
+      "26.2.1"
+    ],
+    [
+      "plyer",
+      "2.1.0"
+    ],
+    [
+      "proto-plus",
+      "1.29.0"
+    ],
+    [
+      "protobuf",
+      "7.36.2"
+    ],
+    [
+      "pyarrow",
+      "25.0.1"
+    ],
+    [
+      "pyasn1",
+      "0.6.4"
+    ],
+    [
+      "pyasn1_modules",
+      "0.4.2"
+    ],
+    [
+      "pycparser",
+      "3.0"
+    ],
+    [
+      "pydeck",
+      "0.9.3"
+    ],
+    [
+      "python-dateutil",
+      "2.9.0.post0"
+    ],
+    [
+      "python-multipart",
+      "0.0.32"
+    ],
+    [
+      "pywifi",
+      "1.1.12"
+    ],
+    [
+      "referencing",
+      "0.37.0"
+    ],
+    [
+      "reportlab",
+      "5.0.1"
+    ],
+    [
+      "requests",
+      "2.34.2"
+    ],
+    [
+      "rpds-py",
+      "2026.6.3"
+    ],
+    [
+      "scapy",
+      "2.8.0"
+    ],
+    [
+      "scikit-learn",
+      "1.9.1"
+    ],
+    [
+      "scipy",
+      "1.18.1"
+    ],
+    [
+      "six",
+      "1.17.0"
+    ],
+    [
+      "starlette",
+      "1.7.0"
+    ],
+    [
+      "streamlit",
+      "1.65.0"
+    ],
+    [
+      "streamlit-autorefresh",
+      "1.0.1"
+    ],
+    [
+      "threadpoolctl",
+      "3.7.0"
+    ],
+    [
+      "toml",
+      "0.10.2"
+    ],
+    [
+      "typing_extensions",
+      "4.16.0"
+    ],
+    [
+      "tzdata",
+      "2026.5"
+    ],
+    [
+      "urllib3",
+      "2.8.0"
+    ],
+    [
+      "uvicorn",
+      "0.54.0"
+    ],
+    [
+      "watchdog",
+      "6.0.0"
+    ],
+    [
+      "websockets",
+      "17.2"
+    ]
+  ],
+  "source_files": [
+    {
+      "path": "active_mitigation.py",
+      "sha256": "4a6ee37014853c46529e71819658aa61b6f88aebe93825c0650cafa7d6f3f5fd"
+    },
+    {
+      "path": "adaptive_thresholds.py",
+      "sha256": "c417497bc4d6896fa53f903099bf17fbb2e1b4d6834e97c4d65ae26fccf970bd"
+    },
+    {
+      "path": "advanced_features.py",
+      "sha256": "3556e0de4483db43264b864c5958386dc4dbf04674add9351e71119107b70e8a"
+    },
+    {
+      "path": "ADVANCED_SETUP.py",
+      "sha256": "6200e661255f2967e00a5d207381b93c9b8519258ec49d5c30036bb0d145823f"
+    },
+    {
+      "path": "alert_logger.py",
+      "sha256": "5984602d30ecc622bb17c4e9848e4ccec9492455135056eb3ac9e854b8198aca"
+    },
+    {
+      "path": "analyst_feedback.py",
+      "sha256": "2063e4349ada7d0a006aac924ffb511cf888aee91ecc31ebcd5cd0e260e113a2"
+    },
+    {
+      "path": "anomaly_detector.py",
+      "sha256": "60c285a7a40f6f2deab92bb054f857af0a13583261933938e4b26c875b913169"
+    },
+    {
+      "path": "background_scanner.py",
+      "sha256": "6f95d88bd594dbc898528b3cde3a14645610ce689c269661fb89621e0b17e614"
+    },
+    {
+      "path": "bluetooth_context.py",
+      "sha256": "c8978da54aa9b4747611a3a545ed1fc80add00d43cb653e98109db0801c361d6"
+    },
+    {
+      "path": "code_risk_scan.py",
+      "sha256": "c2d84d2c3740b4a593b4dcbaebfcaf29af21a8af84cf9bbf93ee152d1501fa87"
+    },
+    {
+      "path": "code_risk_watch.py",
+      "sha256": "60552f69bcc7fd0ac123148fd9844bb7c6730b6474e5bce2a21756a08efb90e5"
+    },
+    {
+      "path": "connection_monitor.py",
+      "sha256": "33a1c9a15d08b420fe328fe414cd48fff98bcd8eae407e44982d2c394be5e2c1"
+    },
+    {
+      "path": "crypto_telemetry.py",
+      "sha256": "33e446e91a4de72fa290fa5e747649b2f5a93880893f10182c92b057529083b8"
+    },
+    {
+      "path": "dashboard.py",
+      "sha256": "bd1a0f3058187228f0f9a6cd70815226a422f8f99f5e4552f82ebc573806baaa"
+    },
+    {
+      "path": "data_collector.py",
+      "sha256": "b5a2bbeff03efc90ee95ab1c9fd4a888fc2e7eab7d205373fbdea1411ff8e339"
+    },
+    {
+      "path": "data_validation.py",
+      "sha256": "63a1708822a01864d481ad782e7c78b8fc70599c83fc37f4060bd744f5934e4f"
+    },
+    {
+      "path": "database_manager.py",
+      "sha256": "e94f757e6563b990958942874ccf44c1a57268e862b930b9d60a9f58aa6b53e6"
+    },
+    {
+      "path": "deception_engine.py",
+      "sha256": "949fb9b7e4511b15f3311d93fac92043887712c07f4794f2e7402cd30f0db816"
+    },
+    {
+      "path": "evaluation.py",
+      "sha256": "ac92e98c9c5919341c685d942580cd29a67f18372388448335b5d92ce2b2d1e4"
+    },
+    {
+      "path": "evidence_fusion.py",
+      "sha256": "817c6752a7c19329e47128e20372a12b4fbdc732162bd7406497955187518a18"
+    },
+    {
+      "path": "evidence_integrity.py",
+      "sha256": "45b2c4f9f3fa9bee57d719f851cbf9632efeb4f33b92b989f1cbe7baa41ff2eb"
+    },
+    {
+      "path": "fast_scan.py",
+      "sha256": "e6e97f975e69a337ed7c9ce50bdc52197659c17b55f2e883c887b70767776710"
+    },
+    {
+      "path": "fast_wifi_scanner.py",
+      "sha256": "ce24b86afe01a0ffe322435a04f5141deaeff8a5ceeea51994696b7004c40a1a"
+    },
+    {
+      "path": "feature_engine.py",
+      "sha256": "84e08269f5a667ac0bdb1edb27348f7a9dbc4a4eff34f6ffc03380e0e59034a6"
+    },
+    {
+      "path": "federated_node.py",
+      "sha256": "8a4e644ab1d2cd9853af159a0d413e108445e5482532150aebebc2498c9775e6"
+    },
+    {
+      "path": "federated_server.py",
+      "sha256": "b83d1787e16144c7151a9151137d682fdbf41fce56ec7a8ca9ec9799c6006dec"
+    },
+    {
+      "path": "generate_sbom.py",
+      "sha256": "0a9352c3729a42708b6c0ec32f38152bfb76317cb17e171a27088aa8485ab510"
+    },
+    {
+      "path": "gnn_analyzer.py",
+      "sha256": "7176123c11c395eb6b9ac9ca15208ef545bd2a6e46bca458ba9946251591aa66"
+    },
+    {
+      "path": "incident_assistant.py",
+      "sha256": "01a1d24fc608ebec532d0d54f75f7ba192d01dbb9fdb0f3b895d8fcc9bd17c3b"
+    },
+    {
+      "path": "init_db.py",
+      "sha256": "770a14d59dbf8ed4b0c91c26e426b7be3ddfaef6f30e7409de5cc1f398b8bdae"
+    },
+    {
+      "path": "live_scan.py",
+      "sha256": "edbda6ddd4a979998e0d51c7d51b4eaf232579f192c0285ba252c7b8f8686ae8"
+    },
+    {
+      "path": "localization.py",
+      "sha256": "d2df52000e28075b71ed7176f83556bc13fbfa6e37a050fee5a9c1f0ca9f75e6"
+    },
+    {
+      "path": "location_context.py",
+      "sha256": "510402d56c96d81e78467caefe8b3f1c8cad70b9dcf00d0793af7d08ea817275"
+    },
+    {
+      "path": "main.py",
+      "sha256": "bf782c36078a4bc694aeb266442b715b02e2ba8a20d8133435c7c93275191e32"
+    },
+    {
+      "path": "main_advanced.py",
+      "sha256": "9b3323e8d81bc433eebef5d3bf6d56c122362e9ec8f4ecf8a70c0272c4159bba"
+    },
+    {
+      "path": "ml_ensemble.py",
+      "sha256": "dd07e8d8ea6624568217b1b74d86f0a1fc84767ac88d6b6c0384b80f792ce77c"
+    },
+    {
+      "path": "ml_evidence.py",
+      "sha256": "456e3ce03cefce7c44651a42d39c5bbebad9487a1e6fa8a4eb28d12d1cc57635"
+    },
+    {
+      "path": "ml_model.py",
+      "sha256": "25cd947d280b0426ec85fd5c6b6f5eb7e2888162cc79ded26fb4f6399e7cabed"
+    },
+    {
+      "path": "NEXTGEN_DETECTION_GUIDE.py",
+      "sha256": "c48d9b64bebf0c963972dd857549f6fd136b7fbb07eab09010f45a93cb22148b"
+    },
+    {
+      "path": "notification_manager.py",
+      "sha256": "e2a186560c7fb3a7553d5eb70c33eb887f9c2c838ebf465c6c28a050cd449c9e"
+    },
+    {
+      "path": "packet_sniffer.py",
+      "sha256": "e42dfbe1d0ee553883dc845124752376e6a59235d23fecb9f6c579bec8d4fc54"
+    },
+    {
+      "path": "performance_benchmark.py",
+      "sha256": "b82798205b504467004180383e36a5657df7ffde847efeef186fa9b78a711f0f"
+    },
+    {
+      "path": "report_generator.py",
+      "sha256": "7299c5bdc4d89a47e39f2e3996f52df17c67484d3d1094d82847019f47753a24"
+    },
+    {
+      "path": "rssi_raim.py",
+      "sha256": "111c72edba70c4ecd93827fed6efdecfc540dc0563293e4f36d693c30606f336"
+    },
+    {
+      "path": "run_advanced_scan.py",
+      "sha256": "ccc9979d3b5c4105b6467914522b79b8f7a7f6162b4c1a85057f616c6f634fb6"
+    },
+    {
+      "path": "runtime_config.py",
+      "sha256": "ed2a5bf95d03a028608261af684a98b088007d072db08006bfc0035e5270d51f"
+    },
+    {
+      "path": "scan_controller.py",
+      "sha256": "33a11bf6a90b8919580b6bcd94aa9f309a7147720efde1ac0888a21427476f31"
+    },
+    {
+      "path": "scanner.py",
+      "sha256": "08e4db80d4e28409d1148e77bcaead36eae30fc1818d95a76ac78af35854b94c"
+    },
+    {
+      "path": "scapy_capture.py",
+      "sha256": "269c7ebaa3dfc017110551758171dfdefa32ad04720f12a60c91046e886cf277"
+    },
+    {
+      "path": "scheduled_report.py",
+      "sha256": "6f792249e4cca5bcbb57a0782074a5bb02c89f1d9bf23507f9d34c7d0d100d71"
+    },
+    {
+      "path": "security_manager.py",
+      "sha256": "0b60f9bf33b6240603d77e7c3b9ba3049ece17a856a9846aeaa1bcf978164078"
+    },
+    {
+      "path": "sensor_fusion.py",
+      "sha256": "3760a7110e8f7065ec60de5904a51420ceb3176f05438d8d0a5a794eebcfc253"
+    },
+    {
+      "path": "sensor_mesh.py",
+      "sha256": "0f0b19e9226a25e2c189e1a807130e68417965c5c1b49a34749901af02b73886"
+    },
+    {
+      "path": "signal_analyzer.py",
+      "sha256": "e7628aa677f5dad4266d70d34cc866427496a473683f4e779de4e810cd949b43"
+    },
+    {
+      "path": "styles.py",
+      "sha256": "68179667fb26c48fb8997bb9906c8193f56c699d12cdb52e34947d70daf48709"
+    },
+    {
+      "path": "supply_chain.py",
+      "sha256": "9c3ec8a3f4c32579910a93d327b74ce9ed939d25a506e08ed90fcdbf5eeb774e"
+    },
+    {
+      "path": "temporal_analyzer.py",
+      "sha256": "fe2160663a77fc037b86520b2f30735a7edc423b5a68d78ed73adcacb4e3b58c"
+    },
+    {
+      "path": "test 01-1.py",
+      "sha256": "d809edead6d1d25757c1fa23ee6bbe73648ded5687fb258655f93f216c8f9795"
+    },
+    {
+      "path": "test_notification.py",
+      "sha256": "cd571878d6ecf8128d33ca2bfb7ec63b88bd3af28f862208b0d99516e14d4513"
+    },
+    {
+      "path": "test_report.py",
+      "sha256": "2c23f2da4da00ccc1f8190b7699c0795346c02bc20a88214b95290db70526365"
+    },
+    {
+      "path": "TESTING_GUIDE.py",
+      "sha256": "ddb30bef27911747ec630a55ddd90d8fa5b0c3b4c815b400dcb5e399d01c033e"
+    },
+    {
+      "path": "threat_analyzer.py",
+      "sha256": "b1a8ca084e7ff6fb94274e955ceb78584d7e5705db8b51642722d6475b2af58d"
+    },
+    {
+      "path": "threat_intelligence.py",
+      "sha256": "272a1dde2492054a5b6bc2290ed7d88fd64fb95634b42da2e8d238f52e325d33"
+    },
+    {
+      "path": "train_isolation_forest.py",
+      "sha256": "ab4416f6755c722f538c63fd91b270e00c42a4c03c0385608d716f2c538c67ea"
+    },
+    {
+      "path": "train_model.py",
+      "sha256": "deb5672ad6759912a26b778fc2b95df116be70cff2ce8d770b6cd76367cc3d56"
+    },
+    {
+      "path": "update_db.py",
+      "sha256": "0c51adc5b14d93fd7aa3b1f2aaa019713823622d1d6760ac50ed62cd414a14ed"
+    },
+    {
+      "path": "verify_setup.py",
+      "sha256": "fb02453a41baacd1386a17bd206ed6b3a7de0af0019333bbf44e09b0b8ca861f"
+    },
+    {
+      "path": "wifi_fingerprint.py",
+      "sha256": "dd21190c3d533e331ee3372b0e243d6edd890e77a532fea94979c7b3b2011b15"
+    },
+    {
+      "path": "wifi_sensing.py",
+      "sha256": "42051655520b80f11d632d0e35665ee921a7bba0d334de3532d3fc19437c8f92"
+    },
+    {
+      "path": "wired_correlation.py",
+      "sha256": "e547467213372fbd62300b4002118d1afa29294612095062230d68cfd8f5666f"
+    },
+    {
+      "path": "xai_explain.py",
+      "sha256": "e185d128b5d6cf4d827b7b61b68fe15495210f143b94caa856d6e4ed1987f48d"
+    }
+  ]
+}

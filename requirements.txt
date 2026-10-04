@@ -1,0 +1,20 @@
+# Core scanning / ML
+pandas
+numpy
+scikit-learn
+scapy
+pywifi
+# Windows backend used by pywifi for adapter discovery
+comtypes
+plyer
+
+# Dashboard
+streamlit
+streamlit-autorefresh
+
+# Reporting
+reportlab
+openpyxl
+
+# Cloud Threat Intelligence (optional — offline mode works without it)
+firebase-admin
