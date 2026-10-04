@@ -1,0 +1,34 @@
+{
+  "method": "permutation_importance",
+  "score": "roc_auc_decrease",
+  "rows": "cleaned_training_rows",
+  "is_detection_accuracy": false,
+  "note": "Permutation importance on the cleaned training rows shows which inputs the saved model uses. It is not a detection rate.",
+  "features": [
+    {
+      "feature": "Security_enc",
+      "label": "Security",
+      "importance": 0.056508
+    },
+    {
+      "feature": "RSSI",
+      "label": "RSSI",
+      "importance": 0.0
+    },
+    {
+      "feature": "Channel",
+      "label": "Channel (MHz)",
+      "importance": 0.0
+    },
+    {
+      "feature": "AP_Count",
+      "label": "AP count",
+      "importance": 0.0
+    },
+    {
+      "feature": "Signal_Var",
+      "label": "Signal variance",
+      "importance": 0.0
+    }
+  ]
+}

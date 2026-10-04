@@ -39,6 +39,14 @@ are still clamped to a sane [min, max] band (BAND below) so the system
 never collapses to "everything is CRITICAL" or "nothing is ever
 CRITICAL" in a pathological environment.
 
+The risk-history baseline stays the starting point. A scan can also pass
+the number of visible APs and an interference proxy (the standard
+deviation of RSSI across that scan). Those are compared with the EWMA of
+earlier scans, or with a fixed reference before any density has been
+learned. A denser or noisier scan than that reference shifts every cut
+point up; a quieter scan shifts them down. Warm-up still ignores both
+and returns the fixed 75/50/30 cut points.
+
 Until enough scans have been observed (WARMUP_SAMPLES), the engine
 falls back to the original fixed 75/50/30 thresholds, so a fresh
 install behaves exactly as before and only starts adapting once it has
@@ -80,11 +88,24 @@ K_MEDIUM = float(_CONFIG["multipliers"]["medium"])
 BAND = {name: tuple(sorted(map(float, values))) for name, values in _CONFIG["bands"].items()}
 
 
+# Crowding shift. 0.6 of the shift follows AP density and 0.4 follows the
+# RSSI standard deviation. Factors are clamped so one extreme scan cannot
+# throw the cut points out of BAND on its own.
+DENSITY_REFERENCE = 8.0
+NOISE_REFERENCE = 12.0
+CROWDING_GAIN = 10.0
+MAX_CROWDING_FACTOR = 1.5
+
+
 @dataclass
 class ThresholdState:
     count: int = 0
     mean: float = 0.0
     var: float = 0.0  # EWMA variance estimate
+    density_count: int = 0
+    density_mean: float = 0.0
+    noise_count: int = 0
+    noise_mean: float = 0.0
 
 
 class AdaptiveThresholdEngine:
@@ -92,9 +113,15 @@ class AdaptiveThresholdEngine:
     CRITICAL / HIGH / MEDIUM cut points from it, instead of relying on
     fixed constants."""
 
-    def __init__(self, state_path=DEFAULT_STATE_PATH, alpha: float = EWMA_ALPHA):
+    def __init__(self, state_path=DEFAULT_STATE_PATH, alpha: float = EWMA_ALPHA,
+                 density_reference: float = DENSITY_REFERENCE, noise_reference: float = NOISE_REFERENCE,
+                 crowding_gain: float = CROWDING_GAIN, max_crowding_factor: float = MAX_CROWDING_FACTOR):
         self.state_path = Path(state_path)
         self.alpha = alpha
+        self.density_reference = density_reference
+        self.noise_reference = noise_reference
+        self.crowding_gain = crowding_gain
+        self.max_crowding_factor = max_crowding_factor
         self.state = self._load_state()
 
     # ---------------------------------------------------------- persistence
@@ -106,6 +133,10 @@ class AdaptiveThresholdEngine:
                     count=int(data.get("count", 0)),
                     mean=float(data.get("mean", 0.0)),
                     var=float(data.get("var", 0.0)),
+                    density_count=int(data.get("density_count", 0)),
+                    density_mean=float(data.get("density_mean", 0.0)),
+                    noise_count=int(data.get("noise_count", 0)),
+                    noise_mean=float(data.get("noise_mean", 0.0)),
                 )
             except Exception:
                 pass
@@ -125,9 +156,13 @@ class AdaptiveThresholdEngine:
         self._save_state()
 
     # ------------------------------------------------------------ updating
-    def update(self, risk_scores):
+    def update(self, risk_scores, ap_count=None, interference=None):
         """Feed this scan cycle's risk/threat scores into the running
-        baseline. Call once per scan pass, after scoring every network."""
+        baseline. Call once per scan pass, after scoring every network.
+
+        `ap_count` is the number of APs in the scan. `interference` is the
+        RSSI standard deviation in dB. Each is recorded once per call.
+        """
         for score in risk_scores:
             try:
                 score = float(score)
@@ -141,22 +176,76 @@ class AdaptiveThresholdEngine:
                 delta = score - self.state.mean
                 self.state.mean += self.alpha * delta
                 self.state.var = (1 - self.alpha) * (self.state.var + self.alpha * delta * delta)
+        if ap_count is not None:
+            self._observe_level("density_count", "density_mean", ap_count)
+        if interference is not None:
+            try:
+                noise = max(0.0, float(interference))
+            except (TypeError, ValueError):
+                noise = None
+            if noise is not None and math.isfinite(noise):
+                self._observe_level("noise_count", "noise_mean", noise)
         self._save_state()
 
+    def _observe_level(self, count_name: str, mean_name: str, value: float):
+        try:
+            value = float(value)
+        except (TypeError, ValueError):
+            return
+        if not math.isfinite(value):
+            return
+        count = getattr(self.state, count_name) + 1
+        setattr(self.state, count_name, count)
+        if count == 1:
+            setattr(self.state, mean_name, value)
+            return
+        mean = getattr(self.state, mean_name)
+        setattr(self.state, mean_name, mean + self.alpha * (value - mean))
+
     # --------------------------------------------------------- computation
-    def get_thresholds(self):
+    def _crowding_factor(self, value, learned_count: int, learned_mean: float, reference: float) -> float:
+        baseline = learned_mean if learned_count else reference
+        baseline = max(float(baseline), 1.0)
+        factor = (float(value) - baseline) / baseline
+        return min(self.max_crowding_factor, max(-0.75, factor))
+
+    def _crowding_shift(self, ap_count, interference) -> float:
+        """Positive shift raises cut points (less sensitive) in a crowd."""
+        weighted = []
+        if ap_count is not None:
+            weighted.append((0.6, self._crowding_factor(
+                ap_count, self.state.density_count, self.state.density_mean, self.density_reference
+            )))
+        if interference is not None:
+            weighted.append((0.4, self._crowding_factor(
+                interference, self.state.noise_count, self.state.noise_mean, self.noise_reference
+            )))
+        if not weighted:
+            return 0.0
+        weight_sum = sum(weight for weight, _factor in weighted)
+        shift = self.crowding_gain * sum(weight * factor for weight, factor in weighted) / weight_sum
+        limit = self.crowding_gain * self.max_crowding_factor
+        return min(limit, max(-limit, shift))
+
+    def get_thresholds(self, ap_count=None, interference=None):
         """Return (thresholds_dict, mode) where mode is 'warming_up' or
-        'adaptive'."""
+        'adaptive'.
+
+        During warm-up the fixed cut points are returned even if density or
+        interference was passed. After warm-up, omitting both leaves the
+        risk-history cut points unchanged.
+        """
         if self.state.count < WARMUP_SAMPLES:
             return dict(FALLBACK_THRESHOLDS), "warming_up"
 
         std = max(math.sqrt(max(self.state.var, 0.0)), MIN_STD)
         mean = self.state.mean
+        shift = self._crowding_shift(ap_count, interference)
 
         raw = {
-            "critical": mean + K_CRITICAL * std,
-            "high": mean + K_HIGH * std,
-            "medium": mean + K_MEDIUM * std,
+            "critical": mean + K_CRITICAL * std + shift,
+            "high": mean + K_HIGH * std + shift,
+            "medium": mean + K_MEDIUM * std + shift,
         }
 
         clamped = {
@@ -198,7 +287,36 @@ class AdaptiveThresholdEngine:
             "baseline_mean": round(self.state.mean, 2),
             "baseline_std": round(std, 2),
             "thresholds": {k: round(v, 1) for k, v in thresholds.items()},
+            "density_samples": self.state.density_count,
+            "density_mean": round(self.state.density_mean, 2),
+            "noise_samples": self.state.noise_count,
+            "noise_mean": round(self.state.noise_mean, 2),
+            "density_reference": self.density_reference,
+            "noise_reference": self.noise_reference,
         }
+
+
+def scan_crowding(ap_count, rssi_values):
+    """AP count plus the sample standard deviation of RSSI, in dB."""
+    values = []
+    for value in rssi_values or []:
+        try:
+            number = float(value)
+        except (TypeError, ValueError):
+            continue
+        if math.isfinite(number):
+            values.append(number)
+    if len(values) < 2:
+        interference = 0.0
+    else:
+        mean = sum(values) / len(values)
+        variance = sum((item - mean) ** 2 for item in values) / (len(values) - 1)
+        interference = math.sqrt(variance)
+    try:
+        count = max(0, int(ap_count))
+    except (TypeError, ValueError):
+        count = 0
+    return {"ap_count": count, "interference": interference}
 
 
 if __name__ == "__main__":

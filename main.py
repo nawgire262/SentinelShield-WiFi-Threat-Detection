@@ -15,6 +15,8 @@ from collections import defaultdict
 
 from scanner import select_wifi_interface
 from rssi_raim import rssi_to_distance, raim_consistency_check, is_temporally_unstable
+from ensemble_contract import probability_column
+import numpy as np
 
 # ================= LOAD MODELS (tiered, graceful fallback) =================
 ml_mode = "none"
@@ -37,12 +39,19 @@ try:
             iso_model = pickle.load(f)
         with open("meta_model.pkl", "rb") as f:
             meta_model = pickle.load(f)
+        with open("scaler.pkl", "rb") as f:
+            feature_scaler = pickle.load(f)
+        with open("meta_scaler.pkl", "rb") as f:
+            meta_scaler = pickle.load(f)
         ml_mode = "hybrid"
     except Exception:
-        pass  # stay in "basic" mode
+        feature_scaler = None
+        meta_scaler = None
 
 except Exception:
     print("⚠️ ML models not found. Running rule-based only.")
+    feature_scaler = None
+    meta_scaler = None
 
 print(f"🧠 ML mode: {ml_mode}")
 
@@ -237,21 +246,24 @@ with open(CURRENT_SCAN_FILE, "w", newline="", encoding="utf-8") as scan_f:
                 # ================= ML LAYER =================
                 if ml_mode in ("basic", "hybrid"):
                     try:
-                        if security in le_security.classes_:
-                            sec_encoded = le_security.transform([security])[0]
-                        else:
-                            sec_encoded = 0
+                        security_name = str(security or "OPEN").upper()
+                        security_classes = list(le_security.classes_)
+                        if security_name not in security_classes:
+                            security_name = "WPA2" if "WPA2" in security_classes else security_classes[0]
+                        sec_encoded = le_security.transform([security_name])[0]
 
-                        sample = pd.DataFrame([{
-                            "RSSI": avg_signal,
-                            "Channel": channel,
-                            "Security_enc": sec_encoded,
-                            "AP_Count": ap_count,
-                            "Signal_Var": signal_var
-                        }])
+                        sample = np.array([[
+                            avg_signal,
+                            channel,
+                            sec_encoded,
+                            ap_count,
+                            signal_var,
+                        ]], dtype=float)
+                        if feature_scaler is not None:
+                            sample = feature_scaler.transform(sample)
 
-                        rf_proba = rf_model.predict_proba(sample)[0][fake_idx]
-                        knn_proba = knn_model.predict_proba(sample)[0][fake_idx]
+                        rf_proba = float(probability_column(rf_model, rf_model.predict_proba(sample), fake_idx)[0])
+                        knn_proba = float(probability_column(knn_model, knn_model.predict_proba(sample), fake_idx)[0])
                         rf_result = "Fake" if rf_proba > 0.5 else "Legit"
                         knn_result = "Fake" if knn_proba > 0.5 else "Legit"
                         meta_contributions.append(("Random Forest", round((rf_proba - 0.5) * 100, 1)))
@@ -263,9 +275,11 @@ with open(CURRENT_SCAN_FILE, "w", newline="", encoding="utf-8") as scan_f:
                             iso_result = "Anomaly" if iso_pred == -1 else "Normal"
                             meta_contributions.append(("Isolation Forest", round((iso_score / max(abs(iso_score), 1)) * 100, 1)))
 
-                            meta_features = [[rf_proba, knn_proba, iso_score]]
+                            meta_features = np.array([[rf_proba, knn_proba, iso_score]], dtype=float)
+                            if meta_scaler is not None:
+                                meta_features = meta_scaler.transform(meta_features)
                             meta_pred_num = meta_model.predict(meta_features)[0]
-                            meta_proba = meta_model.predict_proba(meta_features)[0][fake_idx]
+                            meta_proba = float(probability_column(meta_model, meta_model.predict_proba(meta_features), fake_idx)[0])
 
                             meta_result = le_label.inverse_transform([meta_pred_num])[0]
                             meta_conf = round(float(meta_proba if meta_result == "Fake" else 1 - meta_proba) * 100, 1)
