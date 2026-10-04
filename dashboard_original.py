@@ -9,7 +9,6 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-import altair as alt
 import pandas as pd
 import streamlit as st
 
@@ -44,82 +43,20 @@ SETTINGS_FILE = ROOT / "dashboard_settings.json"
 THRESHOLD_STATE_FILE = ROOT / "adaptive_threshold_state.json"
 
 st.set_page_config(page_title="SentinelShield", page_icon="🛡️", layout="wide")
-def load_dashboard_styles() -> None:
-    """Load presentation-only CSS from the dedicated asset file."""
-    css_path = ROOT / "assets" / "style.css"
-    try:
-        st.markdown(f"<style>{css_path.read_text(encoding='utf-8')}</style>", unsafe_allow_html=True)
-    except OSError as exc:
-        st.warning(f"Dashboard styling could not be loaded: {exc}")
-
-
-load_dashboard_styles()
-
-
-def apply_color_scheme(dark_theme: bool) -> None:
-    """Switch presentation tokens only; scanner and detection state are untouched."""
-    if not dark_theme:
-        return
-    st.markdown("""
-    <style>
-    :root { --ink:#e8edf7; --muted:#a7b2c5; --line:#29364b; --panel:#121c2b; --canvas:#0b1320; --accent:#8da5ff; }
-    [data-testid="stSidebar"] { background:#101a29; }
-    [data-testid="stHeader"] { background:rgba(11,19,32,.88); }
-    [data-testid="stVerticalBlockBorderWrapper"], [data-testid="stExpander"] { background:var(--panel); }
-    [data-testid="stDataFrame"] canvas { filter: invert(.88) hue-rotate(180deg); }
-    [data-testid="stDataFrame"] { background:#121c2b !important; }
-    [data-baseweb="select"] > div, [data-baseweb="input"] > div, [data-testid="stTextInput"] input { color:#e8edf7 !important; }
-    .ss-status { color:#8be1bd; background:#102d27; border-color:#245a4c; }
-    .ss-status--idle { color:#b7c0cf; background:#1a2636; border-color:#35445a; }
-    .ss-empty { background:var(--panel); border-color:#40506a; }
-    .ss-critical { background:#321c27; color:#ffb7be; }
-    </style>
-    """, unsafe_allow_html=True)
-
-
-def chart_palette() -> dict[str, str]:
-    """Return visual tokens only; chart data remains the backend-provided data."""
-    if st.session_state.get("dark_theme", False):
-        return {"background": "#121c2b", "text": "#e8edf7", "grid": "#2b3a50", "muted": "#a7b2c5"}
-    return {"background": "#ffffff", "text": "#1c2434", "grid": "#e2e8f0", "muted": "#64748b"}
-
-
-def render_bar_chart(values: pd.Series | pd.DataFrame, color: str = "#3c50e0") -> None:
-    """Render a theme-aware chart instead of Streamlit's fixed light canvas."""
-    if isinstance(values, pd.Series):
-        frame = values.rename(values.name or "Value").rename_axis("Category").reset_index()
-    else:
-        if values.empty or len(values.columns) != 1:
-            st.info("No chart data available.")
-            return
-        frame = values.rename_axis("Category").reset_index()
-    if frame.empty:
-        st.info("No chart data available.")
-        return
-    category, value = frame.columns[0], frame.columns[-1]
-    colors = chart_palette()
-    chart = alt.Chart(frame).mark_bar(color=color, cornerRadiusTopLeft=3, cornerRadiusTopRight=3).encode(
-        x=alt.X(f"{category}:N", title=None, sort=None, axis=alt.Axis(labelAngle=-25, labelLimit=120)),
-        y=alt.Y(f"{value}:Q", title=None),
-        tooltip=[alt.Tooltip(f"{category}:N"), alt.Tooltip(f"{value}:Q", format=".2f")],
-    ).properties(height=250).configure(background=colors["background"]).configure_view(strokeOpacity=0).configure_axis(
-        labelColor=colors["muted"], titleColor=colors["text"], domainColor=colors["grid"], gridColor=colors["grid"], tickColor=colors["grid"]
-    )
-    st.altair_chart(chart, width="stretch", theme=None)
-
-
-def render_line_chart(frame: pd.DataFrame, x_column: str, y_column: str, color: str = "#3c50e0") -> None:
-    if frame.empty:
-        st.info("No chart data available.")
-        return
-    colors = chart_palette()
-    chart = alt.Chart(frame).mark_line(color=color, strokeWidth=2.5, point=alt.OverlayMarkDef(filled=True, size=26)).encode(
-        x=alt.X(f"{x_column}:T", title=None), y=alt.Y(f"{y_column}:Q", title=None),
-        tooltip=[alt.Tooltip(f"{x_column}:T"), alt.Tooltip(f"{y_column}:Q", format=".2f")],
-    ).properties(height=310).configure(background=colors["background"]).configure_view(strokeOpacity=0).configure_axis(
-        labelColor=colors["muted"], titleColor=colors["text"], domainColor=colors["grid"], gridColor=colors["grid"], tickColor=colors["grid"]
-    )
-    st.altair_chart(chart, width="stretch", theme=None)
+st.markdown("""
+<style>
+.stApp {background:#050b14;color:#edf8ff}
+[data-testid="stSidebar"] {background:#081522;border-right:1px solid #17344a}
+[data-testid="stHeader"] {background:rgba(5,11,20,.96)}
+.block-container {padding-top:1.5rem;max-width:1500px}
+h1,h2,h3 {color:#27d7ff!important}
+.hero,.panel {background:linear-gradient(135deg,#0c2135,#07111d);border:1px solid #1a4c69;border-radius:16px;padding:20px;margin-bottom:14px}
+.hero-title {font-size:36px;font-weight:800;color:#27d7ff}
+.muted {color:#8da3b5}
+[data-testid="stMetric"] {background:#0b1d2e;border:1px solid #1a4560;border-radius:12px;padding:10px}
+.alert-banner {background:linear-gradient(90deg,#5c0715,#9e1025,#5c0715);border:2px solid #ff304f;border-radius:14px;padding:18px;text-align:center;color:white;font-weight:800}
+</style>
+""", unsafe_allow_html=True)
 
 
 def engine() -> AdaptiveThresholdEngine:
@@ -337,79 +274,47 @@ def page_home(df: pd.DataFrame) -> None:
     summary = engine().summary()
     levels = df.get("Threat_Level", pd.Series(index=df.index, dtype=str)).astype(str).str.upper()
     safe, medium, high, critical = (int(levels.eq(label).sum()) for label in ("SAFE", "MEDIUM", "HIGH", "CRITICAL"))
-    risk = risk_series(df)
+    confidence = df.get("Confidence", pd.Series("UNKNOWN", index=df.index, dtype=str)).fillna("UNKNOWN").astype(str).str.upper()
+    st.markdown('<div class="hero"><div class="hero-title">🛡️ SentinelShield</div><div>Wi-Fi Evil Twin Detection & Wireless Threat Intelligence Command Center</div></div>', unsafe_allow_html=True)
+    cols = st.columns(4)
+    cols[0].metric("Networks discovered", len(df))
+    cols[1].metric("High / critical", high + critical, f"High ≥ {summary['thresholds']['high']:.1f}%")
+    cols[2].metric("Critical", critical, f"≥ {summary['thresholds']['critical']:.1f}%")
+    cols[3].metric("Safe", safe, f"< {summary['thresholds']['medium']:.1f}%")
+    cols = st.columns(4)
+    cols[0].metric("Known APs", int(confidence.isin(["TRUSTED", "ESTABLISHED"]).sum()))
+    cols[1].metric("Unknown / observed", int(confidence.isin(["UNKNOWN", "OBSERVED"]).sum()))
+    cols[2].metric("Suspicious baseline", int(confidence.eq("SUSPICIOUS").sum()))
+    cols[3].metric("Potential rogue", high + critical, help="High risk is an investigation signal, not a definitive attribution.")
+    st.subheader("Scanner health and performance")
     controller = st.session_state.get("scan_controller")
-    status = controller.status() if controller else {"status": "idle"}
-    active = status.get("status") in {"queued", "scanning", "deep-verification", "analyzing"}
-    status_class = "" if active else " ss-status--idle"
-    last_scan = st.session_state.get("last_scan", "No completed scan")
-    st.markdown(
-        f'''<div class="ss-header"><div><div class="ss-eyebrow">Wireless security analytics</div>
-        <div class="ss-title">SentinelShield</div><div class="ss-subtitle">Wi-Fi Threat Detection &amp; Security Analytics</div></div>
-        <div class="ss-status{status_class}">{'SCANNER ACTIVE' if active else 'SYSTEM ONLINE'} &nbsp;·&nbsp; Last scan: {last_scan}</div></div>''',
-        unsafe_allow_html=True,
-    )
-    st.markdown("### Current posture")
-    metrics = st.columns(8)
-    metrics[0].metric("Networks detected", len(df))
-    metrics[1].metric("Safe networks", safe)
-    metrics[2].metric("Suspicious", medium + high + critical)
-    metrics[3].metric("Critical threats", critical)
-    metrics[4].metric("Average risk", f"{risk.mean():.1f}%" if not df.empty else "—")
-    metrics[5].metric("Scan duration", f"{number(status.get('scan_duration_ms')):.0f} ms" if status.get("scan_duration_ms") is not None else "—")
-    metrics[6].metric("Detection latency", f"{number(status.get('detection_latency_ms')):.0f} ms" if status.get("detection_latency_ms") is not None else "—")
-    metrics[7].metric("Threat level", "CRITICAL" if critical else "HIGH" if high else "MEDIUM" if medium else "SAFE" if safe else "—")
-
-    left, right = st.columns([3, 2], gap="medium")
-    with left.container(border=True):
-        st.markdown("#### Threat distribution")
-        st.caption("Current scan findings grouped by the existing adaptive classification.")
-        render_bar_chart(pd.Series({"SAFE": safe, "MEDIUM": medium, "HIGH": high, "CRITICAL": critical}), color="#3c50e0")
-    with right.container(border=True):
-        st.markdown("#### Risk distribution")
-        if df.empty:
-            st.markdown('<div class="ss-empty">No scan data available. Start a live scan or load a saved scan.</div>', unsafe_allow_html=True)
-        else:
-            bands = pd.cut(risk, [-1, 24, 49, 74, 100], labels=["0–24", "25–49", "50–74", "75–100"])
-            render_bar_chart(bands.value_counts().reindex(["0–24", "25–49", "50–74", "75–100"], fill_value=0), color="#64748b")
-
-    st.markdown("### Investigation queue")
-    st.caption("Networks ranked from the existing risk score. A high score is an investigation signal, not an attribution.")
-    ranked = df.sort_values("Combined_Risk", ascending=False) if "Combined_Risk" in df.columns else df
-    render_table(ranked, ["SSID", "BSSID", "RSSI", "Channel", "Security", "Combined_Risk", "Threat_Level", "Reasons"], 360)
-
-    with st.container(border=True):
-        st.markdown("#### Scanner status")
-        performance = controller.performance_summary() if controller else {"samples": 0}
+    if controller:
+        status = controller.status()
+        perf = controller.performance_summary()
         a, b, c, d = st.columns(4)
-        a.metric("State", str(status.get("status", "idle")).replace("-", " ").upper())
-        b.metric("Radio mode", status.get("adapter_mode", "not started"))
+        a.metric("Scanner", status.get("status", "idle").upper())
+        b.metric("Radio mode", status.get("adapter_mode", "not scanned"))
         c.metric("Adapters", status.get("adapter_count", 0))
-        d.metric("Adaptive baseline", summary["mode"].replace("_", " ").title())
-        if performance.get("samples"):
-            st.caption(f"Rolling performance: {performance['average_scan_ms']:.0f} ms average scan · {performance['p95_scan_ms']:.0f} ms P95 · {performance['average_detection_latency_ms']:.0f} ms average detection latency")
+        d.metric("Last scan duration", f"{status['scan_duration_ms']:.0f} ms" if status.get("scan_duration_ms") is not None else "—")
+        if perf["samples"]:
+            st.caption(f"Rolling measurements: average {perf['average_scan_ms']:.0f} ms · median {perf['median_scan_ms']:.0f} ms · P95 {perf['p95_scan_ms']:.0f} ms · average detection latency {perf['average_detection_latency_ms']:.0f} ms")
+    else:
+        st.info("Scanner idle. Open Live Wi-Fi Scan and press Start Scanner.")
+    st.subheader("Threat distribution")
+    st.bar_chart(pd.Series({"SAFE": safe, "MEDIUM": medium, "HIGH": high, "CRITICAL": critical}))
+    st.subheader("Highest-risk networks")
+    render_table(df.sort_values("Combined_Risk", ascending=False), ["SSID", "BSSID", "RSSI", "Security", "Combined_Risk", "Threat_Level", "Reasons"], 380)
 
 
 def page_live_scan() -> None:
-    st.header("Live Wi-Fi Scan")
-    st.caption("Use a fast discovery pass for rapid visibility, then let the existing adaptive engine verify only networks that need deeper evidence.")
+    st.header("📡 Live Wi-Fi Scan")
+    st.caption("Background scanning with adaptive verification; Stop prevents subsequent work and does not interrupt a driver call in progress.")
     controller = get_scan_controller()
     status = controller.status()
-    profiles = {
-        "Quick Scan + adaptive verification (recommended)": "auto",
-        "Quick discovery only": "fast",
-        "Balanced discovery": "balanced",
-        "Deep verification": "deep",
-    }
-    profile = st.selectbox("Scan profile", list(profiles), index=0, help="Quick Scan + adaptive verification starts with the fastest available discovery pass, then verifies only changed or suspicious APs.")
-    mode = profiles[profile]
-    state = str(status.get("status", "idle"))
-    stages = [("1", "Discover", state in {"queued", "scanning"}), ("2", "Verify", state == "deep-verification"), ("3", "Analyze", state == "analyzing")]
-    stages_html = "".join(f'<div class="ss-scan-stage {"is-active" if active else ""}"><span>{number}</span>{name}</div>' for number, name, active in stages)
-    st.markdown(f'<div class="ss-scan-flow">{stages_html}<div class="ss-scan-note">{status.get("preliminary_aps", 0)} preliminary APs available</div></div>', unsafe_allow_html=True)
+    mode = st.selectbox("Scan mode", ["auto", "fast", "balanced", "deep"], index=0, help="Auto uses a fast pass and starts deep verification when new or changed AP evidence appears.")
     a, b, c, d = st.columns(4)
-    start = a.button("▶ Run selected scan", type="primary", disabled=status.get("status") in {"queued", "scanning", "deep-verification", "analyzing", "stopping"}, width="stretch")
-    stop = b.button("■ Stop scan", disabled=status.get("status") not in {"queued", "scanning", "deep-verification", "analyzing", "stopping"}, width="stretch")
+    start = a.button("▶ Start Scanner", type="primary", disabled=status.get("status") in {"queued", "scanning", "deep-verification", "analyzing", "stopping"}, width="stretch")
+    stop = b.button("■ Stop Scanner", disabled=status.get("status") not in {"queued", "scanning", "deep-verification", "analyzing", "stopping"}, width="stretch")
     load_saved = c.button("📂 Load Saved Scan", width="stretch")
     clear = d.button("🧹 Clear Display", width="stretch")
 
@@ -475,16 +380,11 @@ def page_live_scan() -> None:
         p[3].metric("Detection latency", f"{metrics['average_detection_latency_ms']:.0f} ms avg")
 
     df = st.session_state.get("scan", pd.DataFrame())
-    display_df = df
-    preliminary = controller.preliminary() if running else None
-    if preliminary:
-        display_df = classify(scan_to_frame(preliminary.get("results", [])))
-        st.info(f"Quick discovery result: {len(display_df)} AP(s) are shown below while verification continues. These findings are provisional; final evidence, persistence, and alerts wait for completion.")
-    st.caption(f"APs in displayed result: {len(display_df)} · Last completed scan: {st.session_state.get('last_scan', 'not run in this session')}")
-    render_table(display_df, ["SSID", "BSSID", "RSSI", "Channel", "Frequency", "Security", "Vendor", "Confidence", "Combined_Risk", "Threat_Level", "Reasons"], 460)
-    if not display_df.empty:
+    st.caption(f"APs in current result: {len(df)} · Last scan: {st.session_state.get('last_scan', 'not run in this session')}")
+    render_table(df, ["SSID", "BSSID", "RSSI", "Channel", "Frequency", "Security", "Vendor", "Confidence", "Combined_Risk", "Threat_Level", "Reasons"], 460)
+    if not df.empty:
         st.subheader("Network investigation / evidence")
-        for _, row in display_df.iterrows():
+        for _, row in df.iterrows():
             with st.expander(f"{row.get('SSID', 'Unknown')} · {row.get('Threat_Level', 'LOW')} · {number(row.get('Combined_Risk')):.0f}%"):
                 st.write(f"BSSID: {row.get('BSSID', 'N/A')} · Vendor: {row.get('Vendor', 'unknown')} · RSSI: {row.get('RSSI', 'N/A')} dBm · Channel: {row.get('Channel', 'N/A')} · Security: {row.get('Security', 'unknown')}")
                 st.write("**Reasons:**", row.get("Reasons", "No high-risk evidence"))
@@ -492,60 +392,32 @@ def page_live_scan() -> None:
 
 
 def page_threat_analysis(df: pd.DataFrame) -> None:
-    st.header("Threat Analysis")
-    st.caption("Risk, signal, and evidence views derived from the current scan without recalculating detection results.")
+    st.header("🛡️ Threat Analysis")
     if df.empty:
-        st.markdown('<div class="ss-empty">No data available. Run a live scan or load saved results first.</div>', unsafe_allow_html=True)
+        st.info("Run a live scan or load saved results first.")
         return
     levels = df["Threat_Level"].astype(str).str.upper()
-    cols = st.columns(4)
+    cols = st.columns(3)
     cols[0].metric("Critical", int(levels.eq("CRITICAL").sum()))
     cols[1].metric("High", int(levels.eq("HIGH").sum()))
     cols[2].metric("Medium", int(levels.eq("MEDIUM").sum()))
-    cols[3].metric("Average risk", f"{risk_series(df).mean():.1f}%")
-    risk_tab, signal_tab, evidence_tab = st.tabs(["Risk analysis", "RSSI & signal", "Evidence queue"])
-    with risk_tab:
-        left, right = st.columns([3, 2])
-        with left.container(border=True):
-            st.markdown("#### Network risk")
-            risk_view = df[["SSID", "Combined_Risk"]].copy().sort_values("Combined_Risk", ascending=False)
-            risk_view["SSID"] = risk_view["SSID"].fillna("Unknown").astype(str)
-            render_bar_chart(risk_view.set_index("SSID"), color="#3c50e0")
-        with right.container(border=True):
-            st.markdown("#### Threat levels")
-            render_bar_chart(levels.value_counts().reindex(["SAFE", "MEDIUM", "HIGH", "CRITICAL"], fill_value=0), color="#64748b")
-    with signal_tab:
-        st.markdown("#### Signal behavior")
-        st.caption("RSSI and temporal fields are visualized exactly as provided by the scan result.")
-        signal_columns = [col for col in ("SSID", "BSSID", "RSSI", "Signal_Fluctuation", "Signal_Variance", "Signal_StdDev", "Signal_Delta", "Observation_Count", "Threat_Level") if col in df.columns]
-        if "RSSI" in df.columns:
-            signal_view = pd.DataFrame({"SSID": df["SSID"].fillna("Unknown").astype(str), "RSSI (dBm)": pd.to_numeric(df["RSSI"], errors="coerce")}).dropna()
-            if not signal_view.empty:
-                render_bar_chart(signal_view.set_index("SSID"), color="#10b981")
-        render_table(df, signal_columns, 300)
-    with evidence_tab:
-        st.markdown("#### Investigation queue")
-        render_table(df[levels.isin(["HIGH", "CRITICAL"])], ["SSID", "BSSID", "RSSI", "Combined_Risk", "Threat_Level", "Reasons", "Evidence_JSON"], 420)
+    render_table(df.sort_values("Combined_Risk", ascending=False), height=470)
+    st.subheader("Investigation queue")
+    render_table(df[levels.isin(["HIGH", "CRITICAL"])], ["SSID", "BSSID", "Combined_Risk", "Threat_Level", "Reasons"])
 
 
 def page_ai(df: pd.DataFrame) -> None:
-    st.header("ML Detection")
-    st.caption("Model availability and recorded outputs from the current scan. The dashboard does not invoke, retrain, or alter models.")
-    model_files = {"Random Forest": ["rf_model.pkl", "model.pkl"], "KNN": ["knn_model.pkl"], "Isolation Forest": ["iso_model.pkl", "isolation_forest.pkl"], "Meta Model": ["meta_model.pkl"]}
-    availability = st.columns(4)
-    for column, (name, paths) in zip(availability, model_files.items()):
-        present = next((model_name for model_name in paths if (ROOT / model_name).exists()), None)
-        column.metric(name, "Available" if present else "Unavailable", present or "model file not found")
+    st.header("🤖 AI Detection")
+    for name, paths in {"Random Forest": ["rf_model.pkl", "model.pkl"], "KNN": ["knn_model.pkl"], "Isolation Forest": ["iso_model.pkl", "isolation_forest.pkl"], "Meta Model": ["meta_model.pkl"]}.items():
+        present = next((name for name in paths if (ROOT / name).exists()), None)
+        st.write(f"**{name}:** {'available (' + present + ')' if present else 'not found'}")
     cols = [col for col in ("SSID", "BSSID", "Random_Forest", "RF_Prediction", "KNN", "KNN_Prediction", "Isolation_Forest", "Meta_Model", "Meta_Confidence", "ML_Risk") if col in df.columns]
     if cols:
-        st.subheader("Recorded model outputs")
-        render_table(df, cols, 420)
+        render_table(df, cols)
     else:
-        st.markdown('<div class="ss-empty">This scan has rule-based and fingerprint results; no model prediction columns were recorded.</div>', unsafe_allow_html=True)
+        st.info("This scan has rule-based and fingerprint results; no model prediction columns were recorded.")
     if not df.empty:
-        with st.container(border=True):
-            st.markdown("#### Final combined risk")
-            render_bar_chart(df.set_index("SSID")["Combined_Risk"], color="#3c50e0")
+        st.bar_chart(df.set_index("SSID")["Combined_Risk"])
 
 
 def page_fingerprints(df: pd.DataFrame) -> None:
@@ -633,73 +505,6 @@ def page_anomaly(df: pd.DataFrame) -> None:
     cols[2].metric("Critical", int(levels.eq("CRITICAL").sum()))
     suspicious = df[levels.isin(["HIGH", "CRITICAL"])] if not df.empty else df
     render_table(suspicious, ["SSID", "BSSID", "Combined_Risk", "Threat_Level", "Reasons"])
-
-
-def page_networks(df: pd.DataFrame) -> None:
-    """Network and fingerprint views backed only by the current scan/baseline."""
-    st.header("Networks")
-    st.caption("Inspect observed access points, their signal evidence, and persistent fingerprint profiles.")
-    current, fingerprints = st.tabs(["Current scan", "Fingerprint analysis"])
-    with current:
-        if df.empty:
-            st.markdown('<div class="ss-empty">No networks are available. Start a live scan or load saved results.</div>', unsafe_allow_html=True)
-        else:
-            query = st.text_input("Filter networks", placeholder="SSID, BSSID, security, or threat level", key="network_filter")
-            view = df.copy()
-            if query:
-                matches = view.astype(str).apply(lambda col: col.str.contains(query, case=False, regex=False)).any(axis=1)
-                view = view[matches]
-            st.caption(f"{len(view)} of {len(df)} network observations shown")
-            render_table(view.sort_values("Combined_Risk", ascending=False), ["SSID", "BSSID", "RSSI", "Channel", "Frequency", "Security", "Vendor", "Combined_Risk", "Threat_Level", "Meta_Model", "Meta_Confidence", "Confidence"], 480)
-    with fingerprints:
-        page_fingerprints(df)
-
-
-def page_scan_history() -> None:
-    st.header("Scan History")
-    st.caption("Historical observations are read from the existing CSV persistence; no scan records are modified.")
-    history = read_csv(ROOT / "scan_history.csv")
-    if history.empty:
-        st.markdown('<div class="ss-empty">No historical threat data available.</div>', unsafe_allow_html=True)
-        return
-    time_col = next((col for col in ("timestamp", "Scan_Time", "Time") if col in history.columns), None)
-    risk_col = next((col for col in ("combined_risk", "Combined_Risk", "Risk", "risk") if col in history.columns), None)
-    if time_col and risk_col:
-        timeline = history[[time_col, risk_col]].copy()
-        timeline[time_col] = pd.to_datetime(timeline[time_col], errors="coerce")
-        timeline[risk_col] = pd.to_numeric(timeline[risk_col], errors="coerce")
-        timeline = timeline.dropna().sort_values(time_col)
-        if not timeline.empty:
-            st.subheader("Threat timeline")
-            render_line_chart(timeline, time_col, risk_col, color="#3c50e0")
-    else:
-        st.info("Historical records are available, but do not contain timestamp and risk fields for a timeline.")
-    st.subheader("Recorded observations")
-    render_table(history.iloc[::-1], height=460)
-
-
-def page_alerts(df: pd.DataFrame) -> None:
-    current, history = st.tabs(["Alert center", "Alert history"])
-    with current:
-        page_alert_center(df)
-    with history:
-        page_alert_history()
-
-
-def page_diagnostics(df: pd.DataFrame) -> None:
-    st.header("System Diagnostics")
-    st.caption("Operational controls and visibility for existing SentinelShield services.")
-    settings, evidence, intelligence, reports, adaptive = st.tabs(["Settings", "Evidence review", "Threat intelligence", "Reports", "Adaptive thresholds"])
-    with settings:
-        page_settings()
-    with evidence:
-        page_evidence_review(df)
-    with intelligence:
-        page_intelligence(df)
-    with reports:
-        page_reports(df)
-    with adaptive:
-        page_adaptive()
 
 
 def page_alert_center(df: pd.DataFrame) -> None:
@@ -875,7 +680,7 @@ def page_settings() -> None:
 
 
 def main() -> None:
-    defaults = {"alerts": [], "alert_keys": set(), "critical_alerts_enabled": True, "sound_enabled": True, "desktop_enabled": True, "auto_refresh_enabled": False, "dark_theme": False}
+    defaults = {"alerts": [], "alert_keys": set(), "critical_alerts_enabled": True, "sound_enabled": True, "desktop_enabled": True, "auto_refresh_enabled": False}
     for key, value in defaults.items():
         if key not in st.session_state:
             st.session_state[key] = value
@@ -887,24 +692,19 @@ def main() -> None:
     process_alerts(st.session_state["scan"])
     df = st.session_state["scan"]
 
-    st.sidebar.markdown("### SentinelShield")
-    st.sidebar.caption("SECURITY OPERATIONS CONSOLE")
-    st.sidebar.toggle("Dark theme", key="dark_theme", help="Switch between the light analytics view and a low-light dark theme.")
-    apply_color_scheme(st.session_state["dark_theme"])
-    pages = ["Overview", "Live Scan", "Networks", "Threat Analysis", "ML Detection", "Alerts", "Scan History", "System Diagnostics"]
-    page = st.sidebar.radio("Navigation", pages, label_visibility="collapsed")
-    st.sidebar.divider()
-    st.sidebar.caption("CURRENT SCAN")
+    st.sidebar.markdown("### 🛡️ SentinelShield")
+    st.sidebar.caption("Wi-Fi security command center")
+    pages = ["Command Center", "Live Wi-Fi Scan", "Threat Analysis", "Alert Center", "AI Detection", "Fingerprinting", "Evidence Review", "Analytics", "Anomaly Analysis", "Alert History", "Threat Intelligence", "Reports & Export", "Adaptive Thresholds", "System Settings"]
+    page = st.sidebar.radio("Navigation", pages)
     st.sidebar.metric("Networks", len(df))
     st.sidebar.metric("High / critical", int(df.get("Threat_Level", pd.Series(index=df.index, dtype=str)).isin(["HIGH", "CRITICAL"]).sum()))
     controller = st.session_state.get("scan_controller")
     scanner_state = controller.status() if controller else {"status": "idle", "adapter_mode": "not started"}
-    st.sidebar.caption(f"Scanner {scanner_state.get('status', 'idle')} · {scanner_state.get('adapter_mode', 'single-adapter')}")
-    st.sidebar.caption("Refresh reads saved results only; it never begins a scan.")
+    st.sidebar.caption(f"Scanner {scanner_state.get('status', 'idle')} · {scanner_state.get('adapter_mode', 'single-adapter')} · UI refresh never scans")
 
     critical = df[df.get("Threat_Level", pd.Series(index=df.index, dtype=str)).eq("CRITICAL")] if not df.empty else pd.DataFrame()
     if not critical.empty:
-        st.markdown('<div class="ss-critical">CRITICAL WI-FI THREAT DETECTED — review the Alert Center and supporting evidence.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="alert-banner">🚨 CRITICAL WI-FI THREAT DETECTED 🚨</div>', unsafe_allow_html=True)
         st.error("A network exceeds the adaptive critical threshold. Review Alert Center.")
 
     if controller and controller.latest():
@@ -912,14 +712,20 @@ def main() -> None:
         st.caption(f"Last controller scan: {latest.get('scan_id')} · {latest.get('aps_discovered', 0)} APs · {latest.get('scan_duration_ms', 0):.0f} ms scan / {latest.get('detection_latency_ms', 0):.0f} ms to findings")
 
     routes = {
-        "Overview": lambda: page_home(df),
-        "Live Scan": page_live_scan,
-        "Networks": lambda: page_networks(df),
+        "Command Center": lambda: page_home(df),
+        "Live Wi-Fi Scan": page_live_scan,
         "Threat Analysis": lambda: page_threat_analysis(df),
-        "ML Detection": lambda: page_ai(df),
-        "Alerts": lambda: page_alerts(df),
-        "Scan History": page_scan_history,
-        "System Diagnostics": lambda: page_diagnostics(df),
+        "Alert Center": lambda: page_alert_center(df),
+        "AI Detection": lambda: page_ai(df),
+        "Fingerprinting": lambda: page_fingerprints(df),
+        "Evidence Review": lambda: page_evidence_review(df),
+        "Analytics": lambda: page_analytics(df),
+        "Anomaly Analysis": lambda: page_anomaly(df),
+        "Alert History": page_alert_history,
+        "Threat Intelligence": lambda: page_intelligence(df),
+        "Reports & Export": lambda: page_reports(df),
+        "Adaptive Thresholds": page_adaptive,
+        "System Settings": page_settings,
     }
     routes[page]()
 

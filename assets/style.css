@@ -1,0 +1,75 @@
+/* SentinelShield UI: TailAdmin-inspired admin dashboard presentation layer. */
+:root {
+  --ink: #1c2434; --muted: #64748b; --line: #e2e8f0; --panel: #ffffff;
+  --canvas: #f1f5f9; --accent: #3c50e0; --sidebar: #1c2434;
+  --sidebar-hover: #313d4f; --safe: #10b981; --medium: #f59e0b;
+  --high: #f97316; --critical: #dc3545;
+}
+.stApp { background: var(--canvas); color: var(--ink); }
+[data-testid="stHeader"] { background: rgba(241,245,249,.88); }
+.block-container { max-width: 1560px; padding: 1.8rem 2rem 3rem; }
+
+/* TailAdmin-style navigation rail. */
+[data-testid="stSidebar"] { background: var(--sidebar); border: 0; }
+[data-testid="stSidebar"] > div:first-child { padding: 1.35rem .85rem; }
+[data-testid="stSidebar"] * { color: #d7deea; }
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h3 { color: #fff !important; font-size: 1.35rem !important; letter-spacing: -.03em; }
+[data-testid="stSidebar"] [data-testid="stCaptionContainer"] { color: #94a3b8 !important; }
+[data-testid="stSidebar"] hr { border-color: #3a4658; margin: 1.1rem 0; }
+[data-testid="stSidebar"] [data-testid="stMetric"] { background: #273142; border-color: #3a4658; box-shadow: none; }
+[data-testid="stSidebar"] [data-testid="stMetricLabel"], [data-testid="stSidebar"] [data-testid="stMetricValue"] { color: #f8fafc; }
+[data-testid="stSidebar"] [role="radiogroup"] { gap: .18rem; }
+[data-testid="stSidebar"] [role="radio"] { border-radius: 7px; min-height: 2.65rem; padding: .45rem .62rem; transition: background .15s ease, transform .15s ease; }
+[data-testid="stSidebar"] [role="radio"]:hover { background: var(--sidebar-hover); transform: translateX(2px); }
+[data-testid="stSidebar"] [role="radio"][aria-checked="true"] { background: var(--accent); color: #fff; box-shadow: 0 6px 12px rgba(0,0,0,.18); }
+[data-testid="stSidebar"] [data-testid="stToggle"] label { color: #d7deea !important; }
+
+h1, h2, h3 { color: var(--ink) !important; letter-spacing: -.025em; }
+h1 { font-size: 1.55rem !important; font-weight: 720 !important; }
+h2 { font-size: 1.15rem !important; font-weight: 700 !important; margin-top: 1.55rem !important; }
+h3 { font-size: 1rem !important; font-weight: 680 !important; }
+p, [data-testid="stCaptionContainer"] { color: var(--muted); }
+
+/* Top command header and TailAdmin-like cards. */
+.ss-eyebrow { color: var(--accent); font-size: .7rem; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; margin-bottom: .38rem; }
+.ss-header { display:flex; align-items:center; justify-content:space-between; gap:1.5rem; background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:1.15rem 1.35rem; margin-bottom:1.45rem; box-shadow:0 1px 2px rgba(28,36,52,.03); }
+.ss-title { font-size:1.65rem; font-weight:760; letter-spacing:-.045em; color:var(--ink); line-height:1.05; }
+.ss-subtitle { color:var(--muted); margin-top:.35rem; font-size:.9rem; }
+.ss-status { color:#047857; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:6px; padding:.48rem .72rem; font-size:.75rem; font-weight:750; white-space:nowrap; }
+.ss-status--idle { color:#64748b; background:#f8fafc; border-color:#e2e8f0; }
+[data-testid="stMetric"] { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:1rem; box-shadow:0 1px 2px rgba(28,36,52,.035); }
+[data-testid="stMetricLabel"] { color:var(--muted); font-size:.75rem; font-weight:650; }
+[data-testid="stMetricValue"] { color:var(--ink); font-size:1.4rem; font-weight:740; }
+[data-testid="stMetricDelta"] { font-size:.72rem; }
+[data-testid="stVerticalBlockBorderWrapper"] { border-color:var(--line) !important; border-radius:10px !important; background:var(--panel); box-shadow:0 1px 2px rgba(28,36,52,.025); }
+[data-testid="stDataFrame"] { border:1px solid var(--line); border-radius:9px; overflow:hidden; }
+[data-testid="stDataFrame"], [data-testid="stDataFrame"] > div, [data-testid="stDataFrame"] [role="grid"], [data-testid="stDataFrame"] [role="gridcell"], [data-testid="stDataFrame"] [role="columnheader"] { background:var(--panel) !important; color:var(--ink) !important; }
+[data-testid="stDataFrame"] [role="columnheader"] { color:var(--muted) !important; border-color:var(--line) !important; }
+[data-testid="stExpander"] { border:1px solid var(--line); border-radius:8px; background:var(--panel); }
+[data-testid="stTabs"] [data-baseweb="tab-list"] { gap:1rem; border-bottom:1px solid var(--line); }
+[data-testid="stTabs"] button { border-radius:0; color:var(--muted); font-weight:650; padding:.55rem .1rem; }
+[data-testid="stTabs"] button[aria-selected="true"] { color:var(--accent); }
+.ss-empty { border:1px dashed #cbd5e1; border-radius:8px; background:var(--panel); color:var(--muted); padding:1.1rem; }
+.ss-critical { border-left:4px solid var(--critical); background:#fff5f5; border-radius:7px; padding:.9rem 1rem; color:#b42318; font-weight:650; margin-bottom:1rem; }
+.ss-scan-flow { display:flex; align-items:center; gap:.6rem; flex-wrap:wrap; background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:.65rem .8rem; margin:.25rem 0 1rem; }
+.ss-scan-stage { color:var(--muted); font-size:.78rem; font-weight:700; display:flex; align-items:center; gap:.4rem; }
+.ss-scan-stage span { display:inline-grid; place-items:center; width:1.35rem; height:1.35rem; border-radius:50%; background:#e2e8f0; color:#475569; font-size:.68rem; }
+.ss-scan-stage.is-active { color:var(--accent); }
+.ss-scan-stage.is-active span { background:var(--accent); color:#fff; box-shadow:0 0 0 4px rgba(60,80,224,.14); }
+.ss-scan-note { margin-left:auto; color:var(--muted); font-size:.76rem; }
+
+/* Tactile controls: elevated resting state and short press travel. */
+[data-testid="stButton"] > button { background:var(--panel) !important; color:var(--ink) !important; border-radius:7px; border:1px solid var(--line); box-shadow:0 2px 0 rgba(28,36,52,.15), 0 4px 9px rgba(28,36,52,.05); font-weight:650; transition:transform 100ms ease, box-shadow 100ms ease, background-color 100ms ease, border-color 100ms ease; }
+[data-testid="stButton"] > button:hover { border-color:#a5b4fc; box-shadow:0 3px 0 rgba(28,36,52,.15), 0 7px 15px rgba(28,36,52,.09); transform:translateY(-1px); }
+[data-testid="stButton"] > button:active { box-shadow:inset 0 2px 5px rgba(28,36,52,.18); transform:translateY(2px) scale(.985); }
+[data-testid="stButton"] > button:focus-visible { outline:3px solid rgba(60,80,224,.3); outline-offset:2px; }
+button[kind="primary"] { background:var(--accent) !important; color:#fff !important; border-color:var(--accent) !important; box-shadow:0 2px 0 #293cc3 !important; }
+button[kind="primary"] *, button[kind="primary"] { color:#fff !important; -webkit-text-fill-color:#fff !important; }
+button[kind="primary"]:active { box-shadow:inset 0 2px 5px rgba(0,0,0,.25) !important; }
+[data-testid="stButton"] > button:disabled, [data-testid="stButton"] > button[disabled] { opacity:1 !important; background:#334155 !important; border-color:#475569 !important; color:#fff !important; -webkit-text-fill-color:#fff !important; box-shadow:none !important; cursor:not-allowed; }
+[data-testid="stButton"] > button:disabled * { opacity:1 !important; color:#fff !important; -webkit-text-fill-color:#fff !important; }
+/* Streamlit gives disabled primary buttons their own inline visual state. Override it explicitly. */
+button[kind="primary"]:disabled, button[kind="primary"][disabled] { opacity:1 !important; background:#3047bf !important; border-color:#5269e8 !important; color:#fff !important; -webkit-text-fill-color:#fff !important; }
+button[kind="primary"]:disabled *, button[kind="primary"][disabled] * { opacity:1 !important; color:#fff !important; -webkit-text-fill-color:#fff !important; }
+[data-baseweb="select"] > div, [data-baseweb="input"] > div, [data-testid="stTextInput"] input { background:var(--panel) !important; color:var(--ink) !important; border-color:var(--line) !important; }
+@media (max-width:850px) { .block-container { padding:1.2rem 1rem 2rem; } .ss-header { align-items:flex-start; flex-direction:column; gap:.75rem; } .ss-title { font-size:1.4rem; } }

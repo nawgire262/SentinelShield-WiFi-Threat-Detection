@@ -47,6 +47,8 @@ class ScanController:
         self._thread: threading.Thread | None = None
         self._status: dict[str, Any] = {"status": "idle", "progress": 0, "error": None, "mode": None}
         self._latest: dict[str, Any] | None = None
+        # Read-only first-pass output for the dashboard while verification runs.
+        self._preliminary: dict[str, Any] | None = None
         self._metrics: deque[dict[str, float]] = deque(maxlen=100)
         for record in self.fingerprints.all_records():
             self.temporal.seed(record.get("bssid", ""), record.get("rssi_history", []))
@@ -59,6 +61,7 @@ class ScanController:
             if self._thread is not None and self._thread.is_alive():
                 return False
             self._cancel.clear()
+            self._preliminary = None
             self._status = {"status": "queued", "progress": 1, "error": None, "mode": normalized, "started_at": _now()}
             self._thread = threading.Thread(target=self._worker, args=(normalized,), name="sentinel-scan-controller", daemon=True)
             self._thread.start()
@@ -79,6 +82,11 @@ class ScanController:
     def latest(self) -> dict[str, Any] | None:
         with self._lock:
             return dict(self._latest) if self._latest else None
+
+    def preliminary(self) -> dict[str, Any] | None:
+        """Return first-pass findings only while a scan is still being verified."""
+        with self._lock:
+            return dict(self._preliminary) if self._preliminary else None
 
     def performance_summary(self) -> dict[str, Any]:
         with self._lock:
@@ -121,6 +129,17 @@ class ScanController:
                 return
             batches = [first_batch]
             preliminary = self._analyze_observations(first_batch.observations, update_state=False)
+            with self._lock:
+                self._preliminary = {
+                    "scan_id": first_batch.scan_id,
+                    "results": preliminary,
+                    "adapters": first_batch.adapters,
+                    "adapter_count": len(first_batch.adapters),
+                    "adapter_mode": "multi-adapter" if len(first_batch.adapters) > 1 else "single-adapter" if first_batch.adapters else "unavailable",
+                    "aps_discovered": len(preliminary),
+                    "scan_duration_ms": first_batch.scan_duration_ms,
+                }
+                self._status.update(preliminary_available=True, preliminary_aps=len(preliminary), progress=45)
             if requested_mode == "deep":
                 verification_count = int(self.config["fast_scanning"]["verification_samples"]) - 1
             elif requested_mode == "auto" and self.config["fast_scanning"]["adaptive_deep_scan"] and self._requires_verification(preliminary, known):
@@ -178,6 +197,7 @@ class ScanController:
             self._persist(result)
             with self._lock:
                 self._latest = result
+                self._preliminary = None
                 self._metrics.append({"scan_duration_ms": result["scan_duration_ms"], "detection_latency_ms": result["detection_latency_ms"], "aps_discovered": float(result["aps_discovered"])})
                 self._status = {"status": "completed" if results else "empty", "progress": 100, "error": None, "mode": result["scan_mode"], "scan_id": result["scan_id"], "aps_discovered": result["aps_discovered"], "adapter_mode": result["adapter_mode"], "adapter_count": result["adapter_count"], "adapters": result["adapters"], "scan_duration_ms": result["scan_duration_ms"], "detection_latency_ms": result["detection_latency_ms"], "verification_performed": result["verification_performed"], "errors": result["errors"], "completed_at": result["completed_at"]}
         except Exception as exc:
