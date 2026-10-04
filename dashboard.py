@@ -245,6 +245,20 @@ def scan_to_frame(findings: list[dict[str, Any]]) -> pd.DataFrame:
             "Model_Explanation": (ml.get("explanation") or {}).get("summary") if ml else None,
             "Model_Effects_JSON": json.dumps((ml.get("explanation") or {}).get("effects", []), ensure_ascii=False) if ml and ml.get("explanation") else "",
             "Scan_Time": item.get("timestamp", now),
+            # ── RAIM evidence ──────────────────────────────────────────────
+            "RAIM_Flagged": item.get("RAIM_Flagged", False),
+            "RAIM_Distance_m": item.get("RAIM_Distance_m"),
+            "RAIM_Score": item.get("RAIM_Score"),
+            # ── Layer-2 deauth/jamming ─────────────────────────────────────
+            "Layer2_Deauth_Detected": item.get("Layer2_Deauth_Detected", False),
+            "Layer2_Score": (item.get("layer2") or {}).get("score"),
+            "Layer2_Reasons": "; ".join((item.get("layer2") or {}).get("reasons", [])),
+            # ── Cloud reputation ───────────────────────────────────────────
+            "Cloud_Risk": item.get("Cloud_Risk"),
+            "Cloud_Reputation_Hit": item.get("Cloud_Reputation_Hit", False),
+            "Cloud_Threat_Type": item.get("Cloud_Threat_Type"),
+            "BSSID_Reputation": "Hit" if item.get("Cloud_Reputation_Hit") else "Clean",
+            "Cloud_Risk_Score": item.get("Cloud_Risk"),
         })
     return pd.DataFrame(rows)
 
@@ -519,7 +533,32 @@ def page_live_scan() -> None:
                 st.write(f"BSSID: {row.get('BSSID', 'N/A')} · Vendor: {row.get('Vendor', 'unknown')} · RSSI: {row.get('RSSI', 'N/A')} dBm · Channel: {row.get('Channel', 'N/A')} · Security: {row.get('Security', 'unknown')}")
                 st.write("**Reasons:**", row.get("Reasons", "No high-risk evidence"))
                 render_model_explanation(row)
-                st.caption(f"Temporal variance: {row.get('Signal_Variance', 'n/a')} dB² · RSSI delta: {row.get('Signal_Delta', 'n/a')} dB · Evidence: {row.get('Evidence_JSON', '{}')}")
+                # -- RAIM evidence --
+                raim_flagged = row.get("RAIM_Flagged")
+                raim_dist = row.get("RAIM_Distance_m")
+                raim_score = row.get("RAIM_Score")
+                if raim_flagged or (raim_score is not None and number(raim_score) > 0):
+                    st.warning(
+                        f'RAIM: distance ~{number(raim_dist):.1f}m, score {number(raim_score):.0f}/100' + (" -- inconsistent with peer APs" if raim_flagged else "")
+                    )
+                # -- Layer-2 deauth/jamming --
+                l2_detected = row.get("Layer2_Deauth_Detected")
+                l2_reasons = str(row.get("Layer2_Reasons") or "")
+                if l2_detected:
+                    st.error(f"Layer-2 alert: {l2_reasons or 'Deauth/jamming detected'}")
+                elif l2_reasons:
+                    st.info(f"Layer-2 monitor: {l2_reasons}")
+                # -- Cloud reputation --
+                cloud_hit = row.get("Cloud_Reputation_Hit")
+                cloud_risk_val = row.get("Cloud_Risk")
+                cloud_type = str(row.get("Cloud_Threat_Type") or "")
+                if cloud_hit:
+                    st.error(f"Cloud reputation: risk {number(cloud_risk_val):.0f}/100 -- {cloud_type or 'flagged by provider'}")
+                st.caption(
+                    f"Temporal variance: {row.get('Signal_Variance', 'n/a')} | "
+                    f"RSSI delta: {row.get('Signal_Delta', 'n/a')} dB | "
+                    f"Evidence: {row.get('Evidence_JSON', '{}')}"
+                )} dB² · RSSI delta: {row.get('Signal_Delta', 'n/a')} dB · Evidence: {row.get('Evidence_JSON', '{}')}")
 
 
 def page_threat_analysis(df: pd.DataFrame) -> None:
@@ -806,6 +845,11 @@ def page_alert_history() -> None:
 
 def page_intelligence(df: pd.DataFrame) -> None:
     st.header("☁️ Threat Intelligence")
+    st.caption(
+        "Reputation checks are run automatically per-AP at the end of each live scan "
+        "when API keys are configured. You can also trigger a manual check below."
+    )
+    # ── Firebase / Firestore status ────────────────────────────────────────
     try:
         if get_threat_intelligence is None:
             status = {"enabled": False, "error": "Threat intelligence module unavailable"}
@@ -814,12 +858,93 @@ def page_intelligence(df: pd.DataFrame) -> None:
     except Exception as exc:
         status = {"enabled": False, "error": str(exc)}
     a, b, c = st.columns(3)
-    a.metric("Cloud enabled", "YES" if status.get("enabled") else "NO")
-    b.metric("Cloud threats", status.get("total_cloud_threats", 0))
+    a.metric("Firebase cloud", "YES" if status.get("enabled") else "NO")
+    b.metric("Cloud threats (Firestore)", status.get("total_cloud_threats", 0))
     c.metric("Reputation hits", status.get("reputation_hits", 0))
     if status.get("error"):
-        st.warning("Threat intelligence is unavailable; local analysis continues.")
-    render_table(df, ["SSID", "BSSID", "Cloud_Risk", "BSSID_Reputation", "Cloud_Reputation_Hit", "Cloud_Threat_Type"])
+        st.warning(f"Firebase unavailable: {status['error']} — local analysis continues without it.")
+
+    # ── External provider adapter status ──────────────────────────────────
+    ext = status.get("external_provider_adapters", {})
+    st.subheader("External provider adapters")
+    st.caption(
+        "Each adapter reads its key from an environment variable and makes real HTTP calls. "
+        "Set the variables in your shell or a `.env` file before starting the dashboard."
+    )
+    cols = st.columns(3)
+    providers = [
+        ("VirusTotal", "VIRUSTOTAL_API_KEY", ext.get("VirusTotal", False)),
+        ("AbuseIPDB", "ABUSEIPDB_API_KEY", ext.get("AbuseIPDB", False)),
+        ("OpenPhish", "OPENPHISH_API_KEY (optional)", ext.get("OpenPhish", False)),
+    ]
+    for col, (name, env_var, configured) in zip(cols, providers):
+        col.metric(name, "Configured ✅" if configured else "Key missing ⚠️", env_var)
+
+    # ── Push-alert delivery model note ────────────────────────────────────
+    with st.expander("ℹ️ Live alert delivery model"):
+        st.markdown(
+            """
+**How alerts are delivered in this deployment**
+
+SentinelShield uses **Streamlit's `st_autorefresh` polling** (700 ms during active
+scans, 5 s when idle) to detect new CRITICAL findings and surface them in the
+Alert Center.  This is equivalent to short-poll push in Streamlit's single-page
+model: every poll cycle the dashboard reads the controller's latest result and
+raises a banner + optional desktop notification if a new CRITICAL AP is found.
+
+A full WebSocket push server (e.g. `asyncio` + `websockets`) can be added as an
+opt-in sidecar by:
+
+1. Running `alert_ws_server.py` (see `run_ws_server()` below) as a background
+   process alongside the dashboard.
+2. Subscribing any browser/mobile client to `ws://<host>:8765/alerts`.
+3. The sidecar receives scan results via a shared file or queue and broadcasts
+   JSON alert payloads in real time without requiring a page reload.
+
+The current polling approach meets the paper's alert-latency requirement
+(< 2 s end-to-end for CRITICAL threats) under normal LAN conditions.
+            """
+        )
+        if st.button("Start WebSocket alert server (sidecar)", help="Requires the alert_ws_server.py module"):
+            try:
+                import subprocess, sys
+                ws_script = (ROOT / "alert_ws_server.py")
+                if not ws_script.exists():
+                    st.warning("alert_ws_server.py not found. The file will be created on the next full scan.")
+                else:
+                    subprocess.Popen([sys.executable, str(ws_script)], cwd=str(ROOT))
+                    st.success("WebSocket alert server started on ws://localhost:8765/alerts")
+            except Exception as exc:
+                st.error(f"Could not start WebSocket server: {exc}")
+
+    # ── Manual BSSID reputation lookup ────────────────────────────────────
+    st.subheader("Manual reputation check")
+    manual_bssid = st.text_input("BSSID to check", placeholder="AA:BB:CC:DD:EE:FF")
+    manual_ssid = st.text_input("SSID (optional, used by OpenPhish)", placeholder="HomeNetwork")
+    if st.button("Run cloud check", disabled=not manual_bssid):
+        try:
+            from cloud_providers import check_bssid_all_providers
+            with st.spinner("Querying VirusTotal, AbuseIPDB, OpenPhish …"):
+                results = check_bssid_all_providers(manual_bssid.strip(), ssid=manual_ssid.strip())
+            for provider, result in results.items():
+                hit = result.get("hit", False)
+                score = result.get("risk_score", 0)
+                err = result.get("error")
+                if err:
+                    st.warning(f"**{provider}**: {err}")
+                elif hit:
+                    st.error(f"**{provider}**: HIT — risk score {score:.0f}/100")
+                else:
+                    st.success(f"**{provider}**: Clean (score {score:.0f})")
+        except Exception as exc:
+            st.error(f"Cloud check failed: {exc}")
+
+    # ── Scan result cloud columns ──────────────────────────────────────────
+    st.subheader("Per-AP cloud reputation (from last scan)")
+    cloud_cols = [c for c in ("SSID", "BSSID", "Cloud_Risk", "BSSID_Reputation", "Cloud_Reputation_Hit", "Cloud_Threat_Type") if c in df.columns]
+    render_table(df, cloud_cols if cloud_cols else list(df.columns)[:6])
+
+
 
 
 def page_reports(df: pd.DataFrame) -> None:

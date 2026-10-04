@@ -23,6 +23,25 @@ from sensor_mesh import mesh_context
 from wired_correlation import correlate
 from wifi_sensing import summarize as sensing_summary
 
+# ── Novelty additions ──────────────────────────────────────────────────────
+# Paper 3: RAIM-inspired RSSI consistency check (was only in old main.py)
+from rssi_raim import raim_consistency_check, is_temporally_unstable, rssi_to_distance
+
+# Papers 5/6: Layer-2 deauth/jamming/sequence-anomaly detector
+try:
+    from layer2_monitor import layer2_evidence as _layer2_evidence, is_available as _l2_available
+except ImportError:
+    _layer2_evidence = None  # type: ignore[assignment]
+    _l2_available = lambda: False  # noqa: E731
+
+# Cloud threat-intelligence HTTP adapters (VirusTotal, AbuseIPDB, OpenPhish)
+try:
+    from cloud_providers import check_bssid_all_providers as _cloud_check
+    from threat_intelligence import get_threat_intelligence as _get_ti
+except Exception:
+    _cloud_check = None  # type: ignore[assignment]
+    _get_ti = None  # type: ignore[assignment]
+
 LOGGER = logging.getLogger(__name__)
 
 
@@ -52,6 +71,13 @@ class ScanController:
         self._metrics: deque[dict[str, float]] = deque(maxlen=100)
         for record in self.fingerprints.all_records():
             self.temporal.seed(record.get("bssid", ""), record.get("rssi_history", []))
+        # RAIM: per-(ssid,bssid) RSSI history for cross-AP consistency checks
+        self._raim_history: dict[tuple[str, str], list[float]] = defaultdict(list)
+        # Layer-2 monitor interface (configurable via runtime_config or env)
+        self._l2_interface: str = (
+            self.config.get("layer2_monitor", {}).get("interface", "")
+            or ""
+        )
 
     def start(self, mode: str = "auto") -> bool:
         normalized = str(mode).casefold()
@@ -262,6 +288,34 @@ class ScanController:
         for record in all_records:
             if record.get("trusted"):
                 trusted_by_ssid[str(record.get("ssid", "")).casefold()].append(record)
+
+        # ── RAIM: build per-SSID per-BSSID RSSI histories ─────────────────
+        # Accumulate incoming RSSI samples into the controller's rolling store.
+        for item in observations:
+            bssid = canonical_bssid(item.get("bssid"))
+            ssid = str(item.get("ssid", ""))
+            rssi = item.get("rssi_dbm")
+            if bssid and rssi is not None:
+                key = (ssid.casefold(), bssid)
+                history = self._raim_history[key]
+                history.append(float(rssi))
+                # cap history to avoid unbounded growth
+                if len(history) > 60:
+                    self._raim_history[key] = history[-60:]
+
+        # For each SSID compute RAIM results across all its BSSIDs
+        raim_by_ssid_bssid: dict[tuple[str, str], dict[str, Any]] = {}
+        for ssid_key, bssid_set in by_ssid.items():
+            per_bssid_histories = {
+                b: self._raim_history[(ssid_key, b)]
+                for b in bssid_set
+                if self._raim_history[(ssid_key, b)]
+            }
+            if per_bssid_histories:
+                raim_results = raim_consistency_check(per_bssid_histories)
+                for b, result in raim_results.items():
+                    raim_by_ssid_bssid[(ssid_key, b)] = result
+
         prepared: list[tuple[dict[str, Any], str, dict[str, Any] | None, dict[str, Any], dict[str, Any]]] = []
         for observation in observations:
             bssid = canonical_bssid(observation.get("bssid"))
@@ -281,7 +335,8 @@ class ScanController:
 
         output: list[dict[str, Any]] = []
         for (observation, bssid, baseline, temporal, density), ml in zip(prepared, ml_results):
-            ssid_key = str(observation.get("ssid", "")).casefold()
+            ssid = str(observation.get("ssid", ""))
+            ssid_key = ssid.casefold()
             row_context = dict(context or {})
             wired_cfg = self.config["wired_correlation"]
             if wired_cfg["enabled"]:
@@ -291,6 +346,76 @@ class ScanController:
             if mesh_cfg["enabled"]:
                 row_context["sensor_mesh"] = mesh_context(observation, mesh_cfg["inbox_dir"], mesh_cfg["max_age_seconds"])
                 row_context.setdefault("reasons", []).extend(row_context["sensor_mesh"].get("reasons", []))
+
+            # ── RAIM evidence ──────────────────────────────────────────────
+            raim_info = raim_by_ssid_bssid.get((ssid_key, bssid), {})
+            raim_score: float | None = None
+            raim_reasons: list[str] = []
+            rssi_val = observation.get("rssi_dbm")
+            if raim_info:
+                if raim_info.get("flagged"):
+                    dist = raim_info.get("distance", 0)
+                    rv = raim_info.get("rogue_votes", 0)
+                    tv = rv + raim_info.get("benign_votes", 0)
+                    raim_score = 70.0
+                    raim_reasons.append(
+                        f"RAIM: distance estimate (~{dist:.1f}m) inconsistent with "
+                        f"other APs on '{ssid}' ({rv}/{tv} subsets disagree)"
+                    )
+                else:
+                    raim_score = 0.0
+            if rssi_val is not None:
+                history_key = (ssid_key, bssid)
+                hist = self._raim_history.get(history_key, [])
+                if is_temporally_unstable(hist):
+                    raim_score = min(100.0, (raim_score or 0.0) + 30.0)
+                    raim_reasons.append("RAIM: RSSI is temporally unstable across repeated observations")
+                est_dist = rssi_to_distance(float(rssi_val))
+                if est_dist < 1.0:
+                    raim_score = min(100.0, (raim_score or 0.0) + 20.0)
+                    raim_reasons.append(f"RAIM: physically implausible proximity (~{est_dist:.2f}m by path-loss model)")
+            row_context["raim"] = {"score": raim_score or 0.0, "reasons": raim_reasons}
+            if raim_reasons:
+                row_context.setdefault("reasons", []).extend(raim_reasons)
+
+            # ── Layer-2 (deauth/jamming) evidence ─────────────────────────
+            l2_evidence: dict[str, Any] | None = None
+            if _layer2_evidence is not None and self._l2_interface:
+                try:
+                    l2_evidence = _layer2_evidence(observation, interface=self._l2_interface)
+                    if l2_evidence:
+                        row_context.setdefault("reasons", []).extend(l2_evidence.get("reasons", []))
+                except Exception as exc:
+                    LOGGER.debug("layer2_evidence error for %s: %s", bssid, exc)
+
+            # ── Cloud reputation enrichment (final pass only) ──────────────
+            cloud_enrichment: dict[str, Any] = {}
+            if update_state and bssid and _cloud_check is not None:
+                try:
+                    ti = _get_ti() if _get_ti else None
+                    cache_fn = ti.cache_external_result if ti else None
+                    cloud_enrichment = _cloud_check(bssid, ssid=ssid, cache_fn=cache_fn)
+                except Exception as exc:
+                    LOGGER.debug("cloud_check error for %s: %s", bssid, exc)
+
+            # Derive a combined cloud risk score for fusion
+            cloud_score: float | None = None
+            cloud_hit = False
+            if cloud_enrichment:
+                scores = [
+                    float(v.get("risk_score", 0))
+                    for v in cloud_enrichment.values()
+                    if isinstance(v, dict) and not v.get("error")
+                ]
+                if scores:
+                    cloud_score = min(100.0, max(scores))
+                    cloud_hit = cloud_score > 0
+                    if cloud_hit:
+                        row_context.setdefault("reasons", []).append(
+                            f"Cloud reputation: risk {cloud_score:.0f}/100 "
+                            f"(providers: {', '.join(cloud_enrichment)})"
+                        )
+
             fused = self.fusion.score_observation(
                 observation, baseline, trusted_by_ssid.get(ssid_key, []),
                 temporal, density=density, context=row_context or None, ml_score=ml.get("risk_score") if ml else None,
@@ -313,6 +438,20 @@ class ScanController:
                 "KNN_Prediction": ml.get("knn_fake_probability") if ml else None,
                 "Isolation_Forest": ml.get("isolation_anomaly_score") if ml else None,
                 "ML_Risk": ml.get("risk_score") if ml else None,
+                # ── RAIM evidence fields ───────────────────────────────────
+                "raim": row_context.get("raim"),
+                "RAIM_Flagged": raim_info.get("flagged", False),
+                "RAIM_Distance_m": raim_info.get("distance"),
+                "RAIM_Score": raim_score,
+                # ── Layer-2 deauth/jamming fields ─────────────────────────
+                "layer2": l2_evidence,
+                "Layer2_Deauth_Detected": bool(l2_evidence and l2_evidence.get("score", 0) > 0),
+                # ── Cloud reputation fields ────────────────────────────────
+                "cloud_providers": cloud_enrichment or None,
+                "Cloud_Risk": cloud_score,
+                "Cloud_Reputation_Hit": cloud_hit,
+                "Cloud_Threat_Type": "Multi-provider" if cloud_hit else None,
+                # ── Core fusion output ─────────────────────────────────────
                 "risk_score": fused["risk_score"],
                 "threat_level": fused["threat_level"],
                 "evidence_scores": fused["evidence_scores"],

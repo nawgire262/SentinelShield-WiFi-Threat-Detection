@@ -7,6 +7,7 @@ pywifi
 # Windows backend used by pywifi for adapter discovery
 comtypes
 plyer
+altair
 
 # Dashboard
 streamlit
@@ -18,3 +19,11 @@ openpyxl
 
 # Cloud Threat Intelligence (optional — offline mode works without it)
 firebase-admin
+
+# External cloud reputation adapters (VirusTotal, AbuseIPDB, OpenPhish)
+# Requires: VIRUSTOTAL_API_KEY, ABUSEIPDB_API_KEY, OPENPHISH_API_KEY env vars
+requests
+
+# WebSocket push-alert sidecar (optional)
+# Run:  python alert_ws_server.py
+websockets
