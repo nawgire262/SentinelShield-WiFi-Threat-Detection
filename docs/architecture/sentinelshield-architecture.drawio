@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="Cursor" version="24.7.17" type="device">
+  <diagram id="sentinelshield-architecture" name="Architecture">
+    <mxGraphModel dx="1400" dy="980" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1040" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="SentinelShield — System Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1;fontFamily=Arial;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="200" y="16" width="1000" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="Local rogue and evil-twin Wi-Fi detection" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontFamily=Arial;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="200" y="50" width="1000" height="22" as="geometry" />
+        </mxCell>
+
+        <mxCell id="actor" value="Operator" style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;fillColor=#f5f5f5;strokeColor=#666666;fontFamily=Arial;fontSize=13;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="590" y="84" width="220" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="band_ui" value="Presentation" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;align=left;spacingLeft=14;spacingTop=6;fontStyle=1;fontSize=13;fontFamily=Arial;fontColor=#1d4e89;" vertex="1" parent="1">
+          <mxGeometry x="48" y="148" width="1304" height="128" as="geometry" />
+        </mxCell>
+        <mxCell id="ui_caption" value="dashboard.py · Streamlit" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="160" y="154" width="280" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="page_live" value="&lt;b&gt;Live Scan&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#ffffff;strokeColor=#6c8ebf;fontFamily=Arial;fontSize=13;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="72" y="186" width="196" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="page_networks" value="&lt;b&gt;Networks&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#ffffff;strokeColor=#6c8ebf;fontFamily=Arial;fontSize=13;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="284" y="186" width="196" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="page_threat" value="&lt;b&gt;Threat Analysis&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#ffffff;strokeColor=#6c8ebf;fontFamily=Arial;fontSize=13;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="496" y="186" width="196" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="page_ml" value="&lt;b&gt;ML Detection&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#ffffff;strokeColor=#6c8ebf;fontFamily=Arial;fontSize=13;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="708" y="186" width="196" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="page_alerts" value="&lt;b&gt;Alerts&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#ffffff;strokeColor=#6c8ebf;fontFamily=Arial;fontSize=13;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="920" y="186" width="196" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="page_history" value="&lt;b&gt;Scan History&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#ffffff;strokeColor=#6c8ebf;fontFamily=Arial;fontSize=13;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="1132" y="186" width="196" height="68" as="geometry" />
+        </mxCell>
+
+        <mxCell id="band_orch" value="Orchestration" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#fff2cc;strokeColor=#d6b656;verticalAlign=top;align=left;spacingLeft=14;spacingTop=6;fontStyle=1;fontSize=13;fontFamily=Arial;fontColor=#7a5b00;" vertex="1" parent="1">
+          <mxGeometry x="48" y="332" width="1304" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ctrl" value="&lt;b&gt;ScanController&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;scan_controller.py · fast · balanced · deep · auto&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#ffffff;strokeColor=#d6b656;fontFamily=Arial;fontSize=14;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="400" y="368" width="600" height="48" as="geometry" />
+        </mxCell>
+
+        <mxCell id="band_acq" value="Acquisition" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;align=left;spacingLeft=14;spacingTop=6;fontStyle=1;fontSize=13;fontFamily=Arial;fontColor=#2d6a2d;" vertex="1" parent="1">
+          <mxGeometry x="48" y="476" width="1304" height="124" as="geometry" />
+        </mxCell>
+        <mxCell id="scanner" value="&lt;b&gt;FastWiFiScanner&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;fast_wifi_scanner.py · PyWiFi · adapter discovery&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#ffffff;strokeColor=#82b366;fontFamily=Arial;fontSize=13;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="72" y="516" width="600" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="sensors" value="&lt;b&gt;Optional sensors&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;Bluetooth · Location · Wired · Mesh · Scapy L2&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#ffffff;strokeColor=#82b366;fontFamily=Arial;fontSize=13;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="700" y="516" width="628" height="64" as="geometry" />
+        </mxCell>
+
+        <mxCell id="band_an" value="Analysis" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#ffe6cc;strokeColor=#d79b00;verticalAlign=top;align=left;spacingLeft=14;spacingTop=6;fontStyle=1;fontSize=13;fontFamily=Arial;fontColor=#8a5a00;" vertex="1" parent="1">
+          <mxGeometry x="48" y="644" width="1304" height="136" as="geometry" />
+        </mxCell>
+        <mxCell id="fp" value="&lt;b&gt;WiFiFingerprintStore&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;baseline JSON lookup&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#ffffff;strokeColor=#d79b00;fontFamily=Arial;fontSize=13;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="72" y="684" width="292" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="temporal" value="&lt;b&gt;TemporalAnalyzer&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;signal behavior over time&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#ffffff;strokeColor=#d79b00;fontFamily=Arial;fontSize=13;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="380" y="684" width="292" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="ml" value="&lt;b&gt;ML ensemble&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;ml_evidence.py · RF · KNN · IF · meta&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#ffffff;strokeColor=#d79b00;fontFamily=Arial;fontSize=13;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="688" y="684" width="292" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="fusion" value="&lt;b&gt;EvidenceFusion&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;evidence_fusion.py · risk score&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#fff2cc;strokeColor=#d79b00;fontFamily=Arial;fontSize=13;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="996" y="684" width="332" height="72" as="geometry" />
+        </mxCell>
+
+        <mxCell id="stores" value="&lt;b&gt;Data stores&lt;/b&gt;&lt;br&gt;&lt;br&gt;SQLite · sentinelshield.db&lt;br&gt;CSV scan and alert exports&lt;br&gt;JSON fingerprint baselines&lt;br&gt;.pkl trained models" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#e1d5e7;strokeColor=#9673a6;verticalAlign=top;align=left;spacingLeft=16;spacingTop=10;fontFamily=Arial;fontSize=13;fontColor=#1a1a1a;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="48" y="828" width="410" height="168" as="geometry" />
+        </mxCell>
+        <mxCell id="cloud" value="&lt;b&gt;Cloud reputation&lt;/b&gt;&lt;br&gt;&lt;br&gt;Firebase Firestore&lt;br&gt;VirusTotal&lt;br&gt;AbuseIPDB&lt;br&gt;OpenPhish" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;align=left;spacingLeft=16;spacingTop=10;fontFamily=Arial;fontSize=13;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="494" y="828" width="410" height="168" as="geometry" />
+        </mxCell>
+        <mxCell id="alerts" value="&lt;b&gt;Alerts and quarantine&lt;/b&gt;&lt;br&gt;&lt;br&gt;Desktop · email · Telegram · SMS&lt;br&gt;WebSocket alert stream&lt;br&gt;Ansible / Open vSwitch&lt;br&gt;isolate_malicious_node.yml" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#f8cecc;strokeColor=#b85450;verticalAlign=top;align=left;spacingLeft=16;spacingTop=10;fontFamily=Arial;fontSize=13;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="942" y="828" width="410" height="168" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_use" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeColor=#666666;strokeWidth=1;fontFamily=Arial;fontSize=11;fontColor=#333333;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="actor" target="band_ui">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_start" value="start / stop / status" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeColor=#666666;strokeWidth=1;fontFamily=Arial;fontSize=11;fontColor=#333333;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="band_ui" target="ctrl">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_scan" value="scan" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeColor=#666666;strokeWidth=1;fontFamily=Arial;fontSize=11;fontColor=#333333;labelBackgroundColor=#ffffff;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ctrl" target="scanner">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_ctx" value="context" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeColor=#666666;strokeWidth=1;fontFamily=Arial;fontSize=11;fontColor=#333333;labelBackgroundColor=#ffffff;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ctrl" target="sensors">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_obs" value="observations" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeColor=#666666;strokeWidth=1;fontFamily=Arial;fontSize=11;fontColor=#333333;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.28;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="scanner" target="band_an">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_sense" value="context" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeColor=#666666;strokeWidth=1;fontFamily=Arial;fontSize=11;fontColor=#333333;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.72;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="sensors" target="band_an">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_persist" value="persist" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeColor=#666666;strokeWidth=1;fontFamily=Arial;fontSize=11;fontColor=#333333;labelBackgroundColor=#ffffff;exitX=0.18;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="band_an" target="stores">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_enrich" value="enrich" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeColor=#666666;strokeWidth=1;fontFamily=Arial;fontSize=11;fontColor=#333333;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="band_an" target="cloud">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_notify" value="HIGH / CRITICAL" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeColor=#666666;strokeWidth=1;fontFamily=Arial;fontSize=11;fontColor=#333333;labelBackgroundColor=#ffffff;exitX=0.82;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="band_an" target="alerts">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_poll" value="poll results" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeColor=#666666;strokeWidth=1;fontFamily=Arial;fontSize=11;fontColor=#333333;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.55;entryDx=0;entryDy=0;" edge="1" parent="1" source="stores" target="band_ui">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="24" y="912" />
+              <mxPoint x="24" y="218" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
