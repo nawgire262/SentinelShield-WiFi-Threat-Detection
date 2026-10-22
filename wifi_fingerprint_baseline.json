@@ -1,17 +1,19 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-04T08:45:04.101+00:00",
+  "updated_at": "2026-10-21T16:34:17.464+00:00",
   "aps": {
     "98:03:8E:EB:5E:98": {
       "ssid": "DPUP",
       "bssid": "98:03:8E:EB:5E:98",
       "vendor": null,
       "first_seen": "2026-10-04T08:44:48.229+00:00",
-      "last_seen": "2026-10-04T08:44:48.229+00:00",
-      "observation_count": 1,
-      "confidence": "OBSERVED",
+      "last_seen": "2026-10-21T16:34:14.086+00:00",
+      "observation_count": 44,
+      "confidence": "ESTABLISHED",
       "trusted": false,
       "channels": [
+        3,
+        9,
         10
       ],
       "security_history": [
@@ -21,31 +23,375 @@
         {
           "timestamp": "2026-10-04T08:44:48.229+00:00",
           "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:25:36.196+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:25:52.096+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:25:57.125+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:02.116+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:07.206+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:12.100+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:17.106+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:22.163+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:27.180+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:32.192+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:37.171+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:42.165+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:47.262+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:52.207+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:57.246+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:02.203+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:07.241+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:12.236+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:17.262+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:22.299+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:27.673+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:32.755+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:37.513+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:42.825+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:47.676+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:52.627+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:57.690+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:28:02.711+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:28:07.869+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:28:12.790+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:28:22.796+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:28:27.691+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:28:32.698+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:28:37.649+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:28:42.731+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-21T13:30:40.250+00:00",
+          "channel": 9
+        },
+        {
+          "timestamp": "2026-10-21T13:51:06.868+00:00",
+          "channel": 9
+        },
+        {
+          "timestamp": "2026-10-21T13:51:37.938+00:00",
+          "channel": 9
+        },
+        {
+          "timestamp": "2026-10-21T13:52:07.522+00:00",
+          "channel": 9
+        },
+        {
+          "timestamp": "2026-10-21T15:43:31.321+00:00",
+          "channel": 9
+        },
+        {
+          "timestamp": "2026-10-21T16:07:15.234+00:00",
+          "channel": 9
+        },
+        {
+          "timestamp": "2026-10-21T16:32:09.433+00:00",
+          "channel": 9
+        },
+        {
+          "timestamp": "2026-10-21T16:34:14.086+00:00",
+          "channel": 9
         }
       ],
       "rssi_history": [
         {
           "timestamp": "2026-10-04T08:44:48.229+00:00",
           "rssi_dbm": -62.0
+        },
+        {
+          "timestamp": "2026-10-19T16:25:36.196+00:00",
+          "rssi_dbm": -30.0
+        },
+        {
+          "timestamp": "2026-10-19T16:25:52.096+00:00",
+          "rssi_dbm": -32.0
+        },
+        {
+          "timestamp": "2026-10-19T16:25:57.125+00:00",
+          "rssi_dbm": -30.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:02.116+00:00",
+          "rssi_dbm": -30.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:07.206+00:00",
+          "rssi_dbm": -30.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:12.100+00:00",
+          "rssi_dbm": -32.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:17.106+00:00",
+          "rssi_dbm": -32.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:22.163+00:00",
+          "rssi_dbm": -32.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:27.180+00:00",
+          "rssi_dbm": -30.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:32.192+00:00",
+          "rssi_dbm": -32.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:37.171+00:00",
+          "rssi_dbm": -33.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:42.165+00:00",
+          "rssi_dbm": -32.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:47.262+00:00",
+          "rssi_dbm": -30.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:52.207+00:00",
+          "rssi_dbm": -30.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:57.246+00:00",
+          "rssi_dbm": -30.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:02.203+00:00",
+          "rssi_dbm": -30.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:07.241+00:00",
+          "rssi_dbm": -30.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:12.236+00:00",
+          "rssi_dbm": -33.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:17.262+00:00",
+          "rssi_dbm": -32.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:22.299+00:00",
+          "rssi_dbm": -30.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:27.673+00:00",
+          "rssi_dbm": -30.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:32.755+00:00",
+          "rssi_dbm": -30.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:37.513+00:00",
+          "rssi_dbm": -30.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:42.825+00:00",
+          "rssi_dbm": -32.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:47.676+00:00",
+          "rssi_dbm": -31.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:52.627+00:00",
+          "rssi_dbm": -30.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:57.690+00:00",
+          "rssi_dbm": -31.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:02.711+00:00",
+          "rssi_dbm": -33.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:07.869+00:00",
+          "rssi_dbm": -30.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:12.790+00:00",
+          "rssi_dbm": -30.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:22.796+00:00",
+          "rssi_dbm": -32.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:27.691+00:00",
+          "rssi_dbm": -32.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:32.698+00:00",
+          "rssi_dbm": -32.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:37.649+00:00",
+          "rssi_dbm": -35.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:42.731+00:00",
+          "rssi_dbm": -32.0
+        },
+        {
+          "timestamp": "2026-10-21T13:30:40.250+00:00",
+          "rssi_dbm": -39.0
+        },
+        {
+          "timestamp": "2026-10-21T13:51:06.868+00:00",
+          "rssi_dbm": -48.0
+        },
+        {
+          "timestamp": "2026-10-21T13:51:37.938+00:00",
+          "rssi_dbm": -48.0
+        },
+        {
+          "timestamp": "2026-10-21T13:52:07.522+00:00",
+          "rssi_dbm": -33.0
+        },
+        {
+          "timestamp": "2026-10-21T15:43:31.321+00:00",
+          "rssi_dbm": -33.0
+        },
+        {
+          "timestamp": "2026-10-21T16:07:15.234+00:00",
+          "rssi_dbm": -35.0
+        },
+        {
+          "timestamp": "2026-10-21T16:32:09.433+00:00",
+          "rssi_dbm": -32.0
+        },
+        {
+          "timestamp": "2026-10-21T16:34:14.086+00:00",
+          "rssi_dbm": -30.0
         }
       ],
-      "rssi_mean": -62.0,
-      "rssi_variance": 0.0,
+      "rssi_mean": -32.95454545454545,
+      "rssi_variance": 34.497933884297524,
       "rssi_min": -62.0,
-      "rssi_max": -62.0,
-      "signal_stability": "unknown",
-      "observation_frequency_per_hour": 3600.0,
-      "fingerprint_hash": "0d63f44a136a5c4d4e89299cfb08f7fae232169a9110acf39cfcf0383665f890",
-      "updated_at": "2026-10-04T08:44:51.790+00:00"
+      "rssi_max": -30.0,
+      "signal_stability": "variable",
+      "observation_frequency_per_hour": 0.106,
+      "fingerprint_hash": "a353a57d208ce4ac27120c95f4dbeb4a88acd376564da5bc9ff8b92886000102",
+      "updated_at": "2026-10-21T16:34:16.917+00:00"
     },
     "6C:0B:5E:09:B6:42": {
       "ssid": "DIRECT-41-HP DeskJet 4900 series",
       "bssid": "6C:0B:5E:09:B6:42",
       "vendor": null,
       "first_seen": "2026-10-04T08:44:48.229+00:00",
-      "last_seen": "2026-10-04T08:44:48.229+00:00",
-      "observation_count": 1,
-      "confidence": "OBSERVED",
+      "last_seen": "2026-10-21T16:34:14.086+00:00",
+      "observation_count": 7,
+      "confidence": "ESTABLISHED",
       "trusted": false,
       "channels": [
         6
@@ -57,30 +403,78 @@
         {
           "timestamp": "2026-10-04T08:44:48.229+00:00",
           "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T13:30:40.250+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T13:51:06.868+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T13:52:07.522+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T15:43:31.321+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T16:07:15.234+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T16:34:14.086+00:00",
+          "channel": 6
         }
       ],
       "rssi_history": [
         {
           "timestamp": "2026-10-04T08:44:48.229+00:00",
           "rssi_dbm": -77.0
+        },
+        {
+          "timestamp": "2026-10-21T13:30:40.250+00:00",
+          "rssi_dbm": -53.0
+        },
+        {
+          "timestamp": "2026-10-21T13:51:06.868+00:00",
+          "rssi_dbm": -55.0
+        },
+        {
+          "timestamp": "2026-10-21T13:52:07.522+00:00",
+          "rssi_dbm": -52.0
+        },
+        {
+          "timestamp": "2026-10-21T15:43:31.321+00:00",
+          "rssi_dbm": -46.0
+        },
+        {
+          "timestamp": "2026-10-21T16:07:15.234+00:00",
+          "rssi_dbm": -49.0
+        },
+        {
+          "timestamp": "2026-10-21T16:34:14.086+00:00",
+          "rssi_dbm": -48.0
         }
       ],
-      "rssi_mean": -77.0,
-      "rssi_variance": 0.0,
+      "rssi_mean": -54.285714285714285,
+      "rssi_variance": 94.20408163265306,
       "rssi_min": -77.0,
-      "rssi_max": -77.0,
-      "signal_stability": "unknown",
-      "observation_frequency_per_hour": 3600.0,
+      "rssi_max": -46.0,
+      "signal_stability": "variable",
+      "observation_frequency_per_hour": 0.017,
       "fingerprint_hash": "08021406bc9b2946f104d0d01e998f4b53fa32c999a16b17eb57ee0af5db28f3",
-      "updated_at": "2026-10-04T08:44:52.058+00:00"
+      "updated_at": "2026-10-21T16:34:17.289+00:00"
     },
     "98:9D:B2:4B:5A:69": {
       "ssid": "Tejal Pawar",
       "bssid": "98:9D:B2:4B:5A:69",
       "vendor": null,
       "first_seen": "2026-10-04T08:44:48.229+00:00",
-      "last_seen": "2026-10-04T08:44:48.229+00:00",
-      "observation_count": 1,
+      "last_seen": "2026-10-21T16:34:14.086+00:00",
+      "observation_count": 2,
       "confidence": "OBSERVED",
       "trusted": false,
       "channels": [
@@ -92,6 +486,10 @@
       "channel_history": [
         {
           "timestamp": "2026-10-04T08:44:48.229+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T16:34:14.086+00:00",
           "channel": 11
         }
       ],
@@ -99,27 +497,32 @@
         {
           "timestamp": "2026-10-04T08:44:48.229+00:00",
           "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-21T16:34:14.086+00:00",
+          "rssi_dbm": -78.0
         }
       ],
-      "rssi_mean": -80.0,
-      "rssi_variance": 0.0,
+      "rssi_mean": -79.0,
+      "rssi_variance": 1.0,
       "rssi_min": -80.0,
-      "rssi_max": -80.0,
+      "rssi_max": -78.0,
       "signal_stability": "unknown",
-      "observation_frequency_per_hour": 3600.0,
+      "observation_frequency_per_hour": 0.005,
       "fingerprint_hash": "8e2386d3463e1dba9bcc591ac4e5ddf29283ba87b56d576f2bf8e2c174c8fbaa",
-      "updated_at": "2026-10-04T08:44:52.283+00:00"
+      "updated_at": "2026-10-21T16:34:17.091+00:00"
     },
     "58:D5:6E:D7:1D:5C": {
       "ssid": "D-Link_DIR-615",
       "bssid": "58:D5:6E:D7:1D:5C",
       "vendor": null,
       "first_seen": "2026-10-04T08:44:48.229+00:00",
-      "last_seen": "2026-10-04T08:44:48.229+00:00",
-      "observation_count": 1,
-      "confidence": "OBSERVED",
+      "last_seen": "2026-10-19T16:28:27.691+00:00",
+      "observation_count": 10,
+      "confidence": "ESTABLISHED",
       "trusted": false,
       "channels": [
+        7,
         11
       ],
       "security_history": [
@@ -129,22 +532,94 @@
         {
           "timestamp": "2026-10-04T08:44:48.229+00:00",
           "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:25:57.125+00:00",
+          "channel": 7
+        },
+        {
+          "timestamp": "2026-10-19T16:26:22.163+00:00",
+          "channel": 7
+        },
+        {
+          "timestamp": "2026-10-19T16:26:27.180+00:00",
+          "channel": 7
+        },
+        {
+          "timestamp": "2026-10-19T16:26:32.192+00:00",
+          "channel": 7
+        },
+        {
+          "timestamp": "2026-10-19T16:26:37.171+00:00",
+          "channel": 7
+        },
+        {
+          "timestamp": "2026-10-19T16:26:42.165+00:00",
+          "channel": 7
+        },
+        {
+          "timestamp": "2026-10-19T16:27:07.241+00:00",
+          "channel": 7
+        },
+        {
+          "timestamp": "2026-10-19T16:27:27.673+00:00",
+          "channel": 7
+        },
+        {
+          "timestamp": "2026-10-19T16:28:27.691+00:00",
+          "channel": 7
         }
       ],
       "rssi_history": [
         {
           "timestamp": "2026-10-04T08:44:48.229+00:00",
           "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-19T16:25:57.125+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:22.163+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:27.180+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:32.192+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:37.171+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:42.165+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:07.241+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:27.673+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:27.691+00:00",
+          "rssi_dbm": -82.0
         }
       ],
-      "rssi_mean": -78.0,
-      "rssi_variance": 0.0,
-      "rssi_min": -78.0,
+      "rssi_mean": -81.1,
+      "rssi_variance": 2.8899999999999997,
+      "rssi_min": -83.0,
       "rssi_max": -78.0,
-      "signal_stability": "unknown",
-      "observation_frequency_per_hour": 3600.0,
-      "fingerprint_hash": "b4c33be34d437fec3e623dd234f7f39274284f59411d80316b6f8cb1d888dc38",
-      "updated_at": "2026-10-04T08:44:52.548+00:00"
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 0.027,
+      "fingerprint_hash": "5d96b10b4216d2b6578ffcb9f14b3c1b67c14d3a15627b5350d161eb7431ab84",
+      "updated_at": "2026-10-19T16:28:28.196+00:00"
     },
     "60:A4:B7:D2:29:9E": {
       "ssid": "Sharyumore",
@@ -223,9 +698,9 @@
       "bssid": "78:8C:B5:79:C8:C2",
       "vendor": null,
       "first_seen": "2026-10-04T08:44:48.229+00:00",
-      "last_seen": "2026-10-04T08:44:48.229+00:00",
-      "observation_count": 1,
-      "confidence": "OBSERVED",
+      "last_seen": "2026-10-19T16:28:32.698+00:00",
+      "observation_count": 26,
+      "confidence": "ESTABLISHED",
       "trusted": false,
       "channels": [
         10
@@ -236,6 +711,106 @@
       "channel_history": [
         {
           "timestamp": "2026-10-04T08:44:48.229+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:25:38.453+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:25:57.125+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:26:02.116+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:26:07.206+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:26:22.163+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:26:27.180+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:26:32.192+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:26:37.171+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:26:42.165+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:26:52.207+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:26:57.246+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:27:02.203+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:27:07.241+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:27:12.236+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:27:17.262+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:27:27.673+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:27:42.825+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:27:47.676+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:27:52.627+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:27:57.690+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:28:02.711+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:28:07.869+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:28:22.796+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:28:27.691+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:28:32.698+00:00",
           "channel": 10
         }
       ],
@@ -243,28 +818,130 @@
         {
           "timestamp": "2026-10-04T08:44:48.229+00:00",
           "rssi_dbm": -94.0
+        },
+        {
+          "timestamp": "2026-10-19T16:25:38.453+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:25:57.125+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:02.116+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:07.206+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:22.163+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:27.180+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:32.192+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:37.171+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:42.165+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:52.207+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:57.246+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:02.203+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:07.241+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:12.236+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:17.262+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:27.673+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:42.825+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:47.676+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:52.627+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:57.690+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:02.711+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:07.869+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:22.796+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:27.691+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:32.698+00:00",
+          "rssi_dbm": -82.0
         }
       ],
-      "rssi_mean": -94.0,
-      "rssi_variance": 0.0,
+      "rssi_mean": -82.5,
+      "rssi_variance": 7.25,
       "rssi_min": -94.0,
-      "rssi_max": -94.0,
-      "signal_stability": "unknown",
-      "observation_frequency_per_hour": 3600.0,
+      "rssi_max": -78.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 0.071,
       "fingerprint_hash": "75484fd3eac015768aab00cf357e93cb4149be0f15cd09a008ffc46d794476a6",
-      "updated_at": "2026-10-04T08:44:53.379+00:00"
+      "updated_at": "2026-10-19T16:28:32.989+00:00"
     },
     "B4:F9:49:D2:43:65": {
       "ssid": "PRAMILA_4G",
       "bssid": "B4:F9:49:D2:43:65",
       "vendor": null,
       "first_seen": "2026-10-04T08:44:48.229+00:00",
-      "last_seen": "2026-10-04T08:44:48.229+00:00",
-      "observation_count": 1,
-      "confidence": "OBSERVED",
+      "last_seen": "2026-10-19T16:28:42.731+00:00",
+      "observation_count": 24,
+      "confidence": "ESTABLISHED",
       "trusted": false,
       "channels": [
-        10
+        3,
+        10,
+        11
       ],
       "security_history": [
         "SECURED"
@@ -273,33 +950,218 @@
         {
           "timestamp": "2026-10-04T08:44:48.229+00:00",
           "channel": 10
+        },
+        {
+          "timestamp": "2026-10-19T16:25:36.196+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:25:52.096+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:25:57.125+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:02.116+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:07.206+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:12.100+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:17.106+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:22.163+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:27.180+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:32.192+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:37.171+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:42.165+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:47.262+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:52.207+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:57.246+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:02.203+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:07.241+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:12.236+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:17.262+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:27.673+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:27:32.755+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:27:57.690+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:28:42.731+00:00",
+          "channel": 11
         }
       ],
       "rssi_history": [
         {
           "timestamp": "2026-10-04T08:44:48.229+00:00",
           "rssi_dbm": -74.0
+        },
+        {
+          "timestamp": "2026-10-19T16:25:36.196+00:00",
+          "rssi_dbm": -74.0
+        },
+        {
+          "timestamp": "2026-10-19T16:25:52.096+00:00",
+          "rssi_dbm": -76.0
+        },
+        {
+          "timestamp": "2026-10-19T16:25:57.125+00:00",
+          "rssi_dbm": -74.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:02.116+00:00",
+          "rssi_dbm": -76.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:07.206+00:00",
+          "rssi_dbm": -76.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:12.100+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:17.106+00:00",
+          "rssi_dbm": -76.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:22.163+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:27.180+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:32.192+00:00",
+          "rssi_dbm": -76.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:37.171+00:00",
+          "rssi_dbm": -76.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:42.165+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:47.262+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:52.207+00:00",
+          "rssi_dbm": -77.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:57.246+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:02.203+00:00",
+          "rssi_dbm": -77.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:07.241+00:00",
+          "rssi_dbm": -76.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:12.236+00:00",
+          "rssi_dbm": -79.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:17.262+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:27.673+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:32.755+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:57.690+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:42.731+00:00",
+          "rssi_dbm": -84.0
         }
       ],
-      "rssi_mean": -74.0,
-      "rssi_variance": 0.0,
-      "rssi_min": -74.0,
+      "rssi_mean": -77.875,
+      "rssi_variance": 9.276041666666666,
+      "rssi_min": -84.0,
       "rssi_max": -74.0,
-      "signal_stability": "unknown",
-      "observation_frequency_per_hour": 3600.0,
-      "fingerprint_hash": "64ee0ae56b0483ff174677b482c0a5ca4beac2499e3082c1d9d351bc99a0bced",
-      "updated_at": "2026-10-04T08:44:56.644+00:00"
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 0.065,
+      "fingerprint_hash": "1b6af1a01675cdf214c1b9acf3464d8a9ac8ea62a94207136b5d13443ada84f4",
+      "updated_at": "2026-10-19T16:28:43.049+00:00"
     },
     "AC:A7:F1:97:8B:50": {
       "ssid": "Sarthak",
       "bssid": "AC:A7:F1:97:8B:50",
       "vendor": null,
       "first_seen": "2026-10-04T08:44:51.696+00:00",
-      "last_seen": "2026-10-04T08:44:51.696+00:00",
-      "observation_count": 1,
-      "confidence": "OBSERVED",
+      "last_seen": "2026-10-21T16:34:14.086+00:00",
+      "observation_count": 5,
+      "confidence": "ESTABLISHED",
       "trusted": false,
       "channels": [
+        1,
         7
       ],
       "security_history": [
@@ -309,22 +1171,54 @@
         {
           "timestamp": "2026-10-04T08:44:51.696+00:00",
           "channel": 7
+        },
+        {
+          "timestamp": "2026-10-21T13:30:40.250+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T13:52:07.522+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T16:32:09.433+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T16:34:14.086+00:00",
+          "channel": 1
         }
       ],
       "rssi_history": [
         {
           "timestamp": "2026-10-04T08:44:51.696+00:00",
           "rssi_dbm": -86.0
+        },
+        {
+          "timestamp": "2026-10-21T13:30:40.250+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-21T13:52:07.522+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T16:32:09.433+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-21T16:34:14.086+00:00",
+          "rssi_dbm": -80.0
         }
       ],
-      "rssi_mean": -86.0,
-      "rssi_variance": 0.0,
+      "rssi_mean": -81.8,
+      "rssi_variance": 4.96,
       "rssi_min": -86.0,
-      "rssi_max": -86.0,
-      "signal_stability": "unknown",
-      "observation_frequency_per_hour": 3600.0,
-      "fingerprint_hash": "d074481d3fedc9c36d8ec72126b4b88519f1abb13438d2c2e019246b79839376",
-      "updated_at": "2026-10-04T08:45:00.029+00:00"
+      "rssi_max": -80.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 0.012,
+      "fingerprint_hash": "e0e5a95c40b3bd84d105bc48c488e22ef66a975137a22951bb410ac03b399b35",
+      "updated_at": "2026-10-21T16:34:17.463+00:00"
     },
     "54:A2:45:63:D0:80": {
       "ssid": "Thoke",
@@ -367,8 +1261,8 @@
       "bssid": "F0:09:0D:D7:30:CA",
       "vendor": null,
       "first_seen": "2026-10-04T08:44:51.696+00:00",
-      "last_seen": "2026-10-04T08:44:51.696+00:00",
-      "observation_count": 1,
+      "last_seen": "2026-10-19T16:28:32.698+00:00",
+      "observation_count": 4,
       "confidence": "OBSERVED",
       "trusted": false,
       "channels": [
@@ -381,29 +1275,4672 @@
         {
           "timestamp": "2026-10-04T08:44:51.696+00:00",
           "channel": 4
+        },
+        {
+          "timestamp": "2026-10-19T16:25:57.125+00:00",
+          "channel": 4
+        },
+        {
+          "timestamp": "2026-10-19T16:28:12.790+00:00",
+          "channel": 4
+        },
+        {
+          "timestamp": "2026-10-19T16:28:32.698+00:00",
+          "channel": 4
         }
       ],
       "rssi_history": [
         {
           "timestamp": "2026-10-04T08:44:51.696+00:00",
           "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-19T16:25:57.125+00:00",
+          "rssi_dbm": -86.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:12.790+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:32.698+00:00",
+          "rssi_dbm": -84.0
         }
       ],
-      "rssi_mean": -78.0,
-      "rssi_variance": 0.0,
-      "rssi_min": -78.0,
+      "rssi_mean": -82.5,
+      "rssi_variance": 8.75,
+      "rssi_min": -86.0,
       "rssi_max": -78.0,
-      "signal_stability": "unknown",
-      "observation_frequency_per_hour": 3600.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 0.011,
       "fingerprint_hash": "a0bf11dbe8a1a11abea1fcae726bbae73edf0ec206ff7bda9e415285ea87aac4",
-      "updated_at": "2026-10-04T08:45:00.983+00:00"
+      "updated_at": "2026-10-19T16:28:33.011+00:00"
     },
     "B8:B7:DB:22:02:36": {
       "ssid": "ARUN 2G",
       "bssid": "B8:B7:DB:22:02:36",
       "vendor": null,
       "first_seen": "2026-10-04T08:44:51.696+00:00",
-      "last_seen": "2026-10-04T08:44:51.696+00:00",
+      "last_seen": "2026-10-21T15:43:31.321+00:00",
+      "observation_count": 32,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        1,
+        2,
+        6
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-04T08:44:51.696+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:25:52.096+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:25:57.125+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:26:02.116+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:26:07.206+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:26:22.163+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:26:27.180+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:26:32.192+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:26:37.171+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:26:42.165+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:26:47.262+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:26:52.207+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:26:57.246+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:27:02.203+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:27:07.241+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:27:12.236+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-19T16:27:17.262+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-19T16:27:22.299+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-19T16:27:27.673+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-19T16:27:32.755+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-19T16:27:42.825+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-19T16:27:47.676+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-19T16:27:57.690+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-19T16:28:02.711+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-19T16:28:07.869+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-19T16:28:12.790+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-19T16:28:22.796+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-19T16:28:27.691+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-19T16:28:32.698+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-19T16:28:42.731+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T13:30:40.250+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T15:43:31.321+00:00",
+          "channel": 2
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-04T08:44:51.696+00:00",
+          "rssi_dbm": -86.0
+        },
+        {
+          "timestamp": "2026-10-19T16:25:52.096+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-19T16:25:57.125+00:00",
+          "rssi_dbm": -79.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:02.116+00:00",
+          "rssi_dbm": -79.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:07.206+00:00",
+          "rssi_dbm": -79.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:22.163+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:27.180+00:00",
+          "rssi_dbm": -79.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:32.192+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:37.171+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:42.165+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:47.262+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:52.207+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:57.246+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:02.203+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:07.241+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:12.236+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:17.262+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:22.299+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:27.673+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:32.755+00:00",
+          "rssi_dbm": -79.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:42.825+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:47.676+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:57.690+00:00",
+          "rssi_dbm": -79.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:02.711+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:07.869+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:12.790+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:22.796+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:27.691+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:32.698+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:42.731+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T13:30:40.250+00:00",
+          "rssi_dbm": -74.0
+        },
+        {
+          "timestamp": "2026-10-21T15:43:31.321+00:00",
+          "rssi_dbm": -77.0
+        }
+      ],
+      "rssi_mean": -80.0625,
+      "rssi_variance": 3.99609375,
+      "rssi_min": -86.0,
+      "rssi_max": -74.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 0.077,
+      "fingerprint_hash": "058ff9e3ab7db7d80a6e3322db9f52df41a00918f7d0368eaeb9b5b23facfe41",
+      "updated_at": "2026-10-21T15:43:33.204+00:00"
+    },
+    "F0:09:0D:D7:3F:D2": {
+      "ssid": "Shivanya",
+      "bssid": "F0:09:0D:D7:3F:D2",
+      "vendor": null,
+      "first_seen": "2026-10-19T16:25:36.196+00:00",
+      "last_seen": "2026-10-21T16:34:14.086+00:00",
+      "observation_count": 37,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        3,
+        10
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-19T16:25:36.196+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:25:52.096+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:25:57.125+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:02.116+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:07.206+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:12.100+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:17.106+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:22.163+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:27.180+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:32.192+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:37.171+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:42.165+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:47.262+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:52.207+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:26:57.246+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:02.203+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:07.241+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:12.236+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:17.262+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:22.299+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:27.673+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:32.755+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:42.825+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:47.676+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:52.627+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:27:57.690+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:28:02.711+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:28:07.869+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:28:12.790+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:28:22.796+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:28:27.691+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:28:32.698+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:28:37.649+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-19T16:28:42.731+00:00",
+          "channel": 3
+        },
+        {
+          "timestamp": "2026-10-21T13:30:40.250+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-21T13:52:07.522+00:00",
+          "channel": 10
+        },
+        {
+          "timestamp": "2026-10-21T16:34:14.086+00:00",
+          "channel": 10
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-19T16:25:36.196+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:25:52.096+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:25:57.125+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:02.116+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:07.206+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:12.100+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:17.106+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:22.163+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:27.180+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:32.192+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:37.171+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:42.165+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:47.262+00:00",
+          "rssi_dbm": -79.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:52.207+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:57.246+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:02.203+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:07.241+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:12.236+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:17.262+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:22.299+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:27.673+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:32.755+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:42.825+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:47.676+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:52.627+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:57.690+00:00",
+          "rssi_dbm": -79.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:02.711+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:07.869+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:12.790+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:22.796+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:27.691+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:32.698+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:37.649+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:42.731+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T13:30:40.250+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-21T13:52:07.522+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T16:34:14.086+00:00",
+          "rssi_dbm": -76.0
+        }
+      ],
+      "rssi_mean": -81.70270270270271,
+      "rssi_variance": 2.4251278305332358,
+      "rssi_min": -84.0,
+      "rssi_max": -76.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 0.769,
+      "fingerprint_hash": "f777ea0f8ba186c63b9e4e72c367baf6a8b59ad9a705d4ea6dc866f5378b0fb8",
+      "updated_at": "2026-10-21T16:34:17.007+00:00"
+    },
+    "AA:42:A1:C5:43:E8": {
+      "ssid": "",
+      "bssid": "AA:42:A1:C5:43:E8",
+      "vendor": null,
+      "first_seen": "2026-10-19T16:25:38.453+00:00",
+      "last_seen": "2026-10-19T16:28:27.691+00:00",
+      "observation_count": 10,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        11
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-19T16:25:38.453+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:26:32.192+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:27:27.673+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:27:32.755+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:27:42.825+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:27:52.627+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:27:57.690+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:28:07.869+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:28:12.790+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:28:27.691+00:00",
+          "channel": 11
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-19T16:25:38.453+00:00",
+          "rssi_dbm": -79.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:32.192+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:27.673+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:32.755+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:42.825+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:52.627+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:57.690+00:00",
+          "rssi_dbm": -79.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:07.869+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:12.790+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:27.691+00:00",
+          "rssi_dbm": -82.0
+        }
+      ],
+      "rssi_mean": -80.8,
+      "rssi_variance": 2.36,
+      "rssi_min": -82.0,
+      "rssi_max": -78.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 212.718,
+      "fingerprint_hash": "6f8b9f709698fad9598849fe9f5bc87884168aad259c57eb8d517d517230d7e0",
+      "updated_at": "2026-10-19T16:28:28.148+00:00"
+    },
+    "AC:A7:F1:97:8B:52": {
+      "ssid": "Sarthak",
+      "bssid": "AC:A7:F1:97:8B:52",
+      "vendor": null,
+      "first_seen": "2026-10-19T16:25:57.125+00:00",
+      "last_seen": "2026-10-19T16:27:02.203+00:00",
+      "observation_count": 3,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        48
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-19T16:25:57.125+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-19T16:26:27.180+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-19T16:27:02.203+00:00",
+          "channel": 48
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-19T16:25:57.125+00:00",
+          "rssi_dbm": -90.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:27.180+00:00",
+          "rssi_dbm": -92.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:02.203+00:00",
+          "rssi_dbm": -91.0
+        }
+      ],
+      "rssi_mean": -91.0,
+      "rssi_variance": 0.6666666666666666,
+      "rssi_min": -92.0,
+      "rssi_max": -90.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 165.955,
+      "fingerprint_hash": "850501c9bdb5f54e60ed68b271ea7ce90893e0b4e9cf815859b3d8404b3dc356",
+      "updated_at": "2026-10-19T16:27:04.735+00:00"
+    },
+    "AA:42:A1:D5:43:E8": {
+      "ssid": "",
+      "bssid": "AA:42:A1:D5:43:E8",
+      "vendor": null,
+      "first_seen": "2026-10-19T16:25:57.125+00:00",
+      "last_seen": "2026-10-21T13:52:09.669+00:00",
+      "observation_count": 13,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        7,
+        11
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-19T16:25:57.125+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:26:22.163+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:27:07.241+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:27:12.236+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:27:27.673+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:27:32.755+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:27:52.627+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:28:02.711+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:28:12.790+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:28:22.796+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:28:27.691+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:28:42.731+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T13:52:09.669+00:00",
+          "channel": 7
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-19T16:25:57.125+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:22.163+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:07.241+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:12.236+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:27.673+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:32.755+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:52.627+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:02.711+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:12.790+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:22.796+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:27.691+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:42.731+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T13:52:09.669+00:00",
+          "rssi_dbm": -86.0
+        }
+      ],
+      "rssi_mean": -82.23076923076923,
+      "rssi_variance": 3.7159763313609466,
+      "rssi_min": -86.0,
+      "rssi_max": -78.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 0.286,
+      "fingerprint_hash": "8445e09fa5051a8674f045cd6b1bedec92fa84fcd634eb8f992fa1692c3a4429",
+      "updated_at": "2026-10-21T13:52:11.065+00:00"
+    },
+    "B8:B7:DB:22:02:32": {
+      "ssid": "ARUN 5G",
+      "bssid": "B8:B7:DB:22:02:32",
+      "vendor": null,
+      "first_seen": "2026-10-19T16:26:02.116+00:00",
+      "last_seen": "2026-10-21T16:34:14.086+00:00",
+      "observation_count": 15,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        149
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-19T16:26:02.116+00:00",
+          "channel": 149
+        },
+        {
+          "timestamp": "2026-10-19T16:26:22.163+00:00",
+          "channel": 149
+        },
+        {
+          "timestamp": "2026-10-19T16:26:47.262+00:00",
+          "channel": 149
+        },
+        {
+          "timestamp": "2026-10-19T16:26:52.207+00:00",
+          "channel": 149
+        },
+        {
+          "timestamp": "2026-10-19T16:26:57.246+00:00",
+          "channel": 149
+        },
+        {
+          "timestamp": "2026-10-19T16:27:12.236+00:00",
+          "channel": 149
+        },
+        {
+          "timestamp": "2026-10-19T16:27:17.262+00:00",
+          "channel": 149
+        },
+        {
+          "timestamp": "2026-10-19T16:27:22.299+00:00",
+          "channel": 149
+        },
+        {
+          "timestamp": "2026-10-19T16:27:27.673+00:00",
+          "channel": 149
+        },
+        {
+          "timestamp": "2026-10-19T16:27:47.676+00:00",
+          "channel": 149
+        },
+        {
+          "timestamp": "2026-10-19T16:27:52.627+00:00",
+          "channel": 149
+        },
+        {
+          "timestamp": "2026-10-19T16:28:07.869+00:00",
+          "channel": 149
+        },
+        {
+          "timestamp": "2026-10-19T16:28:32.698+00:00",
+          "channel": 149
+        },
+        {
+          "timestamp": "2026-10-21T15:43:31.321+00:00",
+          "channel": 149
+        },
+        {
+          "timestamp": "2026-10-21T16:34:14.086+00:00",
+          "channel": 149
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-19T16:26:02.116+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:22.163+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:47.262+00:00",
+          "rssi_dbm": -79.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:52.207+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:57.246+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:12.236+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:17.262+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:22.299+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:27.673+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:47.676+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:52.627+00:00",
+          "rssi_dbm": -79.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:07.869+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:32.698+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-21T15:43:31.321+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-21T16:34:14.086+00:00",
+          "rssi_dbm": -84.0
+        }
+      ],
+      "rssi_mean": -81.0,
+      "rssi_variance": 4.4,
+      "rssi_min": -84.0,
+      "rssi_max": -78.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 0.312,
+      "fingerprint_hash": "e1abdef47f5f550915dc1e1f424eb1428579752f4a680ecd325edd61a46a8152",
+      "updated_at": "2026-10-21T16:34:16.962+00:00"
+    },
+    "30:BD:13:F0:A7:4E": {
+      "ssid": "Airtel_Vikas",
+      "bssid": "30:BD:13:F0:A7:4E",
+      "vendor": null,
+      "first_seen": "2026-10-19T16:26:07.206+00:00",
+      "last_seen": "2026-10-19T16:27:47.676+00:00",
+      "observation_count": 6,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        8
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-19T16:26:07.206+00:00",
+          "channel": 8
+        },
+        {
+          "timestamp": "2026-10-19T16:26:27.180+00:00",
+          "channel": 8
+        },
+        {
+          "timestamp": "2026-10-19T16:26:32.192+00:00",
+          "channel": 8
+        },
+        {
+          "timestamp": "2026-10-19T16:27:12.236+00:00",
+          "channel": 8
+        },
+        {
+          "timestamp": "2026-10-19T16:27:22.299+00:00",
+          "channel": 8
+        },
+        {
+          "timestamp": "2026-10-19T16:27:47.676+00:00",
+          "channel": 8
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-19T16:26:07.206+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:27.180+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:32.192+00:00",
+          "rssi_dbm": -79.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:12.236+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:22.299+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:47.676+00:00",
+          "rssi_dbm": -78.0
+        }
+      ],
+      "rssi_mean": -79.16666666666667,
+      "rssi_variance": 4.805555555555555,
+      "rssi_min": -84.0,
+      "rssi_max": -78.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 214.99,
+      "fingerprint_hash": "0b9aeddde42ade3bf76abd69349403fbc8eb816758e21621057f092b6a65e537",
+      "updated_at": "2026-10-19T16:27:48.015+00:00"
+    },
+    "A8:42:A1:85:43:E8": {
+      "ssid": "Vishal",
+      "bssid": "A8:42:A1:85:43:E8",
+      "vendor": null,
+      "first_seen": "2026-10-19T16:26:47.262+00:00",
+      "last_seen": "2026-10-21T16:34:14.086+00:00",
+      "observation_count": 12,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        7,
+        11
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-19T16:26:47.262+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:26:52.207+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:27:27.673+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:27:32.755+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:27:42.825+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:27:57.690+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:28:07.869+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:28:12.790+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:28:22.796+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:28:27.691+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-19T16:28:42.731+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T16:34:14.086+00:00",
+          "channel": 7
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-19T16:26:47.262+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:26:52.207+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:27.673+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:32.755+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:42.825+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:57.690+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:07.869+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:12.790+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:22.796+00:00",
+          "rssi_dbm": -79.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:27.691+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:42.731+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-21T16:34:14.086+00:00",
+          "rssi_dbm": -77.0
+        }
+      ],
+      "rssi_mean": -80.5,
+      "rssi_variance": 3.5833333333333335,
+      "rssi_min": -84.0,
+      "rssi_max": -77.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 0.249,
+      "fingerprint_hash": "73e91a7fdd80808e883ec823b0f3cec30287524ab109bf9875e579c28ba692cf",
+      "updated_at": "2026-10-21T16:34:17.141+00:00"
+    },
+    "AE:A7:F1:D7:8B:52": {
+      "ssid": "",
+      "bssid": "AE:A7:F1:D7:8B:52",
+      "vendor": null,
+      "first_seen": "2026-10-19T16:27:02.203+00:00",
+      "last_seen": "2026-10-19T16:27:02.203+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        48
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-19T16:27:02.203+00:00",
+          "channel": 48
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-19T16:27:02.203+00:00",
+          "rssi_dbm": -90.0
+        }
+      ],
+      "rssi_mean": -90.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -90.0,
+      "rssi_max": -90.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "891a120a1f803ad28a3d180c01a83b920a9c65a75b2401bd35130ba3b0ba41d7",
+      "updated_at": "2026-10-19T16:27:04.698+00:00"
+    },
+    "AE:A7:F1:C7:8B:52": {
+      "ssid": "",
+      "bssid": "AE:A7:F1:C7:8B:52",
+      "vendor": null,
+      "first_seen": "2026-10-19T16:27:02.203+00:00",
+      "last_seen": "2026-10-19T16:27:02.203+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        48
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-19T16:27:02.203+00:00",
+          "channel": 48
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-19T16:27:02.203+00:00",
+          "rssi_dbm": -91.0
+        }
+      ],
+      "rssi_mean": -91.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -91.0,
+      "rssi_max": -91.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "078b931f1183a9f7e462803b4ad54f2ae8b9bf7eb5b3b4f936f8f21f51a93a41",
+      "updated_at": "2026-10-19T16:27:04.716+00:00"
+    },
+    "A0:47:D7:19:B3:20": {
+      "ssid": "iBall-Baton",
+      "bssid": "A0:47:D7:19:B3:20",
+      "vendor": null,
+      "first_seen": "2026-10-19T16:27:04.314+00:00",
+      "last_seen": "2026-10-21T16:34:14.086+00:00",
+      "observation_count": 16,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        6
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-19T16:27:04.314+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:27:07.241+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:27:12.236+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:27:17.262+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:27:22.299+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:27:27.673+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:27:32.755+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:27:42.825+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:27:47.676+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:27:52.627+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:27:57.690+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:28:02.711+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:28:07.869+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-19T16:28:27.691+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T15:43:31.321+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T16:34:14.086+00:00",
+          "channel": 6
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-19T16:27:04.314+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:07.241+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:12.236+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:17.262+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:22.299+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:27.673+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:32.755+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:42.825+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:47.676+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:52.627+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:27:57.690+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:02.711+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:07.869+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-19T16:28:27.691+00:00",
+          "rssi_dbm": -86.0
+        },
+        {
+          "timestamp": "2026-10-21T15:43:31.321+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-21T16:34:14.086+00:00",
+          "rssi_dbm": -78.0
+        }
+      ],
+      "rssi_mean": -83.0,
+      "rssi_variance": 4.5,
+      "rssi_min": -86.0,
+      "rssi_max": -78.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 0.333,
+      "fingerprint_hash": "98e71d561a6786f1fa5980296bd36828d93348e50cb6e46a9a514eb5145ef2ec",
+      "updated_at": "2026-10-21T16:34:17.223+00:00"
+    },
+    "B4:F9:49:D2:43:61": {
+      "ssid": "PRAMILA_5G",
+      "bssid": "B4:F9:49:D2:43:61",
+      "vendor": null,
+      "first_seen": "2026-10-19T16:27:07.241+00:00",
+      "last_seen": "2026-10-19T16:27:07.241+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        36
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-19T16:27:07.241+00:00",
+          "channel": 36
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-19T16:27:07.241+00:00",
+          "rssi_dbm": -88.0
+        }
+      ],
+      "rssi_mean": -88.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -88.0,
+      "rssi_max": -88.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "be1959ef524f27155d674bd3f2ed7b09800955463748803a45a740845969735f",
+      "updated_at": "2026-10-19T16:27:09.761+00:00"
+    },
+    "2A:70:4E:3B:F3:BA": {
+      "ssid": "PHCET",
+      "bssid": "2A:70:4E:3B:F3:BA",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:32.528+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 10,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        1
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:42:01.027+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:44:29.891+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 1
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "rssi_dbm": -90.0
+        },
+        {
+          "timestamp": "2026-10-21T06:42:01.027+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-21T06:44:29.891+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -82.0
+        }
+      ],
+      "rssi_mean": -82.9,
+      "rssi_variance": 8.09,
+      "rssi_min": -90.0,
+      "rssi_max": -78.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 16.206,
+      "fingerprint_hash": "9e4caccdd149624fad0af6777308161af9fd1908508e79ad1a8e24199359c323",
+      "updated_at": "2026-10-21T06:56:58.814+00:00"
+    },
+    "2A:70:4E:4B:F3:BB": {
+      "ssid": "PHCET",
+      "bssid": "2A:70:4E:4B:F3:BB",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:32.528+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 10,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        44
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:42:01.027+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:44:29.891+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 44
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "rssi_dbm": -76.0
+        },
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "rssi_dbm": -87.0
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-21T06:42:01.027+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -85.0
+        },
+        {
+          "timestamp": "2026-10-21T06:44:29.891+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -81.0
+        }
+      ],
+      "rssi_mean": -82.3,
+      "rssi_variance": 8.41,
+      "rssi_min": -87.0,
+      "rssi_max": -76.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 16.206,
+      "fingerprint_hash": "b2485f92050a7e96a250603dd7b9e7b1b098fcf8816cd3b1f4d6762aa4ab6636",
+      "updated_at": "2026-10-21T06:56:47.002+00:00"
+    },
+    "78:45:58:E3:25:42": {
+      "ssid": "Pillai",
+      "bssid": "78:45:58:E3:25:42",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:32.528+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 9,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        6
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:37:24.469+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:42:01.027+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 6
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "rssi_dbm": -79.0
+        },
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-21T06:37:24.469+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:42:01.027+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -83.0
+        }
+      ],
+      "rssi_mean": -80.77777777777777,
+      "rssi_variance": 5.283950617283951,
+      "rssi_min": -83.0,
+      "rssi_max": -78.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 14.586,
+      "fingerprint_hash": "81c9f4f1c0c708603c3b94a853fabb4b48fda88b36581d5a1112ae69d208bc92",
+      "updated_at": "2026-10-21T06:58:01.064+00:00"
+    },
+    "78:45:58:EF:3D:33": {
+      "ssid": "Pillai",
+      "bssid": "78:45:58:EF:3D:33",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:32.528+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 7,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        48
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:43:17.222+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 48
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "rssi_dbm": -79.0
+        },
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "rssi_dbm": -85.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "rssi_dbm": -87.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:17.222+00:00",
+          "rssi_dbm": -89.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -85.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -85.0
+        }
+      ],
+      "rssi_mean": -84.85714285714286,
+      "rssi_variance": 8.122448979591836,
+      "rssi_min": -89.0,
+      "rssi_max": -79.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 11.344,
+      "fingerprint_hash": "d62414d6e88ae7b59df01969b8208559969c5976e2047a870bb9441ab161a294",
+      "updated_at": "2026-10-21T06:57:19.148+00:00"
+    },
+    "28:70:4E:4B:F3:BB": {
+      "ssid": "Pillai",
+      "bssid": "28:70:4E:4B:F3:BB",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:32.528+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 7,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        44
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:43:17.222+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 44
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "rssi_dbm": -86.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:17.222+00:00",
+          "rssi_dbm": -85.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -81.0
+        }
+      ],
+      "rssi_mean": -81.71428571428571,
+      "rssi_variance": 8.489795918367346,
+      "rssi_min": -86.0,
+      "rssi_max": -78.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 11.344,
+      "fingerprint_hash": "2e0e7bbfa0854826684d9e6c3a764fe15cc490860a15fc78475d93d811cecb7d",
+      "updated_at": "2026-10-21T06:57:29.285+00:00"
+    },
+    "66:36:74:AD:B3:1D": {
+      "ssid": "OPPO Reno15 Pro 5G F7F8",
+      "bssid": "66:36:74:AD:B3:1D",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:32.528+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 5,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        11
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 11
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "rssi_dbm": -70.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -70.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "rssi_dbm": -74.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -76.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -76.0
+        }
+      ],
+      "rssi_mean": -73.2,
+      "rssi_variance": 7.359999999999999,
+      "rssi_min": -76.0,
+      "rssi_max": -70.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 8.103,
+      "fingerprint_hash": "12736a406534eef83d6c3dc990d33bd5c87cde269e83ef5f3f4f84c969fd3df3",
+      "updated_at": "2026-10-21T06:58:36.301+00:00"
+    },
+    "62:C3:A8:0A:33:0F": {
+      "ssid": "moto edge 60 pro_6833",
+      "bssid": "62:C3:A8:0A:33:0F",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:32.528+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 5,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        6,
+        11
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 11
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -79.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -80.0
+        }
+      ],
+      "rssi_mean": -79.4,
+      "rssi_variance": 0.64,
+      "rssi_min": -80.0,
+      "rssi_max": -78.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 8.103,
+      "fingerprint_hash": "2cc3c6324df495e4e10dfa6bb2f897bdf3c3e3a653dade6c3c8fcb938d739153",
+      "updated_at": "2026-10-21T06:58:36.258+00:00"
+    },
+    "7A:45:58:B3:25:42": {
+      "ssid": "",
+      "bssid": "7A:45:58:B3:25:42",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:32.528+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 6,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        6
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 6
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -76.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -82.0
+        }
+      ],
+      "rssi_mean": -80.16666666666667,
+      "rssi_variance": 5.472222222222222,
+      "rssi_min": -82.0,
+      "rssi_max": -76.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 9.724,
+      "fingerprint_hash": "809d7dedc3fce38eed66c113d1eb0218d70cb10d915ea6549cb40336e58e064b",
+      "updated_at": "2026-10-21T06:58:22.694+00:00"
+    },
+    "7A:45:58:CF:3D:32": {
+      "ssid": "",
+      "bssid": "7A:45:58:CF:3D:32",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:32.528+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 8,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        11
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 11
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "rssi_dbm": -85.0
+        },
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "rssi_dbm": -86.0
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -78.0
+        }
+      ],
+      "rssi_mean": -81.625,
+      "rssi_variance": 9.484375,
+      "rssi_min": -86.0,
+      "rssi_max": -78.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 12.965,
+      "fingerprint_hash": "5a32842bb666f1c7b3dbf9735baf697c8eab9265f23e79b865f4d4424f7c18a8",
+      "updated_at": "2026-10-21T06:58:22.557+00:00"
+    },
+    "7A:45:58:C3:25:43": {
+      "ssid": "",
+      "bssid": "7A:45:58:C3:25:43",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:32.528+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 7,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        153
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 153
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -87.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -81.0
+        }
+      ],
+      "rssi_mean": -82.57142857142857,
+      "rssi_variance": 3.6734693877551017,
+      "rssi_min": -87.0,
+      "rssi_max": -81.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 11.344,
+      "fingerprint_hash": "47805ba22218f3518e8f227d4c16159f8a1d392b6e4db347a23bf1c13ec007a2",
+      "updated_at": "2026-10-21T06:58:22.212+00:00"
+    },
+    "7A:45:58:DF:3D:33": {
+      "ssid": "",
+      "bssid": "7A:45:58:DF:3D:33",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:32.528+00:00",
+      "last_seen": "2026-10-21T06:53:00.019+00:00",
+      "observation_count": 4,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        48
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "channel": 48
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "rssi_dbm": -85.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "rssi_dbm": -86.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "rssi_dbm": -84.0
+        }
+      ],
+      "rssi_mean": -84.0,
+      "rssi_variance": 3.5,
+      "rssi_min": -86.0,
+      "rssi_max": -81.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 7.173,
+      "fingerprint_hash": "08c84b427dc03feb1f781f2ebb4027ba2db444290775068bd77421087c52b4c3",
+      "updated_at": "2026-10-21T06:54:07.688+00:00"
+    },
+    "7A:45:58:AF:3D:33": {
+      "ssid": "",
+      "bssid": "7A:45:58:AF:3D:33",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:32.528+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 7,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        48
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 48
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "rssi_dbm": -86.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "rssi_dbm": -87.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -85.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -85.0
+        }
+      ],
+      "rssi_mean": -84.28571428571429,
+      "rssi_variance": 4.489795918367347,
+      "rssi_min": -87.0,
+      "rssi_max": -80.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 11.344,
+      "fingerprint_hash": "9f0ea74e2790105167ef4af72ac721c047dbb74b86fb0dd96c5344a3b7f04940",
+      "updated_at": "2026-10-21T06:58:22.377+00:00"
+    },
+    "2A:70:4E:1B:F3:BB": {
+      "ssid": "",
+      "bssid": "2A:70:4E:1B:F3:BB",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:32.528+00:00",
+      "last_seen": "2026-10-21T06:53:00.019+00:00",
+      "observation_count": 6,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        44
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:43:17.222+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "channel": 44
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "rssi_dbm": -79.0
+        },
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:17.222+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "rssi_dbm": -79.0
+        }
+      ],
+      "rssi_mean": -82.0,
+      "rssi_variance": 5.0,
+      "rssi_min": -84.0,
+      "rssi_max": -79.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 10.76,
+      "fingerprint_hash": "8dcab124ab888bd629a40f7e26ada621e4180f74437b0a6061ec9558851cefb2",
+      "updated_at": "2026-10-21T06:54:07.810+00:00"
+    },
+    "2A:70:4E:2B:F3:BB": {
+      "ssid": "",
+      "bssid": "2A:70:4E:2B:F3:BB",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:32.528+00:00",
+      "last_seen": "2026-10-21T06:53:00.019+00:00",
+      "observation_count": 5,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        44
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "channel": 44
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "rssi_dbm": -85.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "rssi_dbm": -79.0
+        }
+      ],
+      "rssi_mean": -81.8,
+      "rssi_variance": 4.16,
+      "rssi_min": -85.0,
+      "rssi_max": -79.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 8.966,
+      "fingerprint_hash": "b345b8189c2187092b172958d191168eebfde43d643979b2f85aad4249762a2b",
+      "updated_at": "2026-10-21T06:54:07.780+00:00"
+    },
+    "7A:45:58:93:25:42": {
+      "ssid": "PHIMSR",
+      "bssid": "7A:45:58:93:25:42",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:32.528+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 6,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        6
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 6
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -83.0
+        }
+      ],
+      "rssi_mean": -81.16666666666667,
+      "rssi_variance": 5.138888888888888,
+      "rssi_min": -83.0,
+      "rssi_max": -78.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 9.724,
+      "fingerprint_hash": "b2a2fa1dd3de56bb3c085638c8127133b9474361af18f119d58cb1ec07e86057",
+      "updated_at": "2026-10-21T06:58:31.098+00:00"
+    },
+    "7A:45:58:BF:3D:32": {
+      "ssid": "CONCLAVE",
+      "bssid": "7A:45:58:BF:3D:32",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:32.528+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 7,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        11
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 11
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -80.0
+        }
+      ],
+      "rssi_mean": -80.85714285714286,
+      "rssi_variance": 0.979591836734694,
+      "rssi_min": -82.0,
+      "rssi_max": -80.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 11.344,
+      "fingerprint_hash": "f5ee2d68ae2c5231332b32b2127f6d30dbd67acc2084ec0d4ab207f91e8ff9d7",
+      "updated_at": "2026-10-21T06:58:36.181+00:00"
+    },
+    "7A:45:58:CF:3D:33": {
+      "ssid": "CONCLAVE",
+      "bssid": "7A:45:58:CF:3D:33",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:32.528+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 6,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        48
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:43:17.222+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 48
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "rssi_dbm": -86.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:17.222+00:00",
+          "rssi_dbm": -88.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -85.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -85.0
+        }
+      ],
+      "rssi_mean": -84.66666666666667,
+      "rssi_variance": 5.888888888888888,
+      "rssi_min": -88.0,
+      "rssi_max": -80.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 9.724,
+      "fingerprint_hash": "8c844659f9c3064701caf1d69853d22104e67fc6b11e7ca8c05ae813eb9aa1a5",
+      "updated_at": "2026-10-21T06:58:35.901+00:00"
+    },
+    "7A:45:58:BF:3D:33": {
+      "ssid": "Guest",
+      "bssid": "7A:45:58:BF:3D:33",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:32.528+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 5,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        48
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 48
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 48
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "rssi_dbm": -79.0
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "rssi_dbm": -87.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -85.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -85.0
+        }
+      ],
+      "rssi_mean": -84.0,
+      "rssi_variance": 7.2,
+      "rssi_min": -87.0,
+      "rssi_max": -79.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 8.103,
+      "fingerprint_hash": "746e5b5c458f1eaffb9f65e1e833f443344f3ae8fa795a4f616a7a1e37112ad8",
+      "updated_at": "2026-10-21T06:58:35.645+00:00"
+    },
+    "2A:70:4E:3B:F3:BB": {
+      "ssid": "Guest",
+      "bssid": "2A:70:4E:3B:F3:BB",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:32.528+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 8,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        44
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:45:31.752+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 44
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "rssi_dbm": -86.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -86.0
+        },
+        {
+          "timestamp": "2026-10-21T06:45:31.752+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "rssi_dbm": -79.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -82.0
+        }
+      ],
+      "rssi_mean": -82.25,
+      "rssi_variance": 7.1875,
+      "rssi_min": -86.0,
+      "rssi_max": -78.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 12.965,
+      "fingerprint_hash": "dcde7a64e7f848f10da9009d1b5225e717851c044d10a853348647e2c8669851",
+      "updated_at": "2026-10-21T06:58:35.691+00:00"
+    },
+    "CE:30:6A:57:73:89": {
+      "ssid": "0m",
+      "bssid": "CE:30:6A:57:73:89",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:32.528+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 7,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        44,
+        157
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "channel": 157
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "channel": 157
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "channel": 157
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 44
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "channel": 157
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 157
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 157
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:32.528+00:00",
+          "rssi_dbm": -76.0
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -86.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -83.0
+        }
+      ],
+      "rssi_mean": -82.14285714285714,
+      "rssi_variance": 8.408163265306122,
+      "rssi_min": -86.0,
+      "rssi_max": -76.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 11.344,
+      "fingerprint_hash": "05729c86bab31cba12b6d51c49aa1edd987c4c0ea24d258abdbe8583188514f4",
+      "updated_at": "2026-10-21T06:58:36.339+00:00"
+    },
+    "28:70:4E:4B:F3:BA": {
+      "ssid": "Pillai",
+      "bssid": "28:70:4E:4B:F3:BA",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:34.678+00:00",
+      "last_seen": "2026-10-21T06:53:00.019+00:00",
+      "observation_count": 6,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        1
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:34.678+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:42:01.027+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "channel": 1
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:34.678+00:00",
+          "rssi_dbm": -85.0
+        },
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "rssi_dbm": -87.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:42:01.027+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "rssi_dbm": -84.0
+        }
+      ],
+      "rssi_mean": -83.83333333333333,
+      "rssi_variance": 4.472222222222222,
+      "rssi_min": -87.0,
+      "rssi_max": -80.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 10.771,
+      "fingerprint_hash": "fa17b7d37d70fc86ec5c081d73dcc02cb46a72a879071f572684e9796549b483",
+      "updated_at": "2026-10-21T06:53:28.687+00:00"
+    },
+    "2A:70:4E:1B:F3:BA": {
+      "ssid": "",
+      "bssid": "2A:70:4E:1B:F3:BA",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:34.678+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 8,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        1
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:34.678+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:37:24.469+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:44:29.891+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 1
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:34.678+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-21T06:37:24.469+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-21T06:44:29.891+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -79.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -79.0
+        }
+      ],
+      "rssi_mean": -81.25,
+      "rssi_variance": 4.9375,
+      "rssi_min": -84.0,
+      "rssi_max": -78.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 12.978,
+      "fingerprint_hash": "f9fcc53b6c1bd2d1657fd5e34cec41dacedc93117f730e25333be8b81ef9b6b2",
+      "updated_at": "2026-10-21T06:58:24.827+00:00"
+    },
+    "7A:45:58:AF:3D:32": {
+      "ssid": "Guest",
+      "bssid": "7A:45:58:AF:3D:32",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:34.678+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 6,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        11
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:34.678+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 11
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:34.678+00:00",
+          "rssi_dbm": -86.0
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -78.0
+        }
+      ],
+      "rssi_mean": -80.33333333333333,
+      "rssi_variance": 11.222222222222221,
+      "rssi_min": -86.0,
+      "rssi_max": -78.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 9.733,
+      "fingerprint_hash": "5d439b026f9feed6910dda140e1e3c96fb1663cb8d53bbea4d7aa19e63fc188a",
+      "updated_at": "2026-10-21T06:58:35.746+00:00"
+    },
+    "7A:45:58:A3:25:42": {
+      "ssid": "Guest",
+      "bssid": "7A:45:58:A3:25:42",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:34.678+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 7,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        6
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:34.678+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:37:24.469+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 6
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 6
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:34.678+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:37:24.469+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -78.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -84.0
+        }
+      ],
+      "rssi_mean": -82.0,
+      "rssi_variance": 4.571428571428571,
+      "rssi_min": -84.0,
+      "rssi_max": -78.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 11.355,
+      "fingerprint_hash": "2eb0611e0bf6534380249dbbae4f838b87112b91b72a482c1bc4b0e982270e1c",
+      "updated_at": "2026-10-21T06:58:35.825+00:00"
+    },
+    "2A:70:4E:2B:F3:BA": {
+      "ssid": "Guest",
+      "bssid": "2A:70:4E:2B:F3:BA",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:19:34.678+00:00",
+      "last_seen": "2026-10-21T06:44:29.891+00:00",
+      "observation_count": 5,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        1
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:19:34.678+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:37:24.469+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 1
+        },
+        {
+          "timestamp": "2026-10-21T06:44:29.891+00:00",
+          "channel": 1
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:19:34.678+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:37:24.469+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:44:29.891+00:00",
+          "rssi_dbm": -84.0
+        }
+      ],
+      "rssi_mean": -83.0,
+      "rssi_variance": 0.4,
+      "rssi_min": -84.0,
+      "rssi_max": -82.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 12.038,
+      "fingerprint_hash": "8cc15c92a6e81f78f59fa509567a47d70c75def5237183af8af8ff317a795686",
+      "updated_at": "2026-10-21T06:44:32.258+00:00"
+    },
+    "78:45:58:EF:3D:32": {
+      "ssid": "Pillai",
+      "bssid": "78:45:58:EF:3D:32",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:35:08.204+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 6,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        11
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 11
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 11
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:02.326+00:00",
+          "rssi_dbm": -77.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -77.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -77.0
+        }
+      ],
+      "rssi_mean": -79.16666666666667,
+      "rssi_variance": 5.138888888888888,
+      "rssi_min": -82.0,
+      "rssi_max": -77.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 16.8,
+      "fingerprint_hash": "38db053b0ca89689390aac0b6cffe8379bf95e190df5ad817bea6b37be2b0501",
+      "updated_at": "2026-10-21T06:57:42.163+00:00"
+    },
+    "7A:45:58:B3:25:43": {
+      "ssid": "",
+      "bssid": "7A:45:58:B3:25:43",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:35:08.204+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 7,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        153
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 153
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -88.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "rssi_dbm": -80.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -81.0
+        }
+      ],
+      "rssi_mean": -82.42857142857143,
+      "rssi_variance": 6.244897959183674,
+      "rssi_min": -88.0,
+      "rssi_max": -80.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 19.6,
+      "fingerprint_hash": "b4adfbbe02cb531c79c87d3923e33a88439ac20ab49f6fa03095cc8ea2113d99",
+      "updated_at": "2026-10-21T06:58:22.300+00:00"
+    },
+    "7A:8C:B5:60:5F:5E": {
+      "ssid": "",
+      "bssid": "7A:8C:B5:60:5F:5E",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:35:08.204+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 5,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        36
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "channel": 36
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "channel": 36
+        },
+        {
+          "timestamp": "2026-10-21T06:43:17.222+00:00",
+          "channel": 36
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 36
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 36
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "rssi_dbm": -91.0
+        },
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "rssi_dbm": -86.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:17.222+00:00",
+          "rssi_dbm": -86.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -91.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -91.0
+        }
+      ],
+      "rssi_mean": -89.0,
+      "rssi_variance": 6.0,
+      "rssi_min": -91.0,
+      "rssi_max": -86.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 14.0,
+      "fingerprint_hash": "ca688e740a30399b984a4094713382c69ec0db6eaf6a65d62a54b5ec3a314c05",
+      "updated_at": "2026-10-21T06:58:22.465+00:00"
+    },
+    "7A:45:58:93:25:43": {
+      "ssid": "PHIMSR",
+      "bssid": "7A:45:58:93:25:43",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:35:08.204+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 5,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        153
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 153
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:35:08.204+00:00",
+          "rssi_dbm": -84.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -88.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -83.0
+        }
+      ],
+      "rssi_mean": -84.2,
+      "rssi_variance": 3.7600000000000002,
+      "rssi_min": -88.0,
+      "rssi_max": -83.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 14.0,
+      "fingerprint_hash": "80de67b9df94916c90b8ca8698f8414cbf38d69da57aa734adf10ba83be7c7e8",
+      "updated_at": "2026-10-21T06:58:28.073+00:00"
+    },
+    "78:45:58:E3:25:43": {
+      "ssid": "Pillai",
+      "bssid": "78:45:58:E3:25:43",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:37:22.171+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 6,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        153
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 153
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "rssi_dbm": -83.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -88.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -82.0
+        }
+      ],
+      "rssi_mean": -83.16666666666667,
+      "rssi_variance": 4.805555555555555,
+      "rssi_min": -88.0,
+      "rssi_max": -82.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 18.754,
+      "fingerprint_hash": "2896f1242438517d7d6040c8e48659a9e2edd25f79993ca3ea5736f943ddcb5b",
+      "updated_at": "2026-10-21T06:57:08.877+00:00"
+    },
+    "E4:FA:C4:3C:2A:BE": {
+      "ssid": "ISRO LAB",
+      "bssid": "E4:FA:C4:3C:2A:BE",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:37:22.171+00:00",
+      "last_seen": "2026-10-21T06:43:14.931+00:00",
+      "observation_count": 3,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        4
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "channel": 4
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "channel": 4
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 4
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "rssi_dbm": -82.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "rssi_dbm": -86.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -78.0
+        }
+      ],
+      "rssi_mean": -82.0,
+      "rssi_variance": 10.666666666666666,
+      "rssi_min": -86.0,
+      "rssi_max": -78.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 30.616,
+      "fingerprint_hash": "cca469f495eab22de5fa704636e01de53684928eb677dc354b41a5fb7a782129",
+      "updated_at": "2026-10-21T06:43:19.631+00:00"
+    },
+    "E4:FA:C4:3C:2A:BF": {
+      "ssid": "ISRO LAB",
+      "bssid": "E4:FA:C4:3C:2A:BF",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:37:22.171+00:00",
+      "last_seen": "2026-10-21T06:45:31.752+00:00",
+      "observation_count": 4,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        149
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "channel": 149
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "channel": 149
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 149
+        },
+        {
+          "timestamp": "2026-10-21T06:45:31.752+00:00",
+          "channel": 149
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "rssi_dbm": -86.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "rssi_dbm": -88.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -87.0
+        },
+        {
+          "timestamp": "2026-10-21T06:45:31.752+00:00",
+          "rssi_dbm": -86.0
+        }
+      ],
+      "rssi_mean": -86.75,
+      "rssi_variance": 0.6875,
+      "rssi_min": -88.0,
+      "rssi_max": -86.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 29.413,
+      "fingerprint_hash": "be112023b9092b8fe624ce243445985445dbc043b7aefbdc0ea275692f17c58d",
+      "updated_at": "2026-10-21T06:45:32.044+00:00"
+    },
+    "7A:45:58:A3:25:43": {
+      "ssid": "Guest",
+      "bssid": "7A:45:58:A3:25:43",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:37:22.171+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 5,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        153
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 153
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 153
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -81.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -81.0
+        }
+      ],
+      "rssi_mean": -81.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -81.0,
+      "rssi_max": -81.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 15.629,
+      "fingerprint_hash": "1f95bd03f19e50e9bb8fdb2361c5e44669aaa3ab60c2262ad1ffc0c224e5242a",
+      "updated_at": "2026-10-21T06:58:35.591+00:00"
+    },
+    "78:8C:B5:50:5F:5E": {
+      "ssid": "POLY PRINCE",
+      "bssid": "78:8C:B5:50:5F:5E",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:37:22.171+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 6,
+      "confidence": "ESTABLISHED",
+      "trusted": false,
+      "channels": [
+        36
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "channel": 36
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "channel": 36
+        },
+        {
+          "timestamp": "2026-10-21T06:43:17.222+00:00",
+          "channel": 36
+        },
+        {
+          "timestamp": "2026-10-21T06:45:31.752+00:00",
+          "channel": 36
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 36
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 36
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:37:22.171+00:00",
+          "rssi_dbm": -87.0
+        },
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "rssi_dbm": -88.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:17.222+00:00",
+          "rssi_dbm": -87.0
+        },
+        {
+          "timestamp": "2026-10-21T06:45:31.752+00:00",
+          "rssi_dbm": -87.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -90.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -90.0
+        }
+      ],
+      "rssi_mean": -88.16666666666667,
+      "rssi_variance": 1.8055555555555556,
+      "rssi_min": -90.0,
+      "rssi_max": -87.0,
+      "signal_stability": "stable",
+      "observation_frequency_per_hour": 18.754,
+      "fingerprint_hash": "ca2abe8367dafb08943be3dd8ec9e078f76e398b245601d45919b33eca810c03",
+      "updated_at": "2026-10-21T06:58:36.222+00:00"
+    },
+    "16:73:B2:FB:9F:21": {
+      "ssid": "sorry",
+      "bssid": "16:73:B2:FB:9F:21",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:38:03.841+00:00",
+      "last_seen": "2026-10-21T06:38:03.841+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        1
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "channel": 1
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:38:03.841+00:00",
+          "rssi_dbm": -82.0
+        }
+      ],
+      "rssi_mean": -82.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -82.0,
+      "rssi_max": -82.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "d48d85a9337ffdfe9edea0fdc0d20548525cd11ce49bd5d791d670329b13c938",
+      "updated_at": "2026-10-21T06:38:09.388+00:00"
+    },
+    "7A:8C:B5:60:5F:5F": {
+      "ssid": "",
+      "bssid": "7A:8C:B5:60:5F:5F",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:38:06.048+00:00",
+      "last_seen": "2026-10-21T06:43:14.931+00:00",
+      "observation_count": 2,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        2
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "channel": 2
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 2
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "rssi_dbm": -88.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -80.0
+        }
+      ],
+      "rssi_mean": -84.0,
+      "rssi_variance": 16.0,
+      "rssi_min": -88.0,
+      "rssi_max": -80.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 23.31,
+      "fingerprint_hash": "d81c57839f5e046d90f8d799a425791e62a778ccf6803d70c1fca3c10d9761fe",
+      "updated_at": "2026-10-21T06:43:19.419+00:00"
+    },
+    "78:8C:B5:50:5F:5F": {
+      "ssid": "POLY PRINCE",
+      "bssid": "78:8C:B5:50:5F:5F",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:38:06.048+00:00",
+      "last_seen": "2026-10-21T06:43:14.931+00:00",
+      "observation_count": 2,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        2
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "channel": 2
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 2
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:38:06.048+00:00",
+          "rssi_dbm": -88.0
+        },
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -82.0
+        }
+      ],
+      "rssi_mean": -85.0,
+      "rssi_variance": 9.0,
+      "rssi_min": -88.0,
+      "rssi_max": -82.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 23.31,
+      "fingerprint_hash": "04b38b94c4494ca7b89acce93701c303979adbe77fa172f45acdf742b685e30a",
+      "updated_at": "2026-10-21T06:43:19.832+00:00"
+    },
+    "70:A7:41:81:D3:9E": {
+      "ssid": "Pillai",
+      "bssid": "70:A7:41:81:D3:9E",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:43:14.931+00:00",
+      "last_seen": "2026-10-21T06:43:14.931+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        1
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 1
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -86.0
+        }
+      ],
+      "rssi_mean": -86.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -86.0,
+      "rssi_max": -86.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "3c0926b7c2a802aa7816ce68aecb04f7db51e23167cd5292aa8b18ae46220dd3",
+      "updated_at": "2026-10-21T06:43:19.096+00:00"
+    },
+    "28:70:4E:80:AD:5E": {
+      "ssid": "Pillai",
+      "bssid": "28:70:4E:80:AD:5E",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:43:14.931+00:00",
+      "last_seen": "2026-10-21T06:43:14.931+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        1
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 1
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -87.0
+        }
+      ],
+      "rssi_mean": -87.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -87.0,
+      "rssi_max": -87.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "1c3ac923850e85fba2e4964d987b2cc7d98dd191be317cc59546d67dd8f4ddea",
+      "updated_at": "2026-10-21T06:43:19.165+00:00"
+    },
+    "7A:A7:41:81:D3:9E": {
+      "ssid": "",
+      "bssid": "7A:A7:41:81:D3:9E",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:43:14.931+00:00",
+      "last_seen": "2026-10-21T06:43:14.931+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        1
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 1
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -86.0
+        }
+      ],
+      "rssi_mean": -86.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -86.0,
+      "rssi_max": -86.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "e662f2ffcf04e6f7bae4cff6713ffd3c54e60187795c58fb9692478651b07b89",
+      "updated_at": "2026-10-21T06:43:19.279+00:00"
+    },
+    "2A:70:4E:90:AD:5E": {
+      "ssid": "",
+      "bssid": "2A:70:4E:90:AD:5E",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:43:14.931+00:00",
+      "last_seen": "2026-10-21T06:43:14.931+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        1
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 1
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -88.0
+        }
+      ],
+      "rssi_mean": -88.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -88.0,
+      "rssi_max": -88.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "1f1dcd677386f38ba78e288af6e35f6767cc6ed0f3669b9412cda30f49b97965",
+      "updated_at": "2026-10-21T06:43:19.307+00:00"
+    },
+    "76:A7:41:81:D3:9E": {
+      "ssid": "Guest",
+      "bssid": "76:A7:41:81:D3:9E",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:43:14.931+00:00",
+      "last_seen": "2026-10-21T06:43:14.931+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        1
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 1
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -82.0
+        }
+      ],
+      "rssi_mean": -82.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -82.0,
+      "rssi_max": -82.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "b95cd05feed4364bbf278d092218974e227296b5500724681bdb98f56f4cc40d",
+      "updated_at": "2026-10-21T06:43:19.533+00:00"
+    },
+    "F6:FA:C4:3C:2A:BF": {
+      "ssid": "Server Room Guest",
+      "bssid": "F6:FA:C4:3C:2A:BF",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:43:14.931+00:00",
+      "last_seen": "2026-10-21T06:45:31.752+00:00",
+      "observation_count": 2,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        149
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "channel": 149
+        },
+        {
+          "timestamp": "2026-10-21T06:45:31.752+00:00",
+          "channel": 149
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:43:14.931+00:00",
+          "rssi_dbm": -86.0
+        },
+        {
+          "timestamp": "2026-10-21T06:45:31.752+00:00",
+          "rssi_dbm": -87.0
+        }
+      ],
+      "rssi_mean": -86.5,
+      "rssi_variance": 0.25,
+      "rssi_min": -87.0,
+      "rssi_max": -86.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 52.624,
+      "fingerprint_hash": "88a4988388820ddb20998e9877956cc8d4180912121edfb5ca82166d00f48d17",
+      "updated_at": "2026-10-21T06:45:32.080+00:00"
+    },
+    "76:F0:FA:35:04:4A": {
+      "ssid": "ro3",
+      "bssid": "76:F0:FA:35:04:4A",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:53:00.019+00:00",
+      "last_seen": "2026-10-21T06:56:33.901+00:00",
+      "observation_count": 3,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        157
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "channel": 157
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "channel": 157
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "channel": 157
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "rssi_dbm": -28.0
+        },
+        {
+          "timestamp": "2026-10-21T06:55:20.142+00:00",
+          "rssi_dbm": -42.0
+        },
+        {
+          "timestamp": "2026-10-21T06:56:33.901+00:00",
+          "rssi_dbm": -42.0
+        }
+      ],
+      "rssi_mean": -37.333333333333336,
+      "rssi_variance": 43.555555555555564,
+      "rssi_min": -42.0,
+      "rssi_max": -28.0,
+      "signal_stability": "variable",
+      "observation_frequency_per_hour": 50.495,
+      "fingerprint_hash": "10e7028f5e2b43306ba82a276f34d5303bb4936ef534bb5b328598e4dc961ad6",
+      "updated_at": "2026-10-21T06:58:22.117+00:00"
+    },
+    "16:FA:C4:3C:2A:BF": {
+      "ssid": "",
+      "bssid": "16:FA:C4:3C:2A:BF",
+      "vendor": null,
+      "first_seen": "2026-10-21T06:53:00.019+00:00",
+      "last_seen": "2026-10-21T06:53:00.019+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        149
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "channel": 149
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T06:53:00.019+00:00",
+          "rssi_dbm": -84.0
+        }
+      ],
+      "rssi_mean": -84.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -84.0,
+      "rssi_max": -84.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "9b837ecfc4ea1e4313ea123ea952e2912a5beea0f5b8928235287a488998ba35",
+      "updated_at": "2026-10-21T06:54:07.748+00:00"
+    },
+    "B8:B7:DB:28:84:BD": {
+      "ssid": "S K ENTERPRISES 2G",
+      "bssid": "B8:B7:DB:28:84:BD",
+      "vendor": null,
+      "first_seen": "2026-10-21T13:52:07.522+00:00",
+      "last_seen": "2026-10-21T13:52:07.522+00:00",
       "observation_count": 1,
       "confidence": "OBSERVED",
       "trusted": false,
@@ -415,24 +5952,212 @@
       ],
       "channel_history": [
         {
-          "timestamp": "2026-10-04T08:44:51.696+00:00",
+          "timestamp": "2026-10-21T13:52:07.522+00:00",
           "channel": 6
         }
       ],
       "rssi_history": [
         {
-          "timestamp": "2026-10-04T08:44:51.696+00:00",
-          "rssi_dbm": -86.0
+          "timestamp": "2026-10-21T13:52:07.522+00:00",
+          "rssi_dbm": -78.0
         }
       ],
-      "rssi_mean": -86.0,
+      "rssi_mean": -78.0,
       "rssi_variance": 0.0,
-      "rssi_min": -86.0,
-      "rssi_max": -86.0,
+      "rssi_min": -78.0,
+      "rssi_max": -78.0,
       "signal_stability": "unknown",
       "observation_frequency_per_hour": 3600.0,
-      "fingerprint_hash": "874715c78d62ca24c347d25c43cf8040cf8dff51f0c0cf1d3d536a1af0fcec68",
-      "updated_at": "2026-10-04T08:45:04.096+00:00"
+      "fingerprint_hash": "9b251a5c83a42168c8709784d0100c30046a6c2919b93c4205b3a3afd4689e6c",
+      "updated_at": "2026-10-21T13:52:10.481+00:00"
+    },
+    "C4:9A:31:88:F6:66": {
+      "ssid": "Airtel_ragh_3995",
+      "bssid": "C4:9A:31:88:F6:66",
+      "vendor": null,
+      "first_seen": "2026-10-21T13:52:07.522+00:00",
+      "last_seen": "2026-10-21T13:52:07.522+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        2
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T13:52:07.522+00:00",
+          "channel": 2
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T13:52:07.522+00:00",
+          "rssi_dbm": -84.0
+        }
+      ],
+      "rssi_mean": -84.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -84.0,
+      "rssi_max": -84.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "82d14c65f73901da5407c4a9bb5e85136b1d1af4af663c06e585faac0c329157",
+      "updated_at": "2026-10-21T13:52:10.619+00:00"
+    },
+    "AE:A7:F1:D7:8B:50": {
+      "ssid": "",
+      "bssid": "AE:A7:F1:D7:8B:50",
+      "vendor": null,
+      "first_seen": "2026-10-21T13:52:07.522+00:00",
+      "last_seen": "2026-10-21T13:52:07.522+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        1
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T13:52:07.522+00:00",
+          "channel": 1
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T13:52:07.522+00:00",
+          "rssi_dbm": -82.0
+        }
+      ],
+      "rssi_mean": -82.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -82.0,
+      "rssi_max": -82.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "e3eed79b154c39d298f0ed53ddf27260df856a5525fce0b9aa4b1c9ea59b7d04",
+      "updated_at": "2026-10-21T13:52:10.734+00:00"
+    },
+    "60:32:B1:F3:CA:DC": {
+      "ssid": "YOGESH",
+      "bssid": "60:32:B1:F3:CA:DC",
+      "vendor": null,
+      "first_seen": "2026-10-21T13:52:09.669+00:00",
+      "last_seen": "2026-10-21T13:52:09.669+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        10
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T13:52:09.669+00:00",
+          "channel": 10
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T13:52:09.669+00:00",
+          "rssi_dbm": -82.0
+        }
+      ],
+      "rssi_mean": -82.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -82.0,
+      "rssi_max": -82.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "eb8335aa92eccb919d518a7d0c79500407bde32e0122f10fdcd48d26f27538f1",
+      "updated_at": "2026-10-21T13:52:11.024+00:00"
+    },
+    "B4:B0:24:4D:93:86": {
+      "ssid": "TP-Link_9386",
+      "bssid": "B4:B0:24:4D:93:86",
+      "vendor": null,
+      "first_seen": "2026-10-21T13:52:09.669+00:00",
+      "last_seen": "2026-10-21T16:34:14.086+00:00",
+      "observation_count": 2,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        9
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T13:52:09.669+00:00",
+          "channel": 9
+        },
+        {
+          "timestamp": "2026-10-21T16:34:14.086+00:00",
+          "channel": 9
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T13:52:09.669+00:00",
+          "rssi_dbm": -86.0
+        },
+        {
+          "timestamp": "2026-10-21T16:34:14.086+00:00",
+          "rssi_dbm": -84.0
+        }
+      ],
+      "rssi_mean": -85.0,
+      "rssi_variance": 1.0,
+      "rssi_min": -86.0,
+      "rssi_max": -84.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 0.74,
+      "fingerprint_hash": "2a220553c52450144d537afcb2030dbf2958262ffe90644002efe47aa31e068c",
+      "updated_at": "2026-10-21T16:34:17.180+00:00"
+    },
+    "14:EB:B6:4D:E0:91": {
+      "ssid": "Suresh",
+      "bssid": "14:EB:B6:4D:E0:91",
+      "vendor": null,
+      "first_seen": "2026-10-21T16:34:14.086+00:00",
+      "last_seen": "2026-10-21T16:34:14.086+00:00",
+      "observation_count": 1,
+      "confidence": "OBSERVED",
+      "trusted": false,
+      "channels": [
+        10
+      ],
+      "security_history": [
+        "SECURED"
+      ],
+      "channel_history": [
+        {
+          "timestamp": "2026-10-21T16:34:14.086+00:00",
+          "channel": 10
+        }
+      ],
+      "rssi_history": [
+        {
+          "timestamp": "2026-10-21T16:34:14.086+00:00",
+          "rssi_dbm": -78.0
+        }
+      ],
+      "rssi_mean": -78.0,
+      "rssi_variance": 0.0,
+      "rssi_min": -78.0,
+      "rssi_max": -78.0,
+      "signal_stability": "unknown",
+      "observation_frequency_per_hour": 3600.0,
+      "fingerprint_hash": "5ef749a9e27990fc2b7fa77c284d83accfc21bc0875d0981d358ad84e8ba875e",
+      "updated_at": "2026-10-21T16:34:17.046+00:00"
     }
   }
 }

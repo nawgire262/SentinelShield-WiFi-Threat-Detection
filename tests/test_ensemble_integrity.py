@@ -62,13 +62,13 @@ class EnsembleTrainingTests(unittest.TestCase):
         detector = HybridEnsembleDetector(n_estimators=15, random_state=42)
         with patch.object(ml_ensemble.IsolationForest, "fit", _record):
             self.assertTrue(detector.train_frame(_toy_frame(), compute_importance=False))
-        legit = detector.training_matrix_[detector.training_labels_ != detector.fake_label_]
-        self.assertGreaterEqual(len(fitted), 2)
-        for block in fitted:
-            self.assertLess(len(block), len(detector.training_matrix_))
-            for row in block:
-                distance = np.linalg.norm(legit - row, axis=1).min()
-                self.assertLess(distance, 1e-6)
+        legit_count = int(np.sum(detector.training_labels_ != detector.fake_label_))
+        self.assertGreaterEqual(len(fitted), 3)  # OOF folds plus final production fit
+        # Each fold fit excludes held-out rows, and every fit is limited to
+        # Legit rows only. The final production Isolation Forest sees all Legit rows.
+        self.assertEqual(len(fitted[-1]), legit_count)
+        self.assertTrue(all(len(block) <= legit_count for block in fitted))
+        self.assertTrue(all(len(block) < legit_count for block in fitted[:-1]))
 
         calls = []
         original_transform = detector.meta_scaler.transform

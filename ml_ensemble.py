@@ -22,7 +22,7 @@ import numpy as np
 import pandas as pd
 from sklearn.ensemble import IsolationForest, RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import StratifiedKFold, cross_val_predict
+from sklearn.model_selection import StratifiedKFold
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 
@@ -95,32 +95,53 @@ class HybridEnsembleDetector:
             print(f"Need at least 20 rows and both labels to fit the stack (got {len(frame)}).")
             return False
         raw, y = self._encode_frame(frame)
-        self.scaler = StandardScaler()
-        scaled = self.scaler.fit_transform(raw)
         fake = self.fake_label_
-        smallest = int(np.bincount(y).min()) if len(y) else 0
-        n_splits = max(2, min(5, smallest))
+        class_counts = np.bincount(y)
+        nonzero_counts = class_counts[class_counts > 0]
+        if len(nonzero_counts) < 2 or int(nonzero_counts.min()) < 2:
+            print("Need at least two examples per class for leakage-safe stratified training.")
+            return False
+        n_splits = max(2, min(5, int(nonzero_counts.min())))
         cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=self.random_state)
 
-        rf_oof = cross_val_predict(
-            RandomForestClassifier(n_estimators=self.n_estimators, max_depth=10, random_state=self.random_state, n_jobs=1),
-            scaled, y, cv=cv, method="predict_proba",
-        )
-        fold_train = len(scaled) - max(1, len(scaled) // n_splits)
-        knn_neighbors = max(1, min(self.n_neighbors, fold_train))
-        knn_oof_model = KNeighborsClassifier(n_neighbors=knn_neighbors)
-        knn_oof = cross_val_predict(knn_oof_model, scaled, y, cv=cv, method="predict_proba")
+        # Generate out-of-fold base-model evidence. Every fold fits its own
+        # scaler on fold-training rows only; validation rows never influence
+        # preprocessing statistics or Isolation Forest fitting.
+        rf_oof = np.zeros((len(raw), len(np.unique(y))), dtype=float)
+        knn_oof = np.zeros_like(rf_oof)
+        iso_oof = np.zeros(len(raw), dtype=float)
+        for train_idx, valid_idx in cv.split(raw, y):
+            fold_scaler = StandardScaler()
+            x_train = fold_scaler.fit_transform(raw[train_idx])
+            x_valid = fold_scaler.transform(raw[valid_idx])
+            rf_fold = RandomForestClassifier(
+                n_estimators=self.n_estimators, max_depth=10,
+                random_state=self.random_state, n_jobs=1,
+            )
+            rf_fold.fit(x_train, y[train_idx])
+            rf_oof[valid_idx] = rf_fold.predict_proba(x_valid)
+
+            fold_train_size = len(train_idx)
+            fold_neighbors = max(1, min(self.n_neighbors, fold_train_size))
+            knn_fold = KNeighborsClassifier(n_neighbors=fold_neighbors)
+            knn_fold.fit(x_train, y[train_idx])
+            knn_oof[valid_idx] = knn_fold.predict_proba(x_valid)
+
+            legit_train = train_idx[y[train_idx] != fake]
+            if len(legit_train) >= 2:
+                # Use the same fold scaler fitted on all fold-training rows;
+                # the Isolation Forest itself only sees Legit rows.
+                legit_positions = np.isin(train_idx, legit_train)
+                fold_iso = self._new_isolation()
+                fold_iso.fit(x_train[legit_positions])
+                iso_oof[valid_idx] = -fold_iso.decision_function(x_valid)
+
         rf_fake = probability_column(self._prototype_classes(y), rf_oof, fake)
         knn_fake = probability_column(self._prototype_classes(y), knn_oof, fake)
 
-        iso_oof = np.zeros(len(scaled), dtype=float)
-        for train_idx, test_idx in cv.split(scaled, y):
-            legit_idx = train_idx[y[train_idx] != fake]
-            if len(legit_idx) < 2:
-                continue
-            fold_iso = self._new_isolation()
-            fold_iso.fit(scaled[legit_idx])
-            iso_oof[test_idx] = -fold_iso.decision_function(scaled[test_idx])
+        # Fit the production scaler/models only after out-of-fold evidence is built.
+        self.scaler = StandardScaler()
+        scaled = self.scaler.fit_transform(raw)
 
         from ensemble_contract import meta_feature_matrix
 

@@ -153,6 +153,56 @@ class FusionAndControllerTests(unittest.TestCase):
         self.assertGreater(mismatch["risk_score"], no_mismatch["risk_score"])
         self.assertIn(mismatch["threat_level"], {"HIGH", "CRITICAL"})
 
+    def test_continuous_scan_repeats_and_stops(self):
+        class CountingScanner(FakeBatchScanner):
+            def __init__(self, observations):
+                super().__init__(observations)
+                self.guard = threading.Lock()
+                self.active = 0
+                self.max_active = 0
+
+            def scan(self, mode="balanced", cancel_event=None, adapters=None):
+                with self.guard:
+                    self.active += 1
+                    self.max_active = max(self.max_active, self.active)
+                try:
+                    import time
+                    time.sleep(0.05)
+                    return super().scan(mode=mode, cancel_event=cancel_event, adapters=adapters)
+                finally:
+                    with self.guard:
+                        self.active -= 1
+
+        observation = {"ssid": "TestAP", "bssid": "00:11:22:33:44:55", "rssi_dbm": -55, "channel": 6, "frequency_mhz": 2437, "security": "WPA2"}
+        fake_scanner = CountingScanner([observation])
+        with tempfile.TemporaryDirectory() as directory:
+            store = WiFiFingerprintStore(Path(directory) / "baseline.json")
+            controller = ScanController(scanner=fake_scanner, fingerprint_store=store, ml_models=NoML(), database=False)
+            self.assertTrue(controller.start_continuous("fast", interval_seconds=1))
+            import time
+            deadline = time.monotonic() + 10
+            while len(fake_scanner.modes) < 2 and time.monotonic() < deadline:
+                time.sleep(0.05)
+            self.assertGreaterEqual(len(fake_scanner.modes), 2, "continuous mode should run repeated scans")
+            self.assertTrue(controller.stop_continuous())
+            scheduler = controller._continuous_thread
+            if scheduler:
+                scheduler.join(timeout=3)
+            scan_thread = controller._thread
+            if scan_thread:
+                scan_thread.join(timeout=3)
+            self.assertFalse(controller.continuous_status()["enabled"])
+            count_when_stopped = len(fake_scanner.modes)
+            time.sleep(1.1)
+            self.assertEqual(len(fake_scanner.modes), count_when_stopped, "no new scans should start after stop")
+            self.assertLessEqual(fake_scanner.max_active, 1, "scan calls must not overlap")
+
+    def test_continuous_interval_validation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            controller = ScanController(scanner=FakeBatchScanner([]), fingerprint_store=WiFiFingerprintStore(Path(directory) / "baseline.json"), ml_models=NoML(), database=False)
+            with self.assertRaises(ValueError):
+                controller.start_continuous("fast", interval_seconds=0.5)
+
     def test_auto_mode_deep_verifies_new_bssid_and_returns_findings(self):
         observation = {"ssid": "Campus", "bssid": "00:11:22:33:44:55", "rssi_dbm": -55, "channel": 6, "frequency_mhz": 2437, "security": "WPA2"}
         fake_scanner = FakeBatchScanner([observation])

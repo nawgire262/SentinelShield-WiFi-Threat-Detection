@@ -64,6 +64,9 @@ class ScanController:
         self._lock = threading.RLock()
         self._cancel = threading.Event()
         self._thread: threading.Thread | None = None
+        self._continuous_thread: threading.Thread | None = None
+        self._continuous_stop = threading.Event()
+        self._continuous_config: dict[str, Any] = {"enabled": False, "interval_seconds": 5.0, "mode": "auto", "last_scan_started_at": None, "last_scan_finished_at": None, "scan_count": 0, "last_error": None}
         self._status: dict[str, Any] = {"status": "idle", "progress": 0, "error": None, "mode": None}
         self._latest: dict[str, Any] | None = None
         # Read-only first-pass output for the dashboard while verification runs.
@@ -92,6 +95,89 @@ class ScanController:
             self._thread = threading.Thread(target=self._worker, args=(normalized,), name="sentinel-scan-controller", daemon=True)
             self._thread.start()
             return True
+
+    def start_continuous(self, mode: str = "auto", interval_seconds: float = 5.0) -> bool:
+        """Start repeated scans, targeting the requested interval between scan starts.
+
+        A new scan is never started while the previous scan worker is still active.
+        If a scan takes longer than the interval, the next scan starts as soon as it
+        finishes. The interval is therefore a target, not a completion-time guarantee.
+        """
+        normalized = str(mode).casefold()
+        if normalized not in self.MODES:
+            raise ValueError(f"mode must be one of {sorted(self.MODES)}")
+        interval = float(interval_seconds)
+        if interval < 1.0 or interval > 3600.0:
+            raise ValueError("interval_seconds must be between 1 and 3600")
+        with self._lock:
+            if self._continuous_thread is not None and self._continuous_thread.is_alive():
+                return False
+            self._continuous_stop.clear()
+            self._continuous_config.update({"enabled": True, "interval_seconds": interval, "mode": normalized, "last_error": None})
+            self._continuous_thread = threading.Thread(
+                target=self._continuous_worker, args=(normalized, interval),
+                name="sentinel-continuous-scan", daemon=True,
+            )
+            self._continuous_thread.start()
+            return True
+
+    def stop_continuous(self) -> bool:
+        """Stop future repeat scans and request cancellation of the current scan."""
+        with self._lock:
+            thread = self._continuous_thread
+            if thread is None or not thread.is_alive():
+                self._continuous_config["enabled"] = False
+                return False
+            self._continuous_config["enabled"] = False
+            self._continuous_stop.set()
+        self.stop()
+        return True
+
+    def continuous_status(self) -> dict[str, Any]:
+        with self._lock:
+            return dict(self._continuous_config)
+
+    def _continuous_worker(self, mode: str, interval: float) -> None:
+        try:
+            while not self._continuous_stop.is_set():
+                cycle_started = time.monotonic()
+                with self._lock:
+                    self._continuous_config["last_scan_started_at"] = _now()
+                if not self.start(mode):
+                    # Never overlap scans. Wait for an existing scan to finish, then retry.
+                    while not self._continuous_stop.is_set():
+                        with self._lock:
+                            active = self._thread is not None and self._thread.is_alive()
+                        if not active:
+                            break
+                        self._continuous_stop.wait(0.1)
+                    if self._continuous_stop.is_set():
+                        break
+                    continue
+                while not self._continuous_stop.is_set():
+                    with self._lock:
+                        worker = self._thread
+                    if worker is None or not worker.is_alive():
+                        break
+                    self._continuous_stop.wait(0.1)
+                with self._lock:
+                    self._continuous_config["last_scan_finished_at"] = _now()
+                    self._continuous_config["scan_count"] = int(self._continuous_config.get("scan_count", 0)) + 1
+                    current_status = self._status.get("status")
+                    if current_status == "error":
+                        self._continuous_config["last_error"] = self._status.get("error")
+                if self._continuous_stop.is_set():
+                    break
+                remaining = interval - (time.monotonic() - cycle_started)
+                if remaining > 0:
+                    self._continuous_stop.wait(remaining)
+        except Exception as exc:
+            LOGGER.exception("Continuous scan scheduler failed")
+            with self._lock:
+                self._continuous_config["last_error"] = f"{type(exc).__name__}: {exc}"
+        finally:
+            with self._lock:
+                self._continuous_config["enabled"] = False
 
     def stop(self) -> bool:
         with self._lock:
@@ -306,12 +392,14 @@ class ScanController:
         # For each SSID compute RAIM results across all its BSSIDs
         raim_by_ssid_bssid: dict[tuple[str, str], dict[str, Any]] = {}
         for ssid_key, bssid_set in by_ssid.items():
+            if not ssid_key or ssid_key.lower() in {"", "nan", "none", "<hidden>", "unknown"}:
+                continue
             per_bssid_histories = {
                 b: self._raim_history[(ssid_key, b)]
                 for b in bssid_set
                 if self._raim_history[(ssid_key, b)]
             }
-            if per_bssid_histories:
+            if len(per_bssid_histories) >= 3:
                 raim_results = raim_consistency_check(per_bssid_histories)
                 for b, result in raim_results.items():
                     raim_by_ssid_bssid[(ssid_key, b)] = result
@@ -416,6 +504,23 @@ class ScanController:
                             f"(providers: {', '.join(cloud_enrichment)})"
                         )
 
+            # Compare current attributes with the established fingerprint before
+            # updating it, so a change is not erased by the current observation.
+            fingerprint_change_reasons: list[str] = []
+            if baseline:
+                previous_ssid = str(baseline.get("ssid") or "")
+                current_ssid = str(observation.get("ssid") or "")
+                if previous_ssid and current_ssid and previous_ssid.casefold() != current_ssid.casefold():
+                    fingerprint_change_reasons.append("SSID changed")
+                previous_channels = set(baseline.get("channels") or [])
+                current_channel = observation.get("channel")
+                if current_channel is not None and previous_channels and int(current_channel) not in previous_channels:
+                    fingerprint_change_reasons.append(f"channel changed to {current_channel}")
+                previous_security = {str(value).upper() for value in (baseline.get("security_history") or [])}
+                current_security = str(observation.get("security") or "UNKNOWN").upper()
+                if current_security != "UNKNOWN" and previous_security and current_security not in previous_security:
+                    fingerprint_change_reasons.append(f"security changed to {current_security}")
+
             fused = self.fusion.score_observation(
                 observation, baseline, trusted_by_ssid.get(ssid_key, []),
                 temporal, density=density, context=row_context or None, ml_score=ml.get("risk_score") if ml else None,
@@ -430,6 +535,9 @@ class ScanController:
                 "fingerprint_hash": (record or baseline or {}).get("fingerprint_hash"),
                 "confidence": (record or baseline or {}).get("confidence", "UNKNOWN"),
                 "fingerprint_similarity": max(0.0, 100.0 - float(fused["scores"].get("fingerprint") or 0.0)) if baseline else None,
+                "fingerprint_baseline_exists": bool(baseline),
+                "fingerprint_changed": bool(fingerprint_change_reasons),
+                "fingerprint_change_reasons": fingerprint_change_reasons,
                 "temporal": temporal,
                 "density": density,
                 "ml": ml,

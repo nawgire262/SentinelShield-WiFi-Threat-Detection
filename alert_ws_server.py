@@ -77,25 +77,32 @@ class AlertTailer:
             return []
         try:
             size = self._path.stat().st_size
+            if size < self._last_pos:
+                # File was truncated or rotated
+                self._last_pos = 0
+                self._header = []
+
             if size <= self._last_pos:
                 return []
-            with self._path.open(newline="", encoding="utf-8") as fh:
-                fh.seek(0)
-                reader = csv.DictReader(fh)
-                if not self._header and reader.fieldnames:
-                    self._header = list(reader.fieldnames)
-                # Skip already-read rows by position
-                rows = list(reader)
-                new_rows = []
-                with self._path.open(newline="", encoding="utf-8") as fh2:
-                    reader2 = csv.DictReader(fh2)
-                    pos_after_header = fh2.tell()
-                    for row in reader2:
-                        row_pos = fh2.tell()
-                        if row_pos > self._last_pos:
-                            new_rows.append(dict(row))
-                self._last_pos = size
-                return new_rows
+
+            with self._path.open("r", newline="", encoding="utf-8", errors="replace") as fh:
+                if not self._header:
+                    header_line = fh.readline()
+                    if header_line:
+                        self._header = [h.strip() for h in next(csv.reader([header_line]))]
+                    if self._last_pos == 0:
+                        self._last_pos = size
+                        return []
+
+                fh.seek(self._last_pos)
+                new_lines = fh.readlines()
+                self._last_pos = fh.tell()
+
+            if not new_lines or not self._header:
+                return []
+
+            reader = csv.DictReader(new_lines, fieldnames=self._header)
+            return [dict(row) for row in reader]
         except (OSError, csv.Error) as exc:
             LOGGER.warning("Alert tailer read error: %s", exc)
             return []

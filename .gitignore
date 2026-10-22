@@ -32,7 +32,6 @@ current_scan.csv
 
 # Generated reports
 Threat_Report_*.pdf
-Threat_Report_*.xlsx
 
 # Temporary/generated files
 *.tmp
@@ -41,7 +40,13 @@ Threat_Report_*.xlsx
 # Runtime state / generated data
 adaptive_threshold_state.json
 alert_history.csv
+behavioral_audit_log.json
+threat_intelligence_cache.json
+training_dataset_backup.csv
 dashboard_settings.json
 scan_history.csv
 performance_benchmark.json
 performance_benchmark_latest.json
+
+# Generated PDF reports
+reports/

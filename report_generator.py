@@ -1,4 +1,6 @@
-"""Exports the current SentinelShield findings as PDF or Excel reports."""
+"""Generate PDF-only SentinelShield threat reports."""
+
+from __future__ import annotations
 
 from datetime import datetime
 from pathlib import Path
@@ -6,57 +8,80 @@ from xml.sax.saxutils import escape
 
 import pandas as pd
 from reportlab.lib import colors
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.enums import TA_LEFT
+from reportlab.lib.pagesizes import A4, landscape
+from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import inch
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.platypus import (
+    Image,
+    KeepTogether,
+    PageBreak,
+    Paragraph,
+    SimpleDocTemplate,
+    Spacer,
+    Table,
+    TableStyle,
+)
 from reportlab.graphics.shapes import Drawing
 from reportlab.graphics.charts.barcharts import VerticalBarChart
 
 
 class ReportGenerator:
-    """Create reports from alert history and the latest completed scan."""
+    """Create a readable PDF from the latest scan and persisted alert history."""
 
-    def __init__(self, alert_file="alert_history.csv", scan_file="current_scan.csv"):
-        self.alert_file = alert_file
-        self.scan_file = scan_file
+    def __init__(self, alert_file="alert_history.csv", scan_file="current_scan.csv", output_dir="reports"):
+        self.alert_file = Path(alert_file)
+        self.scan_file = Path(scan_file)
+        self.output_dir = Path(output_dir)
 
     @staticmethod
-    def _load_csv(path):
+    def _load_csv(path: Path) -> pd.DataFrame:
         try:
-            return pd.read_csv(path, on_bad_lines="skip") if Path(path).exists() else pd.DataFrame()
+            return pd.read_csv(path, on_bad_lines="skip") if path.is_file() else pd.DataFrame()
         except (OSError, pd.errors.EmptyDataError, pd.errors.ParserError, UnicodeDecodeError):
             return pd.DataFrame()
 
-    def load_alerts(self):
+    def load_alerts(self) -> pd.DataFrame:
         return self._load_csv(self.alert_file)
 
-    def load_scan_data(self):
+    def load_scan_data(self) -> pd.DataFrame:
         return self._load_csv(self.scan_file)
 
     @staticmethod
-    def _table(frame, columns, max_rows=20):
-        """Build a readable, bounded table that fits on an A4 page."""
-        available = [column for column in columns if column in frame.columns]
-        if not available:
+    def _safe_text(value, limit=120) -> str:
+        if pd.isna(value):
+            return ""
+        text = str(value).replace("\r", " ").replace("\n", " ")
+        return escape(text[:limit])
+
+    @classmethod
+    def _table(cls, frame: pd.DataFrame, columns, page_width, styles, max_rows=30):
+        """Create a wrapped table that stays within the printable page width."""
+        available = [name for name in columns if name in frame.columns]
+        if not available or frame.empty:
             return None
-        rows = [available]
-        for _, row in frame[available].head(max_rows).fillna("").iterrows():
-            rows.append([str(value)[:36] for value in row.tolist()])
-        table = Table(
-            rows,
-            colWidths=[(7.5 * inch) / len(available)] * len(available),
-            repeatRows=1,
-            hAlign="LEFT",
+
+        # Keep column widths equal and make cell content wrap instead of overflowing.
+        usable_width = page_width - 0.72 * inch
+        col_width = usable_width / len(available)
+        cell_style = ParagraphStyle(
+            "ReportCell", parent=styles["BodyText"], fontName="Helvetica",
+            fontSize=7, leading=8, alignment=TA_LEFT, spaceAfter=0,
         )
+        header_style = ParagraphStyle(
+            "ReportHeader", parent=cell_style, fontName="Helvetica-Bold",
+            textColor=colors.white,
+        )
+        rows = [[Paragraph(cls._safe_text(name, 48), header_style) for name in available]]
+        for _, row in frame[available].head(max_rows).fillna("").iterrows():
+            rows.append([Paragraph(cls._safe_text(value), cell_style) for value in row.tolist()])
+
+        table = Table(rows, colWidths=[col_width] * len(available), repeatRows=1, hAlign="LEFT")
         table.setStyle(TableStyle([
             ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#1f4e78")),
-            ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
-            ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
-            ("FONTSIZE", (0, 0), (-1, -1), 7),
             ("GRID", (0, 0), (-1, -1), 0.35, colors.HexColor("#b7c9d6")),
             ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.white, colors.HexColor("#edf4f8")]),
-            ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+            ("VALIGN", (0, 0), (-1, -1), "TOP"),
             ("LEFTPADDING", (0, 0), (-1, -1), 4),
             ("RIGHTPADDING", (0, 0), (-1, -1), 4),
             ("TOPPADDING", (0, 0), (-1, -1), 4),
@@ -64,63 +89,125 @@ class ReportGenerator:
         ]))
         return table
 
-    def generate_excel_report(self):
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = f"Threat_Report_{timestamp}.xlsx"
-        with pd.ExcelWriter(filename, engine="openpyxl") as writer:
-            self.load_scan_data().to_excel(writer, sheet_name="Current Scan", index=False)
-            self.load_alerts().to_excel(writer, sheet_name="Alert History", index=False)
-        return filename
+    @staticmethod
+    def _risk_series(scan: pd.DataFrame) -> pd.Series:
+        if "Combined_Risk" in scan.columns:
+            return pd.to_numeric(scan["Combined_Risk"], errors="coerce").dropna()
+        if "ML_Risk" in scan.columns:
+            return pd.to_numeric(scan["ML_Risk"], errors="coerce").dropna()
+        return pd.Series(dtype=float)
 
-    def generate_pdf_report(self, scan_data=None):
-        """Generate a report with live scan data plus persisted alert history."""
+    def generate_pdf_report(self, scan_data=None) -> str:
+        """Generate and return the path to a complete PDF report.
+
+        ``scan_data`` can be the live scan DataFrame supplied by the dashboard.
+        When omitted, the report reads ``scan_file`` from disk.
+        """
         alerts = self.load_alerts()
         scan = pd.DataFrame(scan_data).copy() if scan_data is not None else self.load_scan_data()
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = f"Threat_Report_{timestamp}.pdf"
+        scan = scan.replace({pd.NA: None})
+        timestamp = datetime.now()
+        self.output_dir.mkdir(parents=True, exist_ok=True)
+        output_path = self.output_dir / f"Threat_Report_{timestamp:%Y%m%d_%H%M%S}.pdf"
+
+        page_size = landscape(A4)
+        page_width, _ = page_size
         styles = getSampleStyleSheet()
+        styles.add(ParagraphStyle(
+            name="ReportSubtitle", parent=styles["Normal"],
+            textColor=colors.HexColor("#536579"), fontSize=9, leading=12,
+        ))
         elements = [
             Paragraph("SentinelShield Threat Detection Report", styles["Title"]),
-            Paragraph(f"Generated: {escape(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))}", styles["Normal"]),
-            Spacer(1, 14),
+            Paragraph(f"Generated: {timestamp:%Y-%m-%d %H:%M:%S}", styles["ReportSubtitle"]),
+            Spacer(1, 16),
+            Paragraph("Executive Summary", styles["Heading2"]),
         ]
 
-        high_risk = scan[scan["Threat_Level"].isin(["HIGH", "CRITICAL"])] if "Threat_Level" in scan else pd.DataFrame()
-        highest_risk = float(pd.to_numeric(scan["Combined_Risk"], errors="coerce").max()) if "Combined_Risk" in scan and not scan.empty else 0.0
-        elements.extend([
-            Paragraph("Live Scan Summary", styles["Heading2"]),
-            Paragraph(
-                f"<b>Networks scanned:</b> {len(scan)} &nbsp;&nbsp; <b>High/Critical threats:</b> {len(high_risk)} &nbsp;&nbsp; <b>Highest risk:</b> {highest_risk:.1f}%",
-                styles["Normal"],
-            ),
-            Spacer(1, 8),
-        ])
-        if "Threat_Level" in scan:
-            counts = scan["Threat_Level"].value_counts()
-            if not counts.empty:
-                chart = VerticalBarChart()
-                chart.x = 35
-                chart.y = 25
-                chart.height = 130
-                chart.width = 440
-                chart.data = [counts.tolist()]
-                chart.categoryAxis.categoryNames = counts.index.tolist()
-                chart.valueAxis.valueMin = 0
-                chart.valueAxis.valueMax = max(1, int(counts.max()) + 1)
-                chart.barWidth = 24
-                chart.bars[0].fillColor = colors.HexColor("#d9534f")
-                drawing = Drawing(500, 180)
-                drawing.add(chart)
-                elements.extend([Spacer(1, 8), Paragraph("Threat-level distribution", styles["Heading3"]), drawing])
-        scan_table = self._table(scan, ["SSID", "BSSID", "RSSI", "Security", "ML_Risk", "Combined_Risk", "Threat_Level"])
-        elements.append(scan_table if scan_table is not None else Paragraph("No completed scan data is available yet.", styles["Normal"]))
+        threat_levels = scan["Threat_Level"].astype(str).str.upper() if "Threat_Level" in scan else pd.Series(dtype=str)
+        high_critical = int(threat_levels.isin(["HIGH", "CRITICAL"]).sum())
+        critical = int(threat_levels.eq("CRITICAL").sum())
+        risks = self._risk_series(scan)
+        avg_risk = float(risks.mean()) if not risks.empty else 0.0
+        max_risk = float(risks.max()) if not risks.empty else 0.0
+        summary_rows = [
+            ["Metric", "Result", "Metric", "Result"],
+            ["Networks scanned", str(len(scan)), "Recorded alerts", str(len(alerts))],
+            ["High / critical threats", str(high_critical), "Critical threats", str(critical)],
+            ["Average risk", f"{avg_risk:.1f}%", "Maximum risk", f"{max_risk:.1f}%"],
+        ]
+        summary_table = Table(summary_rows, colWidths=[1.8 * inch, 1.1 * inch, 1.8 * inch, 1.1 * inch])
+        summary_table.setStyle(TableStyle([
+            ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#1f4e78")),
+            ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+            ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+            ("GRID", (0, 0), (-1, -1), 0.4, colors.HexColor("#b7c9d6")),
+            ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.white, colors.HexColor("#edf4f8")]),
+            ("FONTSIZE", (0, 0), (-1, -1), 8),
+            ("PADDING", (0, 0), (-1, -1), 6),
+        ]))
+        elements.extend([summary_table, Spacer(1, 14)])
 
-        cloud_table = self._table(scan, ["SSID", "VirusTotal_Risk", "AbuseIPDB_Risk", "BSSID_Reputation", "OpenPhish_Risk", "Cloud_Risk"], max_rows=15)
+        if not threat_levels.empty:
+            counts = threat_levels.value_counts()
+            chart = VerticalBarChart()
+            chart.x, chart.y, chart.width, chart.height = 35, 20, 480, 125
+            chart.data = [counts.tolist()]
+            chart.categoryAxis.categoryNames = counts.index.tolist()
+            chart.valueAxis.valueMin = 0
+            chart.valueAxis.valueMax = max(1, int(counts.max()) + 1)
+            chart.valueAxis.valueStep = max(1, int(chart.valueAxis.valueMax / 5))
+            chart.barWidth = min(35, 280 / max(1, len(counts)))
+            chart.bars[0].fillColor = colors.HexColor("#d9534f")
+            drawing = Drawing(550, 165)
+            drawing.add(chart)
+            elements.extend([Paragraph("Threat-Level Distribution", styles["Heading2"]), drawing, Spacer(1, 8)])
+
+        elements.append(Paragraph("Current Scan Details", styles["Heading2"]))
+        scan_table = self._table(
+            scan,
+            ["SSID", "BSSID", "RSSI", "Channel", "Frequency_MHz", "Security", "ML_Risk", "Combined_Risk", "Threat_Level", "Reason"],
+            page_width, styles, max_rows=100,
+        )
+        elements.append(scan_table or Paragraph("No completed scan data is available yet.", styles["Normal"]))
+        if len(scan) > 100:
+            elements.append(Paragraph(f"Showing first 100 of {len(scan)} scanned networks.", styles["Italic"]))
+
+        cloud_table = self._table(
+            scan,
+            ["SSID", "BSSID", "VirusTotal_Risk", "AbuseIPDB_Risk", "BSSID_Reputation", "OpenPhish_Risk", "Cloud_Risk"],
+            page_width, styles, max_rows=50,
+        )
         if cloud_table is not None:
-            elements.extend([Spacer(1, 14), Paragraph("Cloud Threat Intelligence Summary", styles["Heading2"]), cloud_table])
+            elements.extend([Spacer(1, 14), Paragraph("Cloud Threat Intelligence", styles["Heading2"]), cloud_table])
 
-        elements.extend([Spacer(1, 16), Paragraph("Alert History", styles["Heading2"]), Paragraph(f"<b>Total recorded alerts:</b> {len(alerts)}", styles["Normal"]), Spacer(1, 8)])
-        alert_table = self._table(alerts, ["Time", "SSID", "BSSID", "Risk", "Reason"])
-        elements.append(alert_table if alert_table is not None else Paragraph("No alerts have been recorded.", styles["Normal"]))
-        SimpleDocTemplate(filename, pagesize=A4, rightMargin=0.35 * inch, leftMargin=0.35 * inch).build(elements)
-        return filename
+        elements.extend([
+            Spacer(1, 18),
+            Paragraph("Alert History", styles["Heading2"]),
+            Paragraph(f"Total recorded alerts: {len(alerts)}", styles["Normal"]),
+            Spacer(1, 6),
+        ])
+        alert_table = self._table(alerts, ["Time", "Timestamp", "SSID", "BSSID", "Risk", "Threat_Level", "Reason", "Message"], page_width, styles, max_rows=100)
+        elements.append(alert_table or Paragraph("No alerts have been recorded.", styles["Normal"]))
+        if len(alerts) > 100:
+            elements.append(Paragraph(f"Showing first 100 of {len(alerts)} alerts.", styles["Italic"]))
+
+        def add_page_number(canvas, doc):
+            canvas.saveState()
+            canvas.setFont("Helvetica", 8)
+            canvas.setFillColor(colors.HexColor("#536579"))
+            canvas.drawString(0.36 * inch, 0.22 * inch, "SentinelShield | Generated report")
+            canvas.drawRightString(page_width - 0.36 * inch, 0.22 * inch, f"Page {doc.page}")
+            canvas.restoreState()
+
+        document = SimpleDocTemplate(
+            str(output_path), pagesize=page_size,
+            rightMargin=0.36 * inch, leftMargin=0.36 * inch,
+            topMargin=0.45 * inch, bottomMargin=0.45 * inch,
+            title="SentinelShield Threat Detection Report",
+            author="SentinelShield",
+        )
+        document.build(elements, onFirstPage=add_page_number, onLaterPages=add_page_number)
+        if not output_path.is_file() or output_path.stat().st_size < 500:
+            raise RuntimeError("PDF report generation did not produce a valid report file.")
+        return str(output_path.resolve())

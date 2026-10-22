@@ -122,7 +122,7 @@ def raim_consistency_check(per_bssid_histories):
 
         distances[bssid] = rssi_to_distance(avg)
 
-    if len(distances) == 0:
+    if len(distances) < 3:
         return results
 
     median_distance = statistics.median(
@@ -133,7 +133,7 @@ def raim_consistency_check(per_bssid_histories):
 
         difference = abs(distance - median_distance)
 
-        flagged = difference > 6
+        flagged = difference > 20.0
 
         results[bssid] = {
 

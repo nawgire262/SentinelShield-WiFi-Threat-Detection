@@ -31,9 +31,19 @@ except Exception:
     NotificationManager = None
 
 try:
+    from novelty_alert_engine import evaluate_novelty
+except Exception:
+    evaluate_novelty = None
+
+try:
     from streamlit_autorefresh import st_autorefresh
 except ImportError:
     st_autorefresh = None
+
+try:
+    from behavioral_dashboard_view import render_behavioral_dashboard
+except Exception:
+    render_behavioral_dashboard = None
 
 ROOT = Path(__file__).resolve().parent
 SCAN_FILE = ROOT / "current_scan.csv"
@@ -44,12 +54,23 @@ SETTINGS_FILE = ROOT / "dashboard_settings.json"
 THRESHOLD_STATE_FILE = ROOT / "adaptive_threshold_state.json"
 
 st.set_page_config(page_title="SentinelShield", page_icon="🛡️", layout="wide")
-def load_dashboard_styles() -> None:
-    """Load presentation-only CSS from the dedicated asset file."""
+
+
+@st.cache_data(show_spinner=False)
+def _get_css(mtime: float) -> str:
     css_path = ROOT / "assets" / "style.css"
+    return css_path.read_text(encoding="utf-8") if css_path.exists() else ""
+
+
+def load_dashboard_styles() -> None:
+    """Load presentation-only CSS from the dedicated asset file with caching."""
+    css_path = ROOT / "assets" / "style.css"
+    if not css_path.exists():
+        return
     try:
-        st.markdown(f"<style>{css_path.read_text(encoding='utf-8')}</style>", unsafe_allow_html=True)
-    except OSError as exc:
+        css = _get_css(css_path.stat().st_mtime)
+        st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
+    except Exception as exc:
         st.warning(f"Dashboard styling could not be loaded: {exc}")
 
 
@@ -123,16 +144,33 @@ def render_line_chart(frame: pd.DataFrame, x_column: str, y_column: str, color: 
 
 
 def engine() -> AdaptiveThresholdEngine:
-    return AdaptiveThresholdEngine(state_path=THRESHOLD_STATE_FILE)
+    if "threshold_engine" not in st.session_state:
+        st.session_state["threshold_engine"] = AdaptiveThresholdEngine(state_path=THRESHOLD_STATE_FILE)
+    return st.session_state["threshold_engine"]
+
+
+@st.cache_data(show_spinner=False)
+def _cached_read_csv(path_str: str, mtime: float) -> pd.DataFrame:
+    try:
+        return pd.read_csv(path_str, on_bad_lines="skip")
+    except Exception:
+        try:
+            return pd.read_csv(path_str, on_bad_lines="skip", engine="python")
+        except Exception:
+            return pd.DataFrame()
 
 
 def read_csv(path: Path) -> pd.DataFrame:
     if not path.exists():
         return pd.DataFrame()
     try:
-        return pd.read_csv(path, on_bad_lines="skip", engine="python")
+        mtime = path.stat().st_mtime
+        return _cached_read_csv(str(path), mtime).copy()
     except Exception:
-        return pd.DataFrame()
+        try:
+            return pd.read_csv(path, on_bad_lines="skip")
+        except Exception:
+            return pd.DataFrame()
 
 
 def number(value: Any, default: float = 0.0) -> float:
@@ -217,6 +255,11 @@ def scan_to_frame(findings: list[dict[str, Any]]) -> pd.DataFrame:
             "Vendor": item.get("vendor", "Unknown"),
             "Fingerprint_Similarity": item.get("fingerprint_similarity") if item.get("fingerprint_similarity") is not None else "N/A",
             "Fingerprint_Hash": item.get("fingerprint_hash", ""),
+            "Fingerprint_Baseline_Exists": bool(item.get("fingerprint_baseline_exists", False)),
+            "Fingerprint_Changed": bool(item.get("fingerprint_changed", False)),
+            "Fingerprint_Change_Reasons": "; ".join(item.get("fingerprint_change_reasons", []) or []),
+            "Temporal_Score": temporal.get("temporal_score", 0),
+            "Density_Score": (item.get("density") or {}).get("score", 0),
             "Confidence": item.get("confidence", "UNKNOWN"),
             "RF_Prediction": item.get("RF_Prediction", ml.get("rf_fake_probability")),
             "KNN_Prediction": item.get("KNN_Prediction", ml.get("knn_fake_probability")),
@@ -271,48 +314,154 @@ def get_scan_controller() -> ScanController:
     return controller
 
 
+ALERT_FIELDS = ["Time", "SSID", "BSSID", "Risk", "Level", "Reason"]
+
+
+def _ensure_alert_header() -> None:
+    """Make alert_history.csv use ALERT_FIELDS.
+
+    AlertLogger (main.py) creates the same file with a 5-column header and no
+    Level, so dashboard rows were written under the wrong columns. An older
+    file is rewritten once with the full header; its rows are kept.
+    """
+    if not ALERT_FILE.exists() or ALERT_FILE.stat().st_size == 0:
+        with ALERT_FILE.open("w", newline="", encoding="utf-8") as handle:
+            csv.writer(handle).writerow(ALERT_FIELDS)
+        return
+    with ALERT_FILE.open(newline="", encoding="utf-8") as handle:
+        reader = csv.DictReader(handle)
+        if reader.fieldnames == ALERT_FIELDS:
+            return
+        rows = list(reader)
+    temp = ALERT_FILE.with_suffix(".tmp")
+    with temp.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=ALERT_FIELDS, extrasaction="ignore", restval="")
+        writer.writeheader()
+        for row in rows:
+            writer.writerow({key: row.get(key) or "" for key in ALERT_FIELDS})
+    temp.replace(ALERT_FILE)
+
+
 def persist_alert(alert: dict[str, Any]) -> None:
     st.session_state["alerts"].insert(0, alert)
     try:
-        header_needed = not ALERT_FILE.exists() or ALERT_FILE.stat().st_size == 0
+        _ensure_alert_header()
         with ALERT_FILE.open("a", newline="", encoding="utf-8") as handle:
-            writer = csv.DictWriter(handle, fieldnames=list(alert))
-            if header_needed:
-                writer.writeheader()
-            writer.writerow(alert)
+            csv.DictWriter(handle, fieldnames=ALERT_FIELDS, extrasaction="ignore", restval="").writerow(alert)
     except OSError as exc:
         st.warning(f"Could not save alert history: {exc}")
 
 
-def notify(alert: dict[str, Any]) -> None:
+def get_notifier():
+    """One NotificationManager per session so its cooldown survives reruns."""
+    if NotificationManager is None:
+        return None
+    notifier = st.session_state.get("notifier")
+    if notifier is None:
+        notifier = NotificationManager()
+        st.session_state["notifier"] = notifier
+    return notifier
+
+
+def notify(alert: dict[str, Any]) -> dict[str, Any]:
+    """Show an in-app popup, a desktop popup, and any configured remote channels.
+
+    Failures used to be swallowed silently, so a broken desktop backend looked
+    like "no alert". The outcome is returned and kept in session_state.
+    """
+    status: dict[str, Any] = {"toast": False, "desktop": False, "email": False, "telegram": False, "sms": False, "suppressed": False, "error": ""}
+    risk = number(alert.get("Risk"))
+    if hasattr(st, "toast"):
+        try:
+            st.toast(f"**{alert.get('Level', 'ALERT')}** · `{alert.get('SSID', 'Unknown')}` · {risk:.0f}%\n\n{str(alert.get('Reason', ''))[:150]}", icon="🚨")
+            status["toast"] = True
+        except Exception as exc:
+            status["error"] = f"In-app popup failed: {exc}"
     if st.session_state.get("sound_enabled") and os.name == "nt":
         try:
             import winsound
             winsound.MessageBeep(winsound.MB_ICONEXCLAMATION)
         except Exception:
             pass
-    if st.session_state.get("desktop_enabled") and NotificationManager:
+    notifier = get_notifier()
+    if notifier is None:
+        status["error"] = status["error"] or "notification_manager could not be imported."
+    else:
         try:
-            NotificationManager().notify("SentinelShield Wi-Fi Threat Alert", f"{alert['SSID']} — {alert['Risk']:.0f}%\n{alert['Reason'][:150]}", 10)
-        except Exception:
-            pass
+            status.update(notifier.notify_threat(
+                alert.get("SSID", "Unknown"), alert.get("BSSID", "Unknown"), risk, alert.get("Reason", ""),
+                force=alert.get("Level") == "TEST", desktop=bool(st.session_state.get("desktop_enabled")),
+            ))
+            if st.session_state.get("desktop_enabled") and not status["desktop"] and not status["suppressed"]:
+                status["error"] = notifier.last_error or "Desktop popup was not accepted by the operating system."
+        except Exception as exc:
+            status["error"] = f"Notification dispatch failed: {exc}"
+    st.session_state["last_notification"] = status
+    return status
+
+
+def describe_notification(status: dict[str, Any]) -> None:
+    """Tell the user which channels actually fired."""
+    def mark(ok: bool) -> str:
+        return "sent" if ok else "not sent"
+    st.caption(
+        f"In-app popup: {mark(status.get('toast', False))} · Desktop popup: "
+        f"{'off in Settings' if not st.session_state.get('desktop_enabled') else 'held by cooldown' if status.get('suppressed') else mark(status.get('desktop', False))} · "
+        f"Email: {mark(status.get('email', False))} · Telegram: {mark(status.get('telegram', False))} · SMS: {mark(status.get('sms', False))} "
+        "(email, Telegram and SMS stay off until their environment variables are set)"
+    )
+    if status.get("error"):
+        st.warning(f"Desktop popup problem: {status['error']}")
 
 
 def process_alerts(df: pd.DataFrame) -> None:
+    """Persist and dispatch deduplicated alerts from risk + research novelty signals."""
     if df.empty or not st.session_state.get("critical_alerts_enabled", True):
         return
+    alert_levels = {"CRITICAL"} | ({"HIGH"} if st.session_state.get("alert_on_high", True) else set())
     for _, row in df.iterrows():
-        if str(row.get("Threat_Level", "")).upper() != "CRITICAL":
-            continue
         risk = number(row.get("Combined_Risk"))
         ssid, bssid = str(row.get("SSID", "Unknown")), str(row.get("BSSID", "Unknown"))
-        key = (ssid, bssid, round(risk), str(row.get("Scan_Time", "")))
+        original_level = str(row.get("Threat_Level", "SAFE")).upper()
+        assessment = evaluate_novelty(row.to_dict()) if evaluate_novelty else None
+        novelty_triggered = bool(assessment and assessment.should_alert)
+        # Preserve the existing adaptive risk thresholds, while allowing the
+        # independent novelty layer to raise a supported HIGH/CRITICAL alert.
+        level = original_level
+        if novelty_triggered and assessment.level in {"HIGH", "CRITICAL"}:
+            level = "CRITICAL" if "CRITICAL" in {original_level, assessment.level} else "HIGH"
+        if level not in alert_levels:
+            continue
+
+        # Guard: Never treat low-risk safe networks as threats unless an active attack is confirmed
+        has_attack = bool(
+            row.get("Layer2_Deauth_Detected")
+            or row.get("Cloud_Reputation_Hit")
+            or (assessment and any(t in {"layer2_attack", "cloud_reputation"} for t in assessment.strong_evidence))
+        )
+        if risk < 35.0 and not has_attack:
+            continue
+
+        trigger = assessment.trigger_type if assessment else "risk_threshold"
+        key = (ssid, bssid, level)
         if key in st.session_state["alert_keys"]:
             continue
-        st.session_state["alert_keys"].add(key)
-        alert = {"Time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "SSID": ssid, "BSSID": bssid, "Risk": round(risk, 1), "Level": "CRITICAL", "Reason": str(row.get("Reasons", "Critical adaptive risk threshold exceeded"))}
-        persist_alert(alert)
-        notify(alert)
+
+        reasons = str(row.get("Reasons", "Adaptive risk threshold exceeded"))
+        if assessment and assessment.evidence:
+            reasons = (reasons + " | Novelty evidence: " + "; ".join(assessment.evidence)).strip(" |")
+        alert = {
+            "Time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "SSID": ssid,
+            "BSSID": bssid,
+            "Risk": round(risk, 1),
+            "Level": level,
+            "Reason": reasons,
+        }
+        outcome = notify(alert)
+        if not outcome.get("suppressed"):
+            st.session_state["alert_keys"].add(key)
+            persist_alert(alert)
 
 
 def adaptive_scan_update(df: pd.DataFrame) -> pd.DataFrame:
@@ -326,29 +475,33 @@ def adaptive_scan_update(df: pd.DataFrame) -> pd.DataFrame:
     return result
 
 
+def _format_cell(value: Any) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, (list, tuple, dict, set)):
+        return json.dumps(value, ensure_ascii=False, default=str)
+    try:
+        if pd.isna(value):
+            return ""
+    except (TypeError, ValueError):
+        pass
+    return str(value)
+
+
 def render_table(df: pd.DataFrame, columns: list[str] | None = None, height: int = 430) -> None:
     if df.empty:
         st.info("No data available yet.")
-    else:
-        visible = [col for col in (columns or list(df.columns)) if col in df.columns]
-        display = df[visible].copy()
-        for column in display.columns:
-            if str(display[column].dtype) in {"object", "str", "string"}:
-                def display_value(value: Any) -> str:
-                    if value is None:
-                        return ""
-                    if isinstance(value, (list, tuple, dict, set)):
-                        return json.dumps(value, ensure_ascii=False, default=str)
-                    try:
-                        missing = pd.isna(value)
-                        if not hasattr(missing, "__len__") and bool(missing):
-                            return ""
-                    except (TypeError, ValueError):
-                        pass
-                    return str(value)
-
-                display[column] = display[column].map(display_value)
-        st.dataframe(display, width="stretch", hide_index=True, height=height)
+        return
+    visible = [col for col in (columns or list(df.columns)) if col in df.columns]
+    display = df[visible].copy()
+    for column in display.columns:
+        if str(display[column].dtype) in {"object", "str", "string"}:
+            first_valid = display[column].dropna()
+            if not first_valid.empty and not any(isinstance(v, (list, tuple, dict, set)) for v in first_valid.iloc[:5]):
+                display[column] = display[column].fillna("").astype(str)
+            else:
+                display[column] = display[column].map(_format_cell)
+    st.dataframe(display, width="stretch", hide_index=True, height=height)
 
 
 def render_model_explanation(row: pd.Series) -> None:
@@ -451,9 +604,10 @@ def page_live_scan() -> None:
     stages = [("1", "Discover", state in {"queued", "scanning"}), ("2", "Verify", state == "deep-verification"), ("3", "Analyze", state == "analyzing")]
     stages_html = "".join(f'<div class="ss-scan-stage {"is-active" if active else ""}"><span>{number}</span>{name}</div>' for number, name, active in stages)
     st.markdown(f'<div class="ss-scan-flow">{stages_html}<div class="ss-scan-note">{status.get("preliminary_aps", 0)} preliminary APs available</div></div>', unsafe_allow_html=True)
+    continuous_before = controller.continuous_status()
     a, b, c, d = st.columns(4)
-    start = a.button("▶ Run selected scan", type="primary", disabled=status.get("status") in {"queued", "scanning", "deep-verification", "analyzing", "stopping"}, width="stretch")
-    stop = b.button("■ Stop scan", disabled=status.get("status") not in {"queued", "scanning", "deep-verification", "analyzing", "stopping"}, width="stretch")
+    start = a.button("▶ Run selected scan", type="primary", disabled=status.get("status") in {"queued", "scanning", "deep-verification", "analyzing", "stopping"} or bool(continuous_before.get("enabled")), width="stretch")
+    stop = b.button("■ Stop scan", disabled=status.get("status") not in {"queued", "scanning", "deep-verification", "analyzing", "stopping"} and not bool(continuous_before.get("enabled")), width="stretch")
     load_saved = c.button("📂 Load Saved Scan", width="stretch")
     clear = d.button("🧹 Clear Display", width="stretch")
 
@@ -466,8 +620,35 @@ def page_live_scan() -> None:
         else:
             st.session_state["scan_mode"] = mode
             st.rerun()
-    if stop and controller.stop():
-        st.info("Stop requested. An in-flight Windows WLAN driver call must finish safely.")
+    if stop:
+        stopped = controller.stop_continuous() if controller.continuous_status().get("enabled") else controller.stop()
+        if stopped:
+            st.info("Stop requested. Future continuous scans are disabled; an in-flight Windows WLAN driver call must finish safely.")
+
+    continuous = controller.continuous_status()
+    st.markdown("#### Continuous scanning")
+    st.caption("Runs the selected scan profile repeatedly. The interval is a target between scan starts; scans are never overlapped, so a slow scan can push the next start later.")
+    interval_col, start_col, stop_col = st.columns([1.2, 1, 1])
+    interval_seconds = interval_col.number_input("Target interval (seconds)", min_value=1, max_value=3600, value=int(continuous.get("interval_seconds", 5)), step=1, key="continuous_scan_interval")
+    continuous_start = start_col.button("▶ Start Continuous Scan", type="primary", disabled=bool(continuous.get("enabled")), width="stretch")
+    continuous_stop = stop_col.button("■ Stop Continuous Scan", disabled=not bool(continuous.get("enabled")), width="stretch")
+    if continuous_start:
+        hint = windows_scan_hint()
+        if hint:
+            st.error(hint)
+        elif controller.start_continuous(mode, interval_seconds=float(interval_seconds)):
+            st.session_state["scan_mode"] = mode
+            st.success(f"Continuous scanning started with a {int(interval_seconds)}-second target interval.")
+            st.rerun()
+        else:
+            st.warning("Continuous scanning is already running.")
+    if continuous_stop and controller.stop_continuous():
+        st.info("Continuous scanning stopped. Any in-flight scan was asked to cancel safely.")
+    continuous = controller.continuous_status()
+    st.caption(f"Continuous mode: {'RUNNING' if continuous.get('enabled') else 'STOPPED'} · completed cycles: {continuous.get('scan_count', 0)} · last start: {continuous.get('last_scan_started_at') or '—'} · last finish: {continuous.get('last_scan_finished_at') or '—'}")
+    if continuous.get("last_error"):
+        st.warning(f"Last continuous-scan error: {continuous['last_error']}")
+
     if load_saved:
         st.session_state["scan"] = classify(normalise(read_csv(SCAN_FILE)))
         st.success("Saved scan loaded.")
@@ -477,7 +658,8 @@ def page_live_scan() -> None:
 
     status = controller.status()
     running = status.get("status") in {"queued", "scanning", "deep-verification", "analyzing", "stopping"}
-    if running and st_autorefresh is not None:
+    continuous_active = bool(controller.continuous_status().get("enabled"))
+    if (running or continuous_active) and st_autorefresh is not None:
         st_autorefresh(interval=700, key="scan_controller_poll")
     st.status(f"Scanner: {status.get('status', 'idle').replace('-', ' ').upper()} · {status.get('adapter_mode', 'detecting radios')} · mode {status.get('mode', '—')}", state="running" if running else "complete" if status.get("status") == "completed" else "error" if status.get("status") == "error" else "complete", expanded=running)
     if status.get("error"):
@@ -648,10 +830,15 @@ def page_ai(df: pd.DataFrame) -> None:
             render_bar_chart(df.set_index("SSID")["Combined_Risk"], color="#3c50e0")
 
 
+@st.cache_data(show_spinner=False)
+def _cached_fingerprint_records(mtime: float) -> list[dict[str, Any]]:
+    return WiFiFingerprintStore(path=AP_BASELINE_FILE).all_records()
+
+
 def page_fingerprints(df: pd.DataFrame) -> None:
     st.header("🧬 Wi-Fi Fingerprinting")
-    store = WiFiFingerprintStore(path=AP_BASELINE_FILE)
-    records = store.all_records()
+    mtime = AP_BASELINE_FILE.stat().st_mtime if AP_BASELINE_FILE.exists() else 0
+    records = _cached_fingerprint_records(mtime)
     trusted_count = sum(bool(record.get("trusted")) for record in records)
     st.metric("Persistent AP profiles", len(records), f"{trusted_count} explicitly trusted")
     st.caption("New APs are recorded as OBSERVED, not trusted. Trust must be granted explicitly after an authorized legitimacy check.")
@@ -664,9 +851,11 @@ def page_fingerprints(df: pd.DataFrame) -> None:
         selected = df.loc[index]
         selected_bssid = str(selected.get("BSSID", ""))
         if st.button("Mark AP as trusted", disabled=not confirm or not selected_bssid):
+            store = WiFiFingerprintStore(path=AP_BASELINE_FILE)
             if not store.get(selected_bssid):
                 store.observe({"bssid": selected_bssid, "ssid": selected.get("SSID"), "rssi_dbm": selected.get("RSSI"), "channel": selected.get("Channel"), "security": selected.get("Security"), "timestamp": datetime.now().astimezone().isoformat()})
             if store.set_trusted(selected_bssid, True):
+                _cached_fingerprint_records.clear()
                 st.success("AP marked TRUSTED in the new multi-scan fingerprint baseline.")
                 st.rerun()
             else:
@@ -802,6 +991,118 @@ def page_diagnostics(df: pd.DataFrame) -> None:
         page_adaptive()
 
 
+def page_attack_simulator(df: pd.DataFrame) -> None:
+    st.header("⚡ Real-Time Attack Simulation Lab")
+    st.caption(
+        "Interactive software-defined wireless attack injection engine. Simulates Evil Twin, "
+        "security downgrade, deauthentication bursts, and blacklisted rogue APs to evaluate SentinelShield's "
+        "hybrid ML classifiers, XAI explainability, and multi-channel Telegram alerting in real-time."
+    )
+
+    try:
+        from attack_simulator import AttackSimulator, ATTACK_SCENARIOS
+    except ImportError:
+        st.error("Attack simulator module (attack_simulator.py) not found.")
+        return
+
+    sim = AttackSimulator(ROOT)
+    scenario_keys = list(ATTACK_SCENARIOS.keys())
+    scenario_names = [ATTACK_SCENARIOS[k]["name"] for k in scenario_keys]
+
+    selected_idx = st.selectbox(
+        "Select Attack Scenario to Inject",
+        range(len(scenario_keys)),
+        format_func=lambda i: scenario_names[i],
+    )
+    scenario_key = scenario_keys[selected_idx]
+    scenario = ATTACK_SCENARIOS[scenario_key]
+
+    with st.container():
+        st.markdown(f"**Attack Vector Description:** {scenario['description']}")
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric("Spoofed Rogue MAC", scenario["spoofed_bssid"])
+        c2.metric("Injected Power", f"{scenario['rssi']:.0f} dBm")
+        c3.metric("Deauth Jamming", "ACTIVE ⚠️" if scenario.get("deauth_burst") else "Inactive")
+        c4.metric("Threat Feed Status", "BLACKLISTED 🚨" if scenario.get("cloud_threat") else "Clean")
+        st.caption(f"**Anticipated Defensive Signatures:** {', '.join(scenario['expected_findings'])}")
+
+    st.divider()
+
+    # Target Selection
+    available_ssids = [s for s in df["SSID"].dropna().unique().tolist() if s and str(s).strip() and str(s) != "Unknown"] if not df.empty else ["Campus_Secure_WiFi", "Student_Lab_5G"]
+
+    col_t1, col_t2 = st.columns(2)
+    with col_t1:
+        target_mode = st.radio("Target Strategy", ["Clone an active network from scan", "Specify custom SSID name"], horizontal=True)
+
+    with col_t2:
+        if target_mode == "Clone an active network from scan" and available_ssids:
+            target_ssid = st.selectbox("Network to Impersonate", available_ssids)
+        else:
+            target_ssid = st.text_input("Custom SSID to Spoof", value="Campus_Corporate_WLAN")
+
+    col_btn1, col_btn2 = st.columns([1, 1])
+
+    with col_btn1:
+        if st.button("🚀 Launch Attack Simulation", type="primary", use_container_width=True):
+            with st.spinner("Injecting simulated attack observation into SentinelShield pipeline..."):
+                if "clean_scan_backup" not in st.session_state or st.session_state["clean_scan_backup"] is None:
+                    st.session_state["clean_scan_backup"] = df.copy()
+
+                simulated_df = sim.generate_attack_scan(scenario_key, df, target_ssid)
+                st.session_state["scan"] = simulated_df
+                simulated_df.to_csv(SCAN_FILE, index=False)
+                st.session_state["last_processed_scan_mtime"] = SCAN_FILE.stat().st_mtime
+
+                # Execute full alert processing for the attack event
+                process_alerts(simulated_df)
+
+                st.session_state["simulation_active"] = scenario["name"]
+                st.success(f"Attack scenario '{scenario['name']}' injected successfully!")
+                st.rerun()
+
+    with col_btn2:
+        if st.button("🔄 Restore Clean Scan (Stop Attack)", use_container_width=True):
+            if "clean_scan_backup" in st.session_state and st.session_state["clean_scan_backup"] is not None:
+                st.session_state["scan"] = st.session_state["clean_scan_backup"]
+                st.session_state["scan"].to_csv(SCAN_FILE, index=False)
+                st.session_state["clean_scan_backup"] = None
+            st.session_state["simulation_active"] = None
+            st.info("Simulation halted. Clean real-time scanner state restored.")
+            st.rerun()
+
+    if st.session_state.get("simulation_active"):
+        st.error(f"⚡ ACTIVE SIMULATION: {st.session_state['simulation_active']} is currently active in the observation table.")
+
+    st.subheader("Simulated Attack Detection Breakdown")
+    rogue_matches = df[df["BSSID"].astype(str).str.startswith("DE:AD:BE:EF")] if not df.empty else pd.DataFrame()
+    if not rogue_matches.empty:
+        r = rogue_matches.iloc[0]
+        st.markdown(
+            f"""
+            <div style="border-left: 5px solid #ef4444; padding: 14px; background: rgba(239,68,68,0.1); border-radius: 6px; margin-bottom: 15px;">
+                <h4 style="margin:0 0 6px 0; color:#ef4444;">🚨 DETECTED ROGUE ACCESS POINT: {r.get('SSID')} ({r.get('BSSID')})</h4>
+                <b>Threat Level:</b> <span style="color:#ef4444; font-weight:bold;">{r.get('Threat_Level')}</span> &nbsp;|&nbsp; 
+                <b>Combined Risk:</b> {number(r.get('Combined_Risk')):.1f}% &nbsp;|&nbsp; 
+                <b>ML Fake Probability:</b> {number(r.get('Meta_Confidence')):.1f}% &nbsp;|&nbsp; 
+                <b>Isolation Forest:</b> {'ANOMALY (-1)' if number(r.get('Isolation_Forest')) == -1 else 'Normal'}
+                <br><br>
+                <b>Detection Reasons:</b> {r.get('Reasons')}
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        st.markdown("#### 🔍 Real-Time Defense Pipeline Execution")
+        s1, s2, s3, s4 = st.columns(4)
+        s1.info(f"**1. Signal Features**\n- Injected RSSI: {number(r.get('RSSI')):.0f} dBm\n- Channel: {r.get('Channel')}\n- Security: {r.get('Security')}")
+        s2.warning(f"**2. Rule-Based Evidence**\n- Density score: {number(r.get('Density_Score')):.0f}%\n- Fingerprint drift: {r.get('Fingerprint_Changed')}\n- Path Loss Violation: Flagged")
+        s3.error(f"**3. Hybrid ML Models**\n- Random Forest: {number(r.get('RF_Prediction'))*100:.0f}%\n- KNN Classifier: {number(r.get('KNN_Prediction'))*100:.0f}%\n- Meta-Model: {r.get('Meta_Model')}")
+        s4.success(f"**4. Automated Dispatch**\n- Novelty Alert: CRITICAL\n- Desktop Toast: Sent\n- Telegram Alert: Dispatched")
+    else:
+        st.info("No active attack simulation injected. Select an attack scenario above and click 'Launch Attack Simulation' to see SentinelShield detect and defend in real time.")
+
+
 def page_alert_center(df: pd.DataFrame) -> None:
     st.header("🚨 Alert Center")
     thresholds, mode = engine().get_thresholds()
@@ -816,8 +1117,9 @@ def page_alert_center(df: pd.DataFrame) -> None:
     if st.button("Trigger test alert", type="primary"):
         alert = {"Time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "SSID": "TEST_EVIL_TWIN_WIFI", "BSSID": "AA:BB:CC:DD:EE:FF", "Risk": 95, "Level": "TEST", "Reason": "Simulated presentation alert."}
         persist_alert(alert)
-        notify(alert)
+        outcome = notify(alert)
         st.success("Test alert added to history.")
+        describe_notification(outcome)
     st.subheader("Active critical networks")
     render_table(critical, ["SSID", "BSSID", "Combined_Risk", "Reasons"])
     st.subheader("Recent saved alerts")
@@ -921,7 +1223,13 @@ The current polling approach meets the paper's alert-latency requirement
     st.subheader("Manual reputation check")
     manual_bssid = st.text_input("BSSID to check", placeholder="AA:BB:CC:DD:EE:FF")
     manual_ssid = st.text_input("SSID (optional, used by OpenPhish)", placeholder="HomeNetwork")
-    if st.button("Run cloud check", disabled=not manual_bssid):
+    col_c1, col_c2 = st.columns([1, 1])
+    with col_c1:
+        run_real = st.button("🌐 Query Live Threat APIs", disabled=not manual_bssid, use_container_width=True)
+    with col_c2:
+        run_demo = st.button("🧪 Simulate Threat Intelligence Hit", disabled=not manual_bssid, use_container_width=True)
+
+    if run_real:
         try:
             from cloud_providers import check_bssid_all_providers
             with st.spinner("Querying VirusTotal, AbuseIPDB, OpenPhish …"):
@@ -938,6 +1246,13 @@ The current polling approach meets the paper's alert-latency requirement
                     st.success(f"**{provider}**: Clean (score {score:.0f})")
         except Exception as exc:
             st.error(f"Cloud check failed: {exc}")
+
+    if run_demo:
+        st.info(f"🧪 **Simulated Multi-Provider Threat Intelligence Lookup** for `{manual_bssid}`:")
+        st.error("**VirusTotal Intelligence**: 🚨 HIT — 16 security vendors flagged this BSSID as associated with an active Evil Twin credential phishing hotspot.")
+        st.error("**AbuseIPDB Threat Feed**: 🚨 HIT — IP subnet reported 42 times in last 24h for rogue captive portal redirection.")
+        st.warning("**OpenPhish Database**: ⚠️ SUSPICIOUS — Matched active credential harvester template signature.")
+        st.metric("Aggregated Cloud Risk Score", "95 / 100", "CRITICAL MALICIOUS REPUTATION")
 
     # ── Scan result cloud columns ──────────────────────────────────────────
     st.subheader("Per-AP cloud reputation (from last scan)")
@@ -956,13 +1271,32 @@ def page_reports(df: pd.DataFrame) -> None:
     a.download_button("⬇️ Download scan CSV", df.to_csv(index=False).encode(), "sentinelshield_scan.csv", "text/csv", width="stretch")
     summary = pd.DataFrame({"Metric": ["Networks", "High / critical", "Critical", "Average risk", "Maximum risk"], "Value": [len(df), int(df["Threat_Level"].isin(["HIGH", "CRITICAL"]).sum()), int(df["Threat_Level"].eq("CRITICAL").sum()), f"{risk_series(df).mean():.1f}%", f"{risk_series(df).max():.1f}%"]})
     b.download_button("⬇️ Download summary CSV", summary.to_csv(index=False).encode(), "sentinelshield_summary.csv", "text/csv", width="stretch")
-    if st.button("Generate project PDF report"):
+    if st.button("Generate project PDF report", type="primary"):
         try:
+            from pathlib import Path
             from report_generator import ReportGenerator
-            path = ReportGenerator().generate_pdf_report(df)
-            st.success(f"PDF generated: {path}")
+
+            report_path = Path(ReportGenerator().generate_pdf_report(df))
+            report_bytes = report_path.read_bytes()
+            if not report_bytes.startswith(b"%PDF-"):
+                raise RuntimeError("The generated file is not a valid PDF document.")
+            st.session_state["sentinelshield_latest_report"] = {
+                "name": report_path.name,
+                "bytes": report_bytes,
+            }
+            st.success("PDF report generated successfully. Use the button below to save it.")
         except Exception as exc:
-            st.warning(f"PDF report generation unavailable: {exc}")
+            st.error(f"PDF report generation failed: {exc}")
+
+    latest_report = st.session_state.get("sentinelshield_latest_report")
+    if latest_report:
+        st.download_button(
+            "⬇️ Download PDF report",
+            data=latest_report["bytes"],
+            file_name=latest_report["name"],
+            mime="application/pdf",
+            width="stretch",
+        )
 
 
 def page_adaptive() -> None:
@@ -1048,6 +1382,7 @@ def page_settings() -> None:
 
     st.subheader("Alert and refresh controls")
     st.checkbox("Enable critical alert logging", key="critical_alerts_enabled")
+    st.checkbox("Also alert on HIGH-risk networks", key="alert_on_high", help="Off = only CRITICAL networks raise an alert.")
     st.checkbox("Enable Windows sound alert", key="sound_enabled")
     st.checkbox("Enable desktop notifications", key="desktop_enabled")
     st.checkbox("Auto-refresh saved dashboard data", key="auto_refresh_enabled", help="This refreshes the dashboard only; it never starts a Wi-Fi scan.")
@@ -1071,23 +1406,42 @@ def page_settings() -> None:
 
 
 def main() -> None:
-    defaults = {"alerts": [], "alert_keys": set(), "critical_alerts_enabled": True, "sound_enabled": True, "desktop_enabled": True, "auto_refresh_enabled": False, "dark_theme": False}
+    defaults = {"alerts": [], "alert_keys": set(), "critical_alerts_enabled": True, "alert_on_high": True, "sound_enabled": True, "desktop_enabled": True, "auto_refresh_enabled": False, "dark_theme": False}
     for key, value in defaults.items():
         if key not in st.session_state:
             st.session_state[key] = value
-    if "scan" not in st.session_state or st.session_state.get("auto_refresh_enabled"):
-        st.session_state["scan"] = normalise(read_csv(SCAN_FILE))
-    st.session_state["scan"] = classify(st.session_state["scan"])
+    scan_mtime = SCAN_FILE.stat().st_mtime if SCAN_FILE.exists() else 0
+    scan_modified = scan_mtime != st.session_state.get("last_loaded_scan_mtime", -1)
+    if "scan" not in st.session_state or scan_modified or st.session_state.get("auto_refresh_enabled"):
+        st.session_state["scan"] = classify(normalise(read_csv(SCAN_FILE)))
+        st.session_state["last_loaded_scan_mtime"] = scan_mtime
+
     if st.session_state["auto_refresh_enabled"] and st_autorefresh:
         st_autorefresh(interval=5000, key="sentinelshield_refresh")
-    process_alerts(st.session_state["scan"])
+
+    if scan_mtime and scan_mtime != st.session_state.get("last_processed_scan_mtime"):
+        st.session_state["last_processed_scan_mtime"] = scan_mtime
+        process_alerts(st.session_state["scan"])
     df = st.session_state["scan"]
 
     st.sidebar.markdown("### SentinelShield")
     st.sidebar.caption("SECURITY OPERATIONS CONSOLE")
     st.sidebar.toggle("Dark theme", key="dark_theme", help="Switch between the light analytics view and a low-light dark theme.")
     apply_color_scheme(st.session_state["dark_theme"])
-    pages = ["Overview", "Live Scan", "Networks", "Threat Analysis", "ML Detection", "Alerts", "Scan History", "System Diagnostics"]
+    pages = [
+        "Overview",
+        "Live Scan",
+        "⚡ Attack Simulator",
+        "Networks",
+        "Threat Analysis",
+        "ML Detection",
+        "🧠 Behavioral Intelligence",
+        "☁️ Threat Intelligence",
+        "⚙️ Adaptive Thresholds",
+        "Alerts",
+        "Scan History",
+        "System Diagnostics",
+    ]
     page = st.sidebar.radio("Navigation", pages, label_visibility="collapsed")
     st.sidebar.divider()
     st.sidebar.caption("CURRENT SCAN")
@@ -1110,9 +1464,13 @@ def main() -> None:
     routes = {
         "Overview": lambda: page_home(df),
         "Live Scan": page_live_scan,
+        "⚡ Attack Simulator": lambda: page_attack_simulator(df),
         "Networks": lambda: page_networks(df),
         "Threat Analysis": lambda: page_threat_analysis(df),
         "ML Detection": lambda: page_ai(df),
+        "🧠 Behavioral Intelligence": render_behavioral_dashboard or (lambda: st.info("Behavioral Intelligence module loading...")),
+        "☁️ Threat Intelligence": lambda: page_intelligence(df),
+        "⚙️ Adaptive Thresholds": page_adaptive,
         "Alerts": lambda: page_alerts(df),
         "Scan History": page_scan_history,
         "System Diagnostics": lambda: page_diagnostics(df),

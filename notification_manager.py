@@ -30,47 +30,107 @@ except ImportError:  # Keeps scanning functional if desktop notifications are ab
 LOGGER = logging.getLogger(__name__)
 
 
+def _read_setting(name: str) -> str:
+    """Read a setting from process env, falling back to the current Windows user's env registry."""
+    value = os.getenv(name, "")
+    if value:
+        return value.strip()
+    if sys.platform == "win32":
+        try:
+            import winreg
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Environment") as key:
+                value, _ = winreg.QueryValueEx(key, name)
+            if isinstance(value, str):
+                return value.strip()
+        except (ImportError, OSError):
+            pass
+    return ""
+
+
 class NotificationManager:
     def __init__(self):
         self.last_alert = None
+        self.last_error = ""
         self._last_by_key: dict[str, float] = {}
         configured_cooldown = load_runtime_config()["notifications"]["cooldown_seconds"]
         self.cooldown_seconds = max(0, int(os.getenv("SENTINELSHIELD_ALERT_COOLDOWN_SECONDS", configured_cooldown)))
 
-    def notify(self, title, message, timeout=10) -> bool:
-        """Send a Windows desktop notification without allowing failures to stop scans."""
-        if sys.platform == "win32":
-            # Plyer's legacy Windows tray backend fails in many modern Windows
-            # sessions (often asynchronously), so use the OS Forms tray API.
-            # It runs in its own short-lived process and can never block scans.
-            try:
-                ps_title = json.dumps(str(title))
-                ps_message = json.dumps(str(message))
-                script = (
-                    "Add-Type -AssemblyName System.Windows.Forms; "
-                    "Add-Type -AssemblyName System.Drawing; "
-                    "$n=New-Object System.Windows.Forms.NotifyIcon; "
-                    "$n.Icon=[System.Drawing.SystemIcons]::Information; "
-                    f"$n.BalloonTipTitle={ps_title}; $n.BalloonTipText={ps_message}; "
-                    "$n.Visible=$true; "
-                    f"$n.ShowBalloonTip({max(1000, int(timeout) * 1000)}); "
-                    f"Start-Sleep -Milliseconds {max(1500, int(timeout) * 1000)}; $n.Dispose()"
-                )
-                subprocess.Popen(
-                    ["powershell", "-NoProfile", "-NonInteractive", "-WindowStyle", "Hidden", "-Command", script],
-                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, creationflags=subprocess.CREATE_NO_WINDOW,
-                )
-                return True
-            except (OSError, ValueError) as exc:
-                LOGGER.warning("Native Windows notification failed: %s", exc)
-        if notification is None:
-            LOGGER.warning("Desktop notification skipped: install the 'plyer' package.")
+    # Windows balloon limits: title 63 characters, text 255 characters. Longer
+    # text makes Windows drop the balloon without any error.
+    _TITLE_MAX = 63
+    _TEXT_MAX = 255
+
+    @staticmethod
+    def _clip(text, limit: int) -> str:
+        text = str(text)
+        return text if len(text) <= limit else text[: limit - 3] + "..."
+
+    def _notify_windows(self, title: str, message: str, timeout: int) -> bool:
+        """Show a balloon/toast through PowerShell.
+
+        Title and text travel in environment variables, never inside the script.
+        Embedding them with json.dumps broke the popup: PowerShell does not read
+        JSON escapes, so an em dash showed as \\u2014, a double quote ended the
+        string and the script failed silently, and $name was expanded.
+        """
+        seconds = max(1, int(timeout))
+        script = (
+            "Add-Type -AssemblyName System.Windows.Forms; "
+            "Add-Type -AssemblyName System.Drawing; "
+            "$n=New-Object System.Windows.Forms.NotifyIcon; "
+            "$n.Icon=[System.Drawing.SystemIcons]::Information; "
+            "$n.BalloonTipTitle=$env:SENTINELSHIELD_TOAST_TITLE; "
+            "$n.BalloonTipText=$env:SENTINELSHIELD_TOAST_TEXT; "
+            "$n.Visible=$true; "
+            f"$n.ShowBalloonTip({seconds * 1000}); "
+            f"Start-Sleep -Milliseconds {max(1500, seconds * 1000)}; $n.Dispose()"
+        )
+        env = dict(os.environ)
+        env["SENTINELSHIELD_TOAST_TITLE"] = self._clip(title, self._TITLE_MAX)
+        env["SENTINELSHIELD_TOAST_TEXT"] = self._clip(message, self._TEXT_MAX)
+        try:
+            proc = subprocess.Popen(
+                ["powershell", "-NoProfile", "-NonInteractive", "-WindowStyle", "Hidden", "-Command", script],
+                env=env, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+            )
+        except (OSError, ValueError) as exc:
+            self.last_error = f"Could not start PowerShell: {exc}"
+            LOGGER.warning("Native Windows notification failed: %s", exc)
             return False
         try:
-            notification.notify(title=title, message=message, app_name="SentinelShield", timeout=timeout)
+            proc.wait(timeout=0.5)
+        except subprocess.TimeoutExpired:
+            return True  # still running: the balloon is on screen (script sleeps >= 1.5 s)
+        if proc.returncode == 0:
+            return True
+        detail = (proc.stderr.read() or b"").decode("utf-8", "replace").strip()[:200]
+        self.last_error = f"PowerShell exited with code {proc.returncode}: {detail}"
+        LOGGER.warning("Native Windows notification failed: %s", self.last_error)
+        return False
+
+    def notify(self, title, message, timeout=10) -> bool:
+        """Send a desktop notification without allowing failures to stop scans.
+
+        Returns True only if a backend accepted it. On failure the reason is in
+        ``self.last_error`` so the dashboard can show it.
+        """
+        self.last_error = ""
+        if sys.platform == "win32" and self._notify_windows(title, message, timeout):
+            return True
+        if notification is None:
+            self.last_error = self.last_error or "Desktop notification skipped: install the 'plyer' package."
+            LOGGER.warning(self.last_error)
+            return False
+        try:
+            notification.notify(
+                title=self._clip(title, self._TITLE_MAX), message=self._clip(message, self._TEXT_MAX),
+                app_name="SentinelShield", timeout=timeout,
+            )
             return True
         except Exception as exc:
-            LOGGER.warning("Desktop notification failed: %s", exc)
+            self.last_error = f"Desktop notification failed: {exc}"
+            LOGGER.warning(self.last_error)
             return False
 
     def _is_cooled_down(self, ssid: str, bssid: str) -> bool:
@@ -89,14 +149,29 @@ class NotificationManager:
     def danger_alert(self, ssid, risk, reason, bssid="Unknown"):
         self.notify_threat(ssid, bssid, risk, reason)
 
-    def notify_threat(self, ssid, bssid, risk, reason) -> dict[str, bool]:
-        """Dispatch one high-risk event to configured channels, with deduplication."""
-        if self._is_cooled_down(str(ssid), str(bssid)):
+    def notify_threat(self, ssid, bssid, risk, reason, force: bool = False, desktop: bool = True) -> dict[str, bool]:
+        """Dispatch one high-risk event to configured channels, with deduplication.
+
+        force=True skips the cooldown (used by the dashboard's test button).
+        desktop=False skips only the popup; email/Telegram/SMS still follow their settings.
+        """
+        try:
+            risk_val = float(risk)
+        except (TypeError, ValueError):
+            risk_val = 0.0
+
+        if not force and risk_val < 35.0:
+            LOGGER.info("Threat alert suppressed for %s/%s: risk %.1f%% below threshold", ssid, bssid, risk_val)
+            return {"desktop": False, "email": False, "telegram": False, "sms": False, "suppressed": True}
+
+        if not force and self._is_cooled_down(str(ssid), str(bssid)):
             return {"desktop": False, "email": False, "telegram": False, "sms": False, "suppressed": True}
         title = "SentinelShield Wi-Fi Threat Alert"
         message = self._message(ssid, bssid, risk, reason)
+        popup = f"{ssid} ({bssid})\nRisk: {float(risk):.0f}% - do not connect.\n{reason}"
+        desktop_ok = self.notify(title, popup, 15) if desktop else False
         result = {
-            "desktop": self.notify(title, message, 15),
+            "desktop": desktop_ok,
             "email": self._send_email(title, message),
             "telegram": self._send_telegram(title, message),
             "sms": self._send_sms(title, message),
@@ -130,8 +205,10 @@ class NotificationManager:
             return False
 
     def _send_telegram(self, title: str, body: str) -> bool:
-        token, chat_id = os.getenv("SENTINELSHIELD_TELEGRAM_BOT_TOKEN"), os.getenv("SENTINELSHIELD_TELEGRAM_CHAT_ID")
+        token = _read_setting("SENTINELSHIELD_TELEGRAM_BOT_TOKEN")
+        chat_id = _read_setting("SENTINELSHIELD_TELEGRAM_CHAT_ID")
         if not token or not chat_id:
+            LOGGER.info("Telegram alert skipped: bot token or chat ID is not configured.")
             return False
         try:
             payload = json.dumps({"chat_id": chat_id, "text": f"{title}\n\n{body}"}).encode("utf-8")
@@ -170,3 +247,16 @@ class NotificationManager:
 
     def monitor_started(self):
         return self.notify("SentinelShield Wi-Fi Monitor", "Background monitoring has started.", 5)
+
+
+if __name__ == "__main__":
+    # python notification_manager.py  -> sends one test alert and reports each channel.
+    logging.basicConfig(level=logging.INFO)
+    manager = NotificationManager()
+    outcome = manager.notify_threat(
+        "TEST_EVIL_TWIN_WIFI", "AA:BB:CC:DD:EE:FF", 95, 'Self-test "quoted" text \u2014 dash & $dollar', force=True,
+    )
+    for channel in ("desktop", "email", "telegram", "sms"):
+        print(f"{channel:9s}: {'sent' if outcome[channel] else 'not sent'}")
+    if not outcome["desktop"]:
+        print("Desktop popup problem:", manager.last_error or "unknown")

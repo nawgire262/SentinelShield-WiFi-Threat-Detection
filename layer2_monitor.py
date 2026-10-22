@@ -19,19 +19,31 @@ from typing import Any
 LOGGER = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
-# Optional Scapy import
+# Lazy Scapy import (avoids 2+ second startup latency when monitor is not active)
 # ---------------------------------------------------------------------------
-try:
-    from scapy.all import sniff, Dot11, Dot11Deauth, Dot11Disas, RadioTap
-    _SCAPY_OK = True
-except ImportError:
-    sniff = Dot11 = Dot11Deauth = Dot11Disas = RadioTap = None  # type: ignore[assignment]
-    _SCAPY_OK = False
+sniff = Dot11 = Dot11Deauth = Dot11Disas = RadioTap = None
+_SCAPY_OK = None
+
+
+def _get_scapy():
+    global sniff, Dot11, Dot11Deauth, Dot11Disas, RadioTap, _SCAPY_OK
+    if sniff is None:
+        try:
+            from scapy.all import sniff as _s, Dot11 as _d, Dot11Deauth as _dd, Dot11Disas as _ds, RadioTap as _rt
+            sniff, Dot11, Dot11Deauth, Dot11Disas, RadioTap = _s, _d, _dd, _ds, _rt
+            _SCAPY_OK = True
+        except ImportError:
+            _SCAPY_OK = False
+    return sniff, Dot11, Dot11Deauth, Dot11Disas, RadioTap
 
 
 def is_available() -> bool:
     """Return True when Scapy is installed and monitor mode may be attempted."""
-    return _SCAPY_OK
+    global _SCAPY_OK
+    if _SCAPY_OK is not None:
+        return _SCAPY_OK
+    import importlib.util
+    return importlib.util.find_spec("scapy") is not None
 
 
 # ---------------------------------------------------------------------------
@@ -78,8 +90,12 @@ class _PacketAccumulator:
 
     # ------------------------------------------------------------------
     def _run(self) -> None:
+        sniff_func, _, _, _, _ = _get_scapy()
+        if not sniff_func:
+            LOGGER.warning("Scapy is not available for Layer-2 packet sniffing.")
+            return
         try:
-            sniff(
+            sniff_func(
                 iface=self.interface,
                 prn=self._handle_packet,
                 store=False,

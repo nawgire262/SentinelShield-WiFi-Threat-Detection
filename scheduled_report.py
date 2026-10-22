@@ -1,4 +1,4 @@
-"""Run SentinelShield report generation on a daily schedule."""
+"""Generate PDF-only SentinelShield reports on a daily schedule."""
 
 from __future__ import annotations
 
@@ -12,12 +12,11 @@ except ImportError:
 from report_generator import ReportGenerator
 
 
-def create_daily_report() -> None:
-    """Generate both supported report formats without sharing mutable globals."""
-    reporter = ReportGenerator()
-    reporter.generate_pdf_report()
-    reporter.generate_excel_report()
-    print("Daily report generated")
+def create_daily_report() -> str:
+    """Generate a PDF report and return its saved path."""
+    path = ReportGenerator().generate_pdf_report()
+    print(f"Daily PDF report generated: {path}")
+    return path
 
 
 def run_scheduler(report_time: str = "18:00", poll_seconds: float = 60.0) -> None:

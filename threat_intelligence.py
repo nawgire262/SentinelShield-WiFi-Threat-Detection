@@ -14,11 +14,23 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-try:
-    import firebase_admin
-    from firebase_admin import credentials, firestore
-except ImportError:  # Makes Firebase an optional deployment dependency.
-    firebase_admin = credentials = firestore = None
+# Lazy Firebase Admin imports - avoids ~1 second startup overhead when not configured
+firebase_admin = credentials = firestore = None
+_FIREBASE_TRIED = False
+
+
+def _load_firebase():
+    global firebase_admin, credentials, firestore, _FIREBASE_TRIED
+    if _FIREBASE_TRIED:
+        return firebase_admin
+    _FIREBASE_TRIED = True
+    try:
+        import firebase_admin as _fa
+        from firebase_admin import credentials as _cred, firestore as _fs
+        firebase_admin, credentials, firestore = _fa, _cred, _fs
+    except ImportError:
+        firebase_admin = credentials = firestore = None
+    return firebase_admin
 
 
 class CloudThreatIntelligence:
@@ -76,11 +88,11 @@ class CloudThreatIntelligence:
         with self._lock:
             if self._db is not None:
                 return self._db
-            if firebase_admin is None:
-                self._last_error = "firebase-admin is not installed"
-                return None
             if not self.credential_path.exists():
                 self._last_error = f"Firebase credentials not found: {self.credential_path}"
+                return None
+            if _load_firebase() is None:
+                self._last_error = "firebase-admin is not installed"
                 return None
             try:
                 # Reuse an app created elsewhere in the process if present.

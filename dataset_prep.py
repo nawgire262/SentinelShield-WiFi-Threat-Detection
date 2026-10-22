@@ -122,6 +122,12 @@ def prepare_dataset(frame: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
     data["Channel"] = data["Channel"].round(3)
     data["synthetic_placeholder"] = data["BSSID"].map(is_placeholder_mac)
     data["label_action"] = "kept"
+    # Rows you captured and verified yourself must never be re-labelled by the
+    # legacy heuristics below. Mark them label_source = field_verified.
+    if "label_source" in data.columns:
+        verified = data["label_source"].fillna("").astype(str).str.strip().str.lower().eq("field_verified")
+    else:
+        verified = pd.Series(False, index=data.index)
     ssid_key = data["SSID"].str.strip().str.casefold()
     ssid_counts = ssid_key.value_counts()
     campus = (
@@ -131,6 +137,7 @@ def prepare_dataset(frame: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
         & (data["AP_Count"] >= 4)
         & ssid_key.map(ssid_counts).ge(4)
         & ~data["synthetic_placeholder"]
+        & ~verified
     )
     data.loc[campus, "Label"] = "Legit"
     data.loc[campus, "label_action"] = "relabeled_legit_campus"
@@ -140,6 +147,7 @@ def prepare_dataset(frame: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
         & (data["Security"] == "OPEN")
         & (data["Signal_Var"] >= 15)
         & (data["RSSI"] >= -50)
+        & ~verified
     )
     data.loc[inconsistent, "Label"] = "Fake"
     data.loc[inconsistent, "label_action"] = "relabeled_fake_open_placeholder"
